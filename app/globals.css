@@ -1,0 +1,62 @@
+/* ============================================================
+   SO WHAT Pick — グローバルCSS
+   デザイントークン・リセット・ベーススタイル
+   ============================================================ */
+
+:root {
+  --accent: #c8fe08;
+  --accent-dim: rgba(200, 254, 8, 0.15);
+  --surface: #1a1a18;
+  --surface2: #242420;
+  --surface3: #2e2e28;
+  --border: rgba(255, 255, 255, 0.1);
+  --text1: #f0ede6;
+  --text2: #9a9888;
+  --text3: #5a5a52;
+  --rakuten-red: #bf0000;
+
+  /* タイポグラフィ */
+  --font-ui: Arial, sans-serif;
+  --font-heading: 'Arial Narrow', Arial, sans-serif;
+  --font-body: 'Georgia', serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: #111110;
+  color: var(--text1);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+input[type='range'] {
+  width: 100%;
+  accent-color: var(--accent);
+  background: transparent;
+}

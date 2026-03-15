@@ -1,0 +1,129 @@
+.card {
+  border-radius: 12px;
+  border: 0.5px solid var(--border);
+  background: var(--surface2);
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.card.top {
+  border-color: var(--accent);
+}
+
+.inner {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+/* 画像エリア */
+.imageWrap {
+  width: 64px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--surface3);
+  border: 0.5px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px;
+  overflow: hidden;
+}
+
+.productImage {
+  width: 64px;
+  height: auto;
+  object-fit: contain;
+}
+
+.imageNote {
+  font-size: 9px;
+  color: var(--text3);
+  font-family: var(--font-ui);
+  text-align: center;
+  line-height: 1.3;
+  margin-top: 4px;
+  white-space: pre-line;
+}
+
+/* テキスト */
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.rank {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  font-family: var(--font-ui);
+  margin-bottom: 3px;
+}
+
+.name {
+  font-size: 15px;
+  color: var(--text1);
+  margin-bottom: 5px;
+  line-height: 1.3;
+  font-family: var(--font-body);
+}
+
+.tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 7px;
+}
+
+.tag {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  border: 0.5px solid var(--text3);
+  color: var(--text2);
+  font-family: var(--font-ui);
+}
+
+.description {
+  font-size: 11px;
+  color: var(--text2);
+  font-family: var(--font-ui);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+/* 購入ボタン */
+.buyBtns {
+  display: flex;
+  gap: 6px;
+}
+
+.buyBtn {
+  flex: 1;
+  padding: 8px 4px;
+  border-radius: 7px;
+  border: 0.5px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-size: 10px;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.2s;
+  display: block;
+  box-sizing: border-box;
+}
+
+.buyBtn:hover {
+  background: var(--accent-dim);
+}
+
+.buyBtn.rakuten {
+  border-color: var(--rakuten-red);
+  color: var(--rakuten-red);
+}
+
+.buyBtn.rakuten:hover {
+  background: rgba(191, 0, 0, 0.1);
+}
