@@ -103,7 +103,7 @@
   flex: 1;
   padding: 8px 4px;
   border-radius: 7px;
-  border: 0.5px solid var(--accent);
+  border: 1px solid var(--accent);
   background: transparent;
   color: var(--accent);
   font-size: 10px;
@@ -120,12 +120,10 @@
 }
 
 .buyBtn.rakuten {
-  border: 1px solid var(--rakuten-red);
-  color: #fff;
-  background: var(--rakuten-red);
+  border-color: #e83030;
+  color: #e83030;
 }
 
 .buyBtn.rakuten:hover {
-  background: #a00000;
-  border-color: #a00000;
+  background: rgba(232, 48, 48, 0.12);
 }
