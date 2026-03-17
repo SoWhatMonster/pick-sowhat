@@ -2,7 +2,6 @@
 // SO WHAT Pick — Whisky & Shochu
 // constants/ja.ts
 // 日本語UIテキスト定数
-// Phase 2で英語対応する場合は constants/en.ts を追加する
 // ============================================================
 
 export const TEXT = {
@@ -39,6 +38,16 @@ export const TEXT = {
     label: 'STEP 2 / フレーバー',
     title: 'どんな味わいが\n好きですか？',
     spiritLabel: '酒の種類',
+    optionalNote: '未選択はお任せ',
+    // ウイスキー詳細
+    whiskyRegionLabel: '産地・地域',
+    whiskyStyleLabel: 'スタイル',
+    whiskyCaskLabel: '熟成樽',
+    whiskyAgeLabel: '熟成年数',
+    // 焼酎詳細
+    shochuRegionLabel: '産地',
+    shochuIngredientLabel: '原料',
+    shochuAgingLabel: '熟成スタイル',
     next: '次へ →',
     back: '← 戻る',
   },
