@@ -1,7 +1,3 @@
-// ============================================================
-// SO WHAT Pick — StepFlow
-// ============================================================
-
 'use client'
 
 import { useState, useCallback } from 'react'
@@ -32,9 +28,46 @@ function pushGtmEvent(eventName: string, params?: Record<string, string>) {
   }
 }
 
-// マルチセレクトのトグル（最大数なし）
 function toggleMulti(arr: string[], val: string): string[] {
   return arr.includes(val) ? arr.filter((v) => v !== val) : [...arr, val]
+}
+
+// マルチセレクト用「お任せ」ボタン付きタググループ
+function MultiTagGroup({
+  items,
+  selected,
+  onToggle,
+  onOmakase,
+  className,
+}: {
+  items: string[]
+  selected: string[]
+  onToggle: (v: string) => void
+  onOmakase: () => void
+  className: string
+}) {
+  const isOmakase = selected.length === 0
+  return (
+    <div className={styles.tagGroup}>
+      <button
+        type="button"
+        className={`${className} ${isOmakase ? styles.tagSelected : ''}`}
+        onClick={onOmakase}
+      >
+        お任せ
+      </button>
+      {items.map((item) => (
+        <button
+          key={item}
+          type="button"
+          className={`${className} ${selected.includes(item) ? styles.tagSelected : ''}`}
+          onClick={() => onToggle(item)}
+        >
+          {item}
+        </button>
+      ))}
+    </div>
+  )
 }
 
 type Step = 0 | 1 | 2 | 3 | 4
@@ -44,40 +77,32 @@ export default function StepFlow() {
   const month = now.getMonth() + 1
   const season = getSeason(month)
 
-  // ── ステップ管理
   const [step, setStep] = useState<Step>(0)
   const [mode, setMode] = useState<'self' | 'gift'>('self')
 
-  // ── STEP 1A
   const [selectedScenes, setSelectedScenes] = useState<string[]>([])
 
-  // ── STEP 1B
   const [giftRelation, setGiftRelation] = useState<string[]>([])
   const [giftAge, setGiftAge] = useState<string>('')
   const [giftExperience, setGiftExperience] = useState<string>('')
 
-  // ── STEP 2: フレーバー・酒種
   const [flavorValues, setFlavorValues] = useState<Record<string, number>>(
     () => ({ ...DEFAULT_FLAVOR_VALUES })
   )
   const [spirit, setSpirit] = useState<string>(DEFAULT_SPIRIT)
 
-  // ── STEP 2: ウイスキー詳細
   const [whiskyRegions, setWhiskyRegions] = useState<string[]>([])
   const [whiskyStyles, setWhiskyStyles] = useState<string[]>([])
   const [whiskyCasks, setWhiskyCasks] = useState<string[]>([])
   const [whiskyAge, setWhiskyAge] = useState<string>(DEFAULT_WHISKY_AGE)
 
-  // ── STEP 2: 焼酎詳細
   const [shochuRegions, setShochuRegions] = useState<string[]>([])
   const [shochuIngredients, setShochuIngredients] = useState<string[]>([])
   const [shochuAging, setShochuAging] = useState<string>(DEFAULT_SHOCHU_AGING)
 
-  // ── STEP 3
   const [budget, setBudget] = useState<string>(DEFAULT_BUDGET)
   const [experience, setExperience] = useState<string>(DEFAULT_EXPERIENCE)
 
-  // ── RESULT
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<RecommendResponse | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -156,7 +181,6 @@ export default function StepFlow() {
 
   return (
     <div className={styles.frame}>
-      {/* トップバー */}
       <div className={styles.topbar}>
         <span className={styles.wordmark}>{TEXT.siteTitle}</span>
         <div className={styles.dots}>
@@ -166,37 +190,31 @@ export default function StepFlow() {
         </div>
       </div>
 
-      {/* ── STEP 0 ── */}
+      {/* STEP 0 */}
       {step === 0 && (
         <div className={styles.panel}>
           <div className={styles.label}>{TEXT.step0.label}</div>
           <h1 className={styles.title}>
-            {TEXT.step0.title.split('\n').map((line, i) => (
-              <span key={i}>{line}{i === 0 && <br />}</span>
-            ))}
+            {TEXT.step0.title.split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br />}</span>)}
           </h1>
           <div className={styles.splitGrid}>
             <button className={styles.choiceBtn} onClick={() => handleModeSelect('self')} type="button">
-              <span className={styles.choiceIcon}>{TEXT.step0.selfIcon}</span>
-              {TEXT.step0.selfLabel}
+              <span className={styles.choiceIcon}>{TEXT.step0.selfIcon}</span>{TEXT.step0.selfLabel}
             </button>
             <button className={styles.choiceBtn} onClick={() => handleModeSelect('gift')} type="button">
-              <span className={styles.choiceIcon}>{TEXT.step0.giftIcon}</span>
-              {TEXT.step0.giftLabel}
+              <span className={styles.choiceIcon}>{TEXT.step0.giftIcon}</span>{TEXT.step0.giftLabel}
             </button>
           </div>
         </div>
       )}
 
-      {/* ── STEP 1A ── */}
+      {/* STEP 1A */}
       {step === 1 && mode === 'self' && (
         <div className={styles.panel}>
           <button className={styles.backBtn} onClick={() => goTo(0)} type="button">{TEXT.step1Self.back}</button>
           <div className={styles.label}>{TEXT.step1Self.label}</div>
           <h2 className={styles.title}>
-            {TEXT.step1Self.title.split('\n').map((line, i) => (
-              <span key={i}>{line}{i === 0 && <br />}</span>
-            ))}
+            {TEXT.step1Self.title.split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br />}</span>)}
           </h2>
           <div className={styles.autoNote}>{TEXT.step1Self.seasonNote(season)}</div>
           <div className={styles.sceneGrid}>
@@ -210,15 +228,13 @@ export default function StepFlow() {
         </div>
       )}
 
-      {/* ── STEP 1B ── */}
+      {/* STEP 1B */}
       {step === 1 && mode === 'gift' && (
         <div className={styles.panel}>
           <button className={styles.backBtn} onClick={() => goTo(0)} type="button">{TEXT.step1Gift.back}</button>
           <div className={styles.label}>{TEXT.step1Gift.label}</div>
           <h2 className={styles.title}>
-            {TEXT.step1Gift.title.split('\n').map((line, i) => (
-              <span key={i}>{line}{i === 0 && <br />}</span>
-            ))}
+            {TEXT.step1Gift.title.split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br />}</span>)}
           </h2>
           <div className={styles.giftField}>
             <div className={styles.giftLabel}>{TEXT.step1Gift.relationLabel}</div>
@@ -254,15 +270,13 @@ export default function StepFlow() {
         </div>
       )}
 
-      {/* ── STEP 2 ── */}
+      {/* STEP 2 */}
       {step === 2 && (
         <div className={styles.panel}>
           <button className={styles.backBtn} onClick={() => goTo(1)} type="button">{TEXT.step2.back}</button>
           <div className={styles.label}>{TEXT.step2.label}</div>
           <h2 className={styles.title}>
-            {TEXT.step2.title.split('\n').map((line, i) => (
-              <span key={i}>{line}{i === 0 && <br />}</span>
-            ))}
+            {TEXT.step2.title.split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br />}</span>)}
           </h2>
 
           {FLAVORS.map((name) => (
@@ -271,8 +285,6 @@ export default function StepFlow() {
           ))}
 
           <div className={styles.divider} />
-
-          {/* 酒種選択 */}
           <div className={styles.subLabel}>{TEXT.step2.spiritLabel}</div>
           <div className={styles.tagGroup} style={{ marginBottom: '16px' }}>
             {SPIRITS.map((s) => (
@@ -290,35 +302,23 @@ export default function StepFlow() {
 
               <div className={styles.giftField}>
                 <div className={styles.giftLabel}>{TEXT.step2.whiskyRegionLabel}</div>
-                <div className={styles.tagGroup}>
-                  {WHISKY_REGIONS.map((r) => (
-                    <button key={r} type="button"
-                      className={`${styles.tag} ${whiskyRegions.includes(r) ? styles.tagSelected : ''}`}
-                      onClick={() => setWhiskyRegions((prev) => toggleMulti(prev, r))}>{r}</button>
-                  ))}
-                </div>
+                <MultiTagGroup items={WHISKY_REGIONS} selected={whiskyRegions}
+                  onToggle={(v) => setWhiskyRegions((prev) => toggleMulti(prev, v))}
+                  onOmakase={() => setWhiskyRegions([])} className={styles.tag} />
               </div>
 
               <div className={styles.giftField}>
                 <div className={styles.giftLabel}>{TEXT.step2.whiskyStyleLabel}</div>
-                <div className={styles.tagGroup}>
-                  {WHISKY_STYLES.map((s) => (
-                    <button key={s} type="button"
-                      className={`${styles.tag} ${whiskyStyles.includes(s) ? styles.tagSelected : ''}`}
-                      onClick={() => setWhiskyStyles((prev) => toggleMulti(prev, s))}>{s}</button>
-                  ))}
-                </div>
+                <MultiTagGroup items={WHISKY_STYLES} selected={whiskyStyles}
+                  onToggle={(v) => setWhiskyStyles((prev) => toggleMulti(prev, v))}
+                  onOmakase={() => setWhiskyStyles([])} className={styles.tag} />
               </div>
 
               <div className={styles.giftField}>
                 <div className={styles.giftLabel}>{TEXT.step2.whiskyCaskLabel}</div>
-                <div className={styles.tagGroup}>
-                  {WHISKY_CASKS.map((c) => (
-                    <button key={c} type="button"
-                      className={`${styles.tag} ${whiskyCasks.includes(c) ? styles.tagSelected : ''}`}
-                      onClick={() => setWhiskyCasks((prev) => toggleMulti(prev, c))}>{c}</button>
-                  ))}
-                </div>
+                <MultiTagGroup items={WHISKY_CASKS} selected={whiskyCasks}
+                  onToggle={(v) => setWhiskyCasks((prev) => toggleMulti(prev, v))}
+                  onOmakase={() => setWhiskyCasks([])} className={styles.tag} />
               </div>
 
               <div className={styles.giftField}>
@@ -342,24 +342,16 @@ export default function StepFlow() {
 
               <div className={styles.giftField}>
                 <div className={styles.giftLabel}>{TEXT.step2.shochuRegionLabel}</div>
-                <div className={styles.tagGroup}>
-                  {SHOCHU_REGIONS.map((r) => (
-                    <button key={r} type="button"
-                      className={`${styles.tag} ${shochuRegions.includes(r) ? styles.tagSelected : ''}`}
-                      onClick={() => setShochuRegions((prev) => toggleMulti(prev, r))}>{r}</button>
-                  ))}
-                </div>
+                <MultiTagGroup items={SHOCHU_REGIONS} selected={shochuRegions}
+                  onToggle={(v) => setShochuRegions((prev) => toggleMulti(prev, v))}
+                  onOmakase={() => setShochuRegions([])} className={styles.tag} />
               </div>
 
               <div className={styles.giftField}>
                 <div className={styles.giftLabel}>{TEXT.step2.shochuIngredientLabel}</div>
-                <div className={styles.tagGroup}>
-                  {SHOCHU_INGREDIENTS.map((i) => (
-                    <button key={i} type="button"
-                      className={`${styles.tag} ${shochuIngredients.includes(i) ? styles.tagSelected : ''}`}
-                      onClick={() => setShochuIngredients((prev) => toggleMulti(prev, i))}>{i}</button>
-                  ))}
-                </div>
+                <MultiTagGroup items={SHOCHU_INGREDIENTS} selected={shochuIngredients}
+                  onToggle={(v) => setShochuIngredients((prev) => toggleMulti(prev, v))}
+                  onOmakase={() => setShochuIngredients([])} className={styles.tag} />
               </div>
 
               <div className={styles.giftField}>
@@ -379,15 +371,13 @@ export default function StepFlow() {
         </div>
       )}
 
-      {/* ── STEP 3 ── */}
+      {/* STEP 3 */}
       {step === 3 && (
         <div className={styles.panel}>
           <button className={styles.backBtn} onClick={() => goTo(2)} type="button">{TEXT.step3.back}</button>
           <div className={styles.label}>{TEXT.step3.label}</div>
           <h2 className={styles.title}>
-            {TEXT.step3.title.split('\n').map((line, i) => (
-              <span key={i}>{line}{i === 0 && <br />}</span>
-            ))}
+            {TEXT.step3.title.split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br />}</span>)}
           </h2>
 
           <div className={styles.giftField}>
@@ -401,7 +391,6 @@ export default function StepFlow() {
             </div>
           </div>
 
-          {/* 経験値：自分用のみ表示 */}
           {mode === 'self' && (
             <>
               <div className={styles.divider} />
@@ -426,7 +415,7 @@ export default function StepFlow() {
         </div>
       )}
 
-      {/* ── RESULT ── */}
+      {/* RESULT */}
       {step === 4 && result && (
         <div className={styles.panel}>
           <button className={styles.backBtn} onClick={() => goTo(3)} type="button">{TEXT.result.back}</button>
