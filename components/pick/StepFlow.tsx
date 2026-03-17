@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import SceneCard from './SceneCard'
 import FlavorSlider from './FlavorSlider'
 import ResultCard from './ResultCard'
