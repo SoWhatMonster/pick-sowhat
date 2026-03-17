@@ -64,12 +64,13 @@ export const TEXT = {
   },
 
   loading: {
-    message: 'あなたの一本を探しています…',
+    message: '最高の1本を探しています',
+    sub: 'AIがあなたの条件を分析中…',
   },
 
   result: {
-    label: 'RESULT / あなたの3本',
-    title: 'あなたの一本。',
+    label: 'RESULT / あなたへのおすすめ',
+    title: "Here's Your Pick.",
     amazon: 'Amazon →',
     rakuten: '楽天 →',
     restart: '最初からやり直す',

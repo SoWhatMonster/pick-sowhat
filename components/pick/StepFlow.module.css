@@ -281,15 +281,15 @@
 
 /* ── RESULT: 理由バー ── */
 .reasonBar {
-  font-size: 11px;
-  color: var(--text3);
+  font-size: 12px;
+  color: var(--text1);
   font-family: var(--font-ui);
   margin-bottom: 16px;
-  padding: 10px 12px;
+  padding: 12px 14px;
   border-radius: 8px;
   background: var(--surface3);
   border-left: 2px solid var(--accent);
-  line-height: 1.5;
+  line-height: 1.65;
 }
 
 /* ── エラー ── */
@@ -330,4 +330,50 @@
 
 .footerLink:hover {
   color: var(--text2);
+}
+
+/* ── ローディングパネル ── */
+.loadingPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  gap: 20px;
+}
+
+.loadingRing {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2.5px solid var(--surface3);
+  border-top-color: var(--accent);
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loadingMessage {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text1);
+  font-family: var(--font-heading);
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.loadingSub {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--font-ui);
+  letter-spacing: 0.06em;
+  margin: 0;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }

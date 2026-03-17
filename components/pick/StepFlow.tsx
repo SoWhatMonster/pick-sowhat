@@ -377,7 +377,7 @@ export default function StepFlow() {
       )}
 
       {/* STEP 3 */}
-      {step === 3 && (
+      {step === 3 && !isLoading && (
         <div className={styles.panel}>
           <button className={styles.backBtn} onClick={() => goTo(2)} type="button">{TEXT.step3.back}</button>
           <div className={styles.label}>{TEXT.step3.label}</div>
@@ -414,9 +414,18 @@ export default function StepFlow() {
 
           {error && <div className={styles.errorMsg}>{error}</div>}
 
-          <button className={styles.nextBtn} onClick={fetchRecommendations} disabled={isLoading} type="button">
-            {isLoading ? TEXT.loading.message : TEXT.step3.next}
+          <button className={styles.nextBtn} onClick={fetchRecommendations} type="button">
+            {TEXT.step3.next}
           </button>
+        </div>
+      )}
+
+      {/* LOADING */}
+      {isLoading && (
+        <div className={styles.loadingPanel}>
+          <div className={styles.loadingRing} />
+          <p className={styles.loadingMessage}>{TEXT.loading.message}</p>
+          <p className={styles.loadingSub}>{TEXT.loading.sub}</p>
         </div>
       )}
 
