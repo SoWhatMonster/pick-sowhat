@@ -3,15 +3,30 @@ import Script from 'next/script'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'SO WHAT Pick — Whisky & Shochu',
+  title: {
+    default: 'SO WHAT Pick — Whisky & Shochu',
+    template: '%s | SO WHAT Pick',
+  },
   description:
-    'シーン・気分・フレーバーから、あなたにぴったりのウイスキー・焼酎を3銘柄レコメンド。',
+    'シーン・気分・フレーバーから、あなたにぴったりのウイスキー・焼酎を3銘柄AIがレコメンド。ギフト選びにも対応。',
+  metadataBase: new URL('https://pick.sowhat.monster'),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
   openGraph: {
     title: 'SO WHAT Pick — Whisky & Shochu',
     description:
-      'シーン・気分・フレーバーから、あなたにぴったりのウイスキー・焼酎を3銘柄レコメンド。',
+      'シーン・気分・フレーバーから、あなたにぴったりのウイスキー・焼酎を3銘柄AIがレコメンド。ギフト選びにも対応。',
+    url: 'https://pick.sowhat.monster',
+    siteName: 'SO WHAT Pick',
     locale: 'ja_JP',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@sowhat_monster',
   },
 }
 

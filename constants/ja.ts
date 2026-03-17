@@ -5,12 +5,12 @@
 // ============================================================
 
 export const TEXT = {
-  siteTitle: '✦ SO WHAT Pick',
+  siteTitle: '✦ SO WHAT Pick — Whisky & Shochu',
   siteUrl: 'https://sowhat.monster/',
   copyright: '© SO WHAT',
 
   step0: {
-    label: 'あなたの一本を見つける',
+    label: '今、最高の1本を見つける',
     title: '誰のために\n選びますか？',
     selfLabel: '自分用',
     selfIcon: '🥃',
