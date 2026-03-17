@@ -120,10 +120,12 @@
 }
 
 .buyBtn.rakuten {
-  border-color: var(--rakuten-red);
-  color: var(--rakuten-red);
+  border: 1px solid var(--rakuten-red);
+  color: #fff;
+  background: var(--rakuten-red);
 }
 
 .buyBtn.rakuten:hover {
-  background: rgba(191, 0, 0, 0.1);
+  background: #a00000;
+  border-color: #a00000;
 }
