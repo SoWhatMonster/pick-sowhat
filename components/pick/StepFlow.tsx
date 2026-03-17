@@ -77,6 +77,8 @@ export default function StepFlow() {
   const month = now.getMonth() + 1
   const season = getSeason(month)
 
+  const isFirstVisit = useRef(true)
+
   const [step, setStep] = useState<Step>(0)
   const [mode, setMode] = useState<'self' | 'gift'>('self')
 
@@ -167,6 +169,7 @@ export default function StepFlow() {
   }
 
   const restart = () => {
+    isFirstVisit.current = false
     setStep(0); setMode('self')
     setSelectedScenes([]); setGiftRelation([]); setGiftAge(''); setGiftExperience('')
     setFlavorValues({ ...DEFAULT_FLAVOR_VALUES }); setSpirit(DEFAULT_SPIRIT)
@@ -197,11 +200,33 @@ export default function StepFlow() {
 
       {/* STEP 0 */}
       {step === 0 && (
-        <div className={styles.panel}>
+        <div className={`${styles.panel} ${isFirstVisit.current ? styles.panelFadeIn : ''}`}>
           <div className={styles.label}>{TEXT.step0.label}</div>
-          <h1 className={styles.title}>
+
+          {/* ヒーローセクション */}
+          <div className={styles.heroSection}>
+            <h1 className={styles.heroTagline}>{TEXT.step0.tagline}</h1>
+            <p className={styles.heroSub}>{TEXT.step0.sub}</p>
+          </div>
+
+          {/* 3ステップ */}
+          <div className={styles.howSteps}>
+            {TEXT.step0.howSteps.map((s, i) => (
+              <div key={i} className={styles.howStep}>
+                <span className={styles.howIcon}>{s.icon}</span>
+                <span className={styles.howText}>
+                  {s.text.split('\n').map((line, j) => <span key={j}>{line}{j === 0 && <br />}</span>)}
+                </span>
+                {i < TEXT.step0.howSteps.length - 1 && <span className={styles.howArrow}>›</span>}
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.divider} />
+
+          <h2 className={styles.title}>
             {TEXT.step0.title.split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br />}</span>)}
-          </h1>
+          </h2>
           <div className={styles.splitGrid}>
             <button className={styles.choiceBtn} onClick={() => handleModeSelect('self')} type="button">
               <span className={styles.choiceIcon}>{TEXT.step0.selfIcon}</span>{TEXT.step0.selfLabel}
