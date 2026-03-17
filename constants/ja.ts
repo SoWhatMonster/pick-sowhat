@@ -5,7 +5,9 @@
 // ============================================================
 
 export const TEXT = {
-  siteTitle: '✦ SO WHAT',
+  siteTitle: '✦ SO WHAT Pick',
+  siteUrl: 'https://sowhat.monster/',
+  copyright: '© SO WHAT',
 
   step0: {
     label: 'あなたの一本を見つける',

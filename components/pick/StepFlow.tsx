@@ -182,7 +182,12 @@ export default function StepFlow() {
   return (
     <div className={styles.frame}>
       <div className={styles.topbar}>
-        <span className={styles.wordmark}>{TEXT.siteTitle}</span>
+        <a
+          href={TEXT.siteUrl}
+          className={styles.wordmark}
+          target="_blank"
+          rel="noopener noreferrer"
+        >{TEXT.siteTitle}</a>
         <div className={styles.dots}>
           {Array.from({ length: totalDots }).map((_, i) => (
             <div key={i} className={`${styles.dot} ${i === step ? styles.dotActive : i < step ? styles.dotDone : ''}`} />
@@ -431,6 +436,14 @@ export default function StepFlow() {
           <button className={styles.ghostBtn} onClick={restart} type="button">{TEXT.result.restart}</button>
         </div>
       )}
+      <footer className={styles.footer}>
+        <a
+          href={TEXT.siteUrl}
+          className={styles.footerLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >{TEXT.copyright}</a>
+      </footer>
     </div>
   )
 }
