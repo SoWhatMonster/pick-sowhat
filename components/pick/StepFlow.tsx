@@ -188,8 +188,6 @@ export default function StepFlow() {
         <a
           href={TEXT.siteUrl}
           className={styles.wordmark}
-          target="_blank"
-          rel="noopener noreferrer"
         >{TEXT.siteTitle}</a>
         <div className={styles.dots}>
           {Array.from({ length: totalDots }).map((_, i) => (
