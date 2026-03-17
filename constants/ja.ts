@@ -14,9 +14,9 @@ export const TEXT = {
     tagline: 'Find Your Perfect Bottle.',
     sub: 'シーン・気分・フレーバーをもとにAIが選ぶ、あなただけの1本。',
     howSteps: [
-      { icon: '🎯', text: 'シーンを\n選ぶ' },
-      { icon: '🎨', text: '好みを\n入力する' },
-      { icon: '🥃', text: '3本を\nレコメンド' },
+      { step: 'STEP 1', icon: '🎯', text: 'シーンを\n選ぶ' },
+      { step: 'STEP 2', icon: '🎨', text: '好みを\n入力する' },
+      { step: 'STEP 3', icon: '🥃', text: '3本を\nレコメンド' },
     ] as const,
     title: '誰のための\nお酒を選びますか？',
     selfLabel: '自分用',

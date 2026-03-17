@@ -462,3 +462,12 @@
   color: var(--text3);
   line-height: 1;
 }
+
+.howStepLabel {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--accent);
+  font-family: var(--font-heading);
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
