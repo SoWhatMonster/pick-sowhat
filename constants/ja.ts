@@ -6,7 +6,8 @@
 
 export const TEXT = {
   siteTitle: '✦ SO WHAT Pick — Whisky & Shochu',
-  siteUrl: 'https://sowhat.monster/',
+  siteUrl: 'https://pick.sowhat.monster/whisky',
+  brandUrl: 'https://sowhat.monster/',
   copyright: '© SO WHAT',
 
   step0: {

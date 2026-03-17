@@ -473,7 +473,7 @@ export default function StepFlow() {
       )}
       <footer className={styles.footer}>
         <a
-          href={TEXT.siteUrl}
+          href={TEXT.brandUrl}
           className={styles.footerLink}
           target="_blank"
           rel="noopener noreferrer"
