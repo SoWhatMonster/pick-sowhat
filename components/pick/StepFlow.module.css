@@ -471,3 +471,29 @@
   letter-spacing: 0.1em;
   line-height: 1;
 }
+
+/* ── STEP 0: ヒーロー背景画像 ── */
+.heroPanel {
+  position: relative;
+  background-size: cover;
+  background-position: center top;
+}
+
+.heroPanel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 8, 0.72) 0%,
+    rgba(10, 10, 8, 0.88) 60%,
+    rgba(26, 26, 24, 0.97) 100%
+  );
+  z-index: 0;
+  border-radius: inherit;
+}
+
+.heroPanel > * {
+  position: relative;
+  z-index: 1;
+}

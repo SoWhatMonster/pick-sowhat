@@ -72,12 +72,19 @@ function MultiTagGroup({
 
 type Step = 0 | 1 | 2 | 3 | 4
 
+const HERO_IMAGES = [
+  'https://images.unsplash.com/photo-1640877434990-329af580d250?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1609330578888-d7d34c3f8718?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1615887023544-3a566f29d822?w=800&q=80&auto=format&fit=crop',
+]
+
 export default function StepFlow() {
   const now = new Date()
   const month = now.getMonth() + 1
   const season = getSeason(month)
 
   const isFirstVisit = useRef(true)
+  const heroImage = useRef(HERO_IMAGES[Math.floor(Math.random() * HERO_IMAGES.length)])
 
   const [step, setStep] = useState<Step>(0)
   const [mode, setMode] = useState<'self' | 'gift'>('self')
@@ -198,7 +205,10 @@ export default function StepFlow() {
 
       {/* STEP 0 */}
       {step === 0 && (
-        <div className={`${styles.panel} ${isFirstVisit.current ? styles.panelFadeIn : ''}`}>
+        <div
+          className={`${styles.panel} ${styles.heroPanel} ${isFirstVisit.current ? styles.panelFadeIn : ''}`}
+          style={{ backgroundImage: `url(${heroImage.current})` }}
+        >
           <div className={styles.label}>{TEXT.step0.label}</div>
 
           {/* ヒーローセクション */}
