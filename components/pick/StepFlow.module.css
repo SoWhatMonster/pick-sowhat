@@ -421,6 +421,25 @@
   margin: 8px 0 20px;
 }
 
+/* ── STEP 0: スピリッツバッジ ── */
+.spiritBadges {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.spiritBadge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  background: rgba(200, 254, 8, 0.1);
+  border: 1px solid rgba(200, 254, 8, 0.28);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-family: var(--font-ui);
+}
+
 .heroTagline {
   font-size: 22px;
   font-weight: 700;

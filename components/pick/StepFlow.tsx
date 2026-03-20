@@ -213,6 +213,11 @@ export default function StepFlow() {
 
           {/* ヒーローセクション */}
           <div className={styles.heroSection}>
+            <div className={styles.spiritBadges}>
+              {TEXT.step0.spirits.map((s) => (
+                <span key={s} className={styles.spiritBadge}>{s}</span>
+              ))}
+            </div>
             <h1 className={styles.heroTagline}>{TEXT.step0.tagline}</h1>
             <p className={styles.heroSub}>{TEXT.step0.sub}</p>
           </div>
