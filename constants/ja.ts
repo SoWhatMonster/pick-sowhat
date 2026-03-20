@@ -13,7 +13,7 @@ export const TEXT = {
   step0: {
     label: '今、最高の1本を見つける',
     tagline: 'Find Your Perfect Bottle.',
-    spirits: ['🥃 Whisky', '🍶 Shochu'] as const,
+    spirits: ['WHISKY', 'SHOCHU'] as const,
     sub: 'ウイスキーと焼酎から、シーン・気分・フレーバーをもとにAIがあなただけの1本を提案。',
     howSteps: [
       { step: 'STEP 1', icon: '🎯', text: 'シーンを\n選ぶ' },
@@ -73,7 +73,7 @@ export const TEXT = {
   },
 
   loading: {
-    message: '最高の1本を探しています',
+    message: 'Searching for your perfect bottle...',
     sub: 'AIがあなたの条件を分析中…',
   },
 

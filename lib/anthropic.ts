@@ -62,8 +62,10 @@ const SYSTEM_PROMPT = `あなたはウイスキーと焼酎の専門家です。
       "amazonKeyword": "Amazon検索用キーワード（例: グレンフィディック 12年 700ml）",
       "rakutenKeyword": "楽天検索用キーワード"
     },
-    { "rank": "ALSO GREAT" },
-    { "rank": "WILD CARD" }
+    { "rank": "RUNNER UP", "name": "...", "tags": [], "description": "...", "amazonKeyword": "...", "rakutenKeyword": "..." },
+    { "rank": "ALSO GREAT", "name": "...", "tags": [], "description": "...", "amazonKeyword": "...", "rakutenKeyword": "..." },
+    { "rank": "HIDDEN GEM", "name": "...", "tags": [], "description": "...", "amazonKeyword": "...", "rakutenKeyword": "..." },
+    { "rank": "WILD CARD", "name": "...", "tags": [], "description": "...", "amazonKeyword": "...", "rakutenKeyword": "..." }
   ]
 }`
 
@@ -103,7 +105,7 @@ ${spiritDetail}
 予算: ${req.budget}
 経験値: ${req.experience ?? 'たまに飲む'}
 
-上記の条件でウイスキーまたは焼酎を3銘柄レコメンドしてください。`
+上記の条件でウイスキーまたは焼酎を5銘柄レコメンドしてください。`
   }
 
   const relationText = req.giftRelation?.join('、') ?? 'なし'
@@ -117,7 +119,7 @@ ${spiritDetail}
 予算: ${req.budget}
 現在の季節: ${req.season}（${req.month}月）
 
-上記の条件でギフトに最適なウイスキーまたは焼酎を3銘柄レコメンドしてください。`
+上記の条件でギフトに最適なウイスキーまたは焼酎を5銘柄レコメンドしてください。`
 }
 
 export async function getRecommendations(
@@ -135,7 +137,7 @@ export async function getRecommendations(
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 1000,
+      max_tokens: 1600,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: buildUserPrompt(req) }],
     }),

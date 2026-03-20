@@ -12,9 +12,18 @@ import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
 import styles from './ResultCard.module.css'
 
 // ボトルシルエットSVG（PA-API利用不可時のフォールバック）
+const RANK_ORDER: Record<string, number> = {
+  'BEST MATCH': 0,
+  'RUNNER UP':  1,
+  'ALSO GREAT': 2,
+  'HIDDEN GEM': 3,
+  'WILD CARD':  4,
+}
+
 const BottleSVG = ({ rank }: { rank: string }) => {
   const isBest = rank === 'BEST MATCH'
-  const color = isBest ? '#c8fe08' : rank === 'ALSO GREAT' ? '#9a9888' : '#5a5a52'
+  const idx = RANK_ORDER[rank] ?? 4
+  const color = idx === 0 ? '#c8fe08' : idx === 1 ? '#b0b8a0' : idx === 2 ? '#9a9888' : '#5a5a52'
   return (
     <svg width="36" height="68" viewBox="0 0 36 68" fill="none" aria-hidden="true">
       {/* ネック */}
@@ -80,7 +89,7 @@ export default function ResultCard({
   }, [amazonKeyword])
 
   const isBestMatch = rank === 'BEST MATCH'
-  const rankIndex = rank === 'BEST MATCH' ? 0 : rank === 'ALSO GREAT' ? 1 : 2
+  const rankIndex = RANK_ORDER[rank] ?? 4
 
   return (
     <div
