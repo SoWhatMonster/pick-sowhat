@@ -10,6 +10,15 @@ export const TEXT = {
   brandUrl: 'https://sowhat.monster/',
   copyright: '© SO WHAT',
 
+  search: {
+    placeholder: '例：グレンフィディック 12年',
+    label: '銘柄名で直接探す',
+    btn: '探す',
+    divider: 'または AIにおすすめしてもらう',
+    amazonBtn: 'Amazonで探す →',
+    rakutenBtn: '楽天で探す →',
+  },
+
   step0: {
     label: '今、最高の1本を見つける',
     tagline: 'Find Your Perfect Bottle.',

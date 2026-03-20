@@ -13,6 +13,7 @@ import {
   SHOCHU_REGIONS, SHOCHU_INGREDIENTS, SHOCHU_AGING, DEFAULT_SHOCHU_AGING,
 } from '@/constants/whisky'
 import type { RecommendRequest, RecommendResponse } from '@/lib/anthropic'
+import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
 import styles from './StepFlow.module.css'
 
 function getSeason(month: number): string {
@@ -116,6 +117,17 @@ export default function StepFlow() {
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<RecommendResponse | null>(null)
   const [error, setError] = useState<string | null>(null)
+
+  // 銘柄検索
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchSubmitted, setSearchSubmitted] = useState(false)
+
+  const amazonTag = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG ?? ''
+  const rakutenAfId = process.env.NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID ?? ''
+
+  const handleSearch = useCallback(() => {
+    if (searchQuery.trim()) setSearchSubmitted(true)
+  }, [searchQuery])
 
   const goTo = useCallback((s: Step) => {
     setStep(s)
@@ -282,6 +294,43 @@ export default function StepFlow() {
                 <span className={styles.choiceLabel}>{TEXT.step0.giftLabel}</span>
                 <span className={styles.choiceDesc}>相手の好みに合わせて選ぶ</span>
               </button>
+            </div>
+
+            {/* ── 銘柄直接検索 ── */}
+            <div className={styles.searchDivider}>{TEXT.search.divider}</div>
+            <div className={styles.searchSection}>
+              <div className={styles.searchRow}>
+                <input
+                  type="text"
+                  className={styles.searchInput}
+                  placeholder={TEXT.search.placeholder}
+                  value={searchQuery}
+                  onChange={(e) => { setSearchQuery(e.target.value); setSearchSubmitted(false) }}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                />
+                <button className={styles.searchBtn} onClick={handleSearch} type="button">
+                  {TEXT.search.btn}
+                </button>
+              </div>
+              {searchSubmitted && searchQuery.trim() && (
+                <div className={styles.searchResult}>
+                  <span className={styles.searchResultLabel}>「{searchQuery.trim()}」を探す</span>
+                  <div className={styles.searchResultBtns}>
+                    <a
+                      href={buildAmazonUrl(searchQuery.trim(), amazonTag)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.searchResultBtn}
+                    >{TEXT.search.amazonBtn}</a>
+                    <a
+                      href={buildRakutenUrl(searchQuery.trim(), rakutenAfId)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`${styles.searchResultBtn} ${styles.searchResultRakuten}`}
+                    >{TEXT.search.rakutenBtn}</a>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
