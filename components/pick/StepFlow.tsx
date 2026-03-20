@@ -526,7 +526,7 @@ export default function StepFlow() {
             {/* カルーセル */}
             <div className={styles.carousel} ref={carouselRef}>
               {result.results.map((item) => (
-                <div key={item.rank} data-card="1">
+                <div key={item.rank} data-card="1" style={{ flex: '0 0 72vw', maxWidth: '280px', minWidth: '220px', scrollSnapAlign: 'start' }}>
                   <ResultCard rank={item.rank} name={item.name} tags={item.tags}
                     description={item.description} amazonKeyword={item.amazonKeyword} rakutenKeyword={item.rakutenKeyword}
                     onAmazonClick={() => pushGtmEvent('affiliate_click_amazon', { item_name: item.name })}
