@@ -11,6 +11,7 @@ export type RecommendRequest = {
   giftRelation?: string[]
   giftAge?: string
   giftExperience?: string
+  giftNomikurabe?: boolean
   // 共通フレーバー・酒種
   flavors: { name: string; value: number }[]
   spirit: 'ウイスキー' | '焼酎' | 'どちらでも'
@@ -118,6 +119,9 @@ ${nomikurabeNote}
   }
 
   const relationText = req.giftRelation?.join('、') ?? 'なし'
+  const giftNomikurabeNote = req.giftNomikurabe
+    ? '\n【飲み比べ特別指示】ギフトとして複数本を比較体験できるよう、産地・スタイル・フレーバーが対比的になる銘柄を選んでください。各銘柄のamazonKeyword・rakutenKeywordは必ず具体的な銘柄名で返してください。'
+    : ''
   return `【ギフト用】
 贈る相手の関係性: ${relationText}
 相手の年代: ${req.giftAge ?? '不明'}
@@ -127,7 +131,7 @@ ${nomikurabeNote}
 ${spiritDetail}
 予算: ${req.budget}
 現在の季節: ${req.season}（${req.month}月）
-
+${giftNomikurabeNote}
 上記の条件でギフトに最適なウイスキーまたは焼酎を5銘柄レコメンドしてください。`
 }
 

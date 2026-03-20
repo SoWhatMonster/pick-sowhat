@@ -96,6 +96,7 @@ export default function StepFlow() {
   const [giftRelation, setGiftRelation] = useState<string[]>([])
   const [giftAge, setGiftAge] = useState<string>('')
   const [giftExperience, setGiftExperience] = useState<string>('')
+  const [giftNomikurabe, setGiftNomikurabe] = useState<boolean>(false)
 
   const [flavorValues, setFlavorValues] = useState<Record<string, number>>(
     () => ({ ...DEFAULT_FLAVOR_VALUES })
@@ -152,6 +153,7 @@ export default function StepFlow() {
       giftRelation: mode === 'gift' ? giftRelation : undefined,
       giftAge: mode === 'gift' ? giftAge : undefined,
       giftExperience: mode === 'gift' ? giftExperience : undefined,
+      giftNomikurabe: mode === 'gift' ? giftNomikurabe : undefined,
       flavors,
       spirit: spirit as RecommendRequest['spirit'],
       whiskyRegions: spirit === 'ウイスキー' ? whiskyRegions : undefined,
@@ -191,6 +193,7 @@ export default function StepFlow() {
   const restart = () => {
     setStep(0); setMode('self')
     setSelectedScenes([]); setGiftRelation([]); setGiftAge(''); setGiftExperience('')
+    setGiftNomikurabe(false)
     setFlavorValues({ ...DEFAULT_FLAVOR_VALUES }); setSpirit(DEFAULT_SPIRIT)
     setWhiskyRegions([]); setWhiskyStyles([]); setWhiskyCasks([]); setWhiskyAge(DEFAULT_WHISKY_AGE)
     setShochuRegions([]); setShochuIngredients([]); setShochuAging(DEFAULT_SHOCHU_AGING)
@@ -397,6 +400,15 @@ export default function StepFlow() {
                 ))}
               </div>
             </div>
+            <div className={styles.giftField}>
+              <button
+                type="button"
+                className={`${styles.tag} ${giftNomikurabe ? styles.tagSelected : ''}`}
+                style={{ width: '100%', textAlign: 'left' }}
+                onClick={() => setGiftNomikurabe((prev) => !prev)}
+              >{TEXT.step1Gift.nomikurabeLabel}</button>
+            </div>
+
             <button
               className={styles.nextBtn}
               onClick={() => goTo(2)}

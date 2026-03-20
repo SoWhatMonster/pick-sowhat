@@ -50,6 +50,7 @@ export const TEXT = {
     relationLabel: '関係性',
     ageLabel: '相手の年代',
     experienceLabel: '相手の経験値',
+    nomikurabeLabel: '飲み比べセットとして贈りたい 🥂',
     next: '次へ →',
     back: '← 戻る',
   },
