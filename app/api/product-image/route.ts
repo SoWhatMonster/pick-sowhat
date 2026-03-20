@@ -134,13 +134,43 @@ async function searchAmazonProduct(keyword: string): Promise<string | null> {
   }
 }
 
-export async function GET(req: NextRequest) {
-  const keyword = req.nextUrl.searchParams.get('keyword')
+// シンプルなレート制限（IPベース）
+const imgRateLimitMap = new Map<string, { count: number; resetAt: number }>()
+const IMG_RATE_LIMIT_MAX = 30
+const IMG_RATE_LIMIT_WINDOW = 60_000
 
-  if (!keyword) {
+function checkImgRateLimit(ip: string): boolean {
+  const now = Date.now()
+  const entry = imgRateLimitMap.get(ip)
+  if (!entry || now > entry.resetAt) {
+    imgRateLimitMap.set(ip, { count: 1, resetAt: now + IMG_RATE_LIMIT_WINDOW })
+    return true
+  }
+  if (entry.count >= IMG_RATE_LIMIT_MAX) return false
+  entry.count++
+  return true
+}
+
+export async function GET(req: NextRequest) {
+  const ip =
+    req.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
+    req.headers.get('x-real-ip') ??
+    'unknown'
+  if (!checkImgRateLimit(ip)) {
+    return NextResponse.json({ imageUrl: null }, { status: 429 })
+  }
+
+  const keyword = req.nextUrl.searchParams.get('keyword')
+  if (!keyword || keyword.length > 100) {
     return NextResponse.json({ imageUrl: null }, { status: 400 })
   }
 
-  const imageUrl = await searchAmazonProduct(keyword)
+  // キーワードを英数字・日本語・スペース・ハイフン・記号に限定してサニタイズ
+  const safeKeyword = keyword.replace(/[^\w\u3000-\u9fff\u30a0-\u30ff\u3040-\u309f\s\-・年]/g, '').slice(0, 100)
+  if (!safeKeyword.trim()) {
+    return NextResponse.json({ imageUrl: null }, { status: 400 })
+  }
+
+  const imageUrl = await searchAmazonProduct(safeKeyword)
   return NextResponse.json({ imageUrl })
 }
