@@ -13,16 +13,26 @@ import styles from './ResultCard.module.css'
 
 // ボトルシルエットSVG（PA-API利用不可時のフォールバック）
 const BottleSVG = ({ rank }: { rank: string }) => {
-  const color =
-    rank === 'BEST MATCH' ? '#c8fe08' : rank === 'ALSO GREAT' ? '#9a9888' : '#5a5a52'
+  const isBest = rank === 'BEST MATCH'
+  const color = isBest ? '#c8fe08' : rank === 'ALSO GREAT' ? '#9a9888' : '#5a5a52'
   return (
-    <svg width="28" height="52" viewBox="0 0 28 52" fill="none" aria-hidden="true">
-      <rect x="11" y="1" width="6" height="7" rx="1" fill={color} />
-      <path
-        d="M8 8 Q6 14 6 20 L6 47 Q6 51 14 51 Q22 51 22 47 L22 20 Q22 14 20 8Z"
-        fill={color}
-      />
-      <rect x="8" y="24" width="12" height="9" rx="2" fill="#1a1a18" opacity="0.35" />
+    <svg width="36" height="68" viewBox="0 0 36 68" fill="none" aria-hidden="true">
+      {/* ネック */}
+      <rect x="14" y="1" width="8" height="10" rx="2" fill={color} opacity="0.9" />
+      {/* ショルダー */}
+      <path d="M10 11 Q8 18 8 26 L8 60 Q8 67 18 67 Q28 67 28 60 L28 26 Q28 18 26 11Z" fill={color} opacity="0.85" />
+      {/* ラベル */}
+      <rect x="10" y="32" width="16" height="14" rx="3" fill="#1a1a18" opacity="0.45" />
+      {/* ラベル上のライン */}
+      <rect x="12" y="35" width="12" height="1.5" rx="1" fill={color} opacity="0.5" />
+      <rect x="13" y="38" width="10" height="1" rx="1" fill={color} opacity="0.3" />
+      <rect x="13" y="41" width="10" height="1" rx="1" fill={color} opacity="0.3" />
+      {/* キャップ */}
+      <rect x="15" y="0" width="6" height="3" rx="1" fill={color} />
+      {/* BEST MATCHのみグロー */}
+      {isBest && (
+        <ellipse cx="18" cy="67" rx="10" ry="3" fill="#c8fe08" opacity="0.15" />
+      )}
     </svg>
   )
 }
@@ -70,12 +80,16 @@ export default function ResultCard({
   }, [amazonKeyword])
 
   const isBestMatch = rank === 'BEST MATCH'
+  const rankIndex = rank === 'BEST MATCH' ? 0 : rank === 'ALSO GREAT' ? 1 : 2
 
   return (
-    <div className={`${styles.card} ${isBestMatch ? styles.top : ''}`}>
+    <div
+      className={`${styles.card} ${isBestMatch ? styles.top : ''} ${styles.cardAnimate}`}
+      style={{ animationDelay: `${rankIndex * 0.12}s` }}
+    >
       <div className={styles.inner}>
         {/* 商品画像 */}
-        <div className={styles.imageWrap}>
+        <div className={`${styles.imageWrap} ${isBestMatch ? styles.imageWrapBest : ''}`}>
           {imageUrl ? (
             <Image
               src={imageUrl}
@@ -86,10 +100,7 @@ export default function ResultCard({
               unoptimized
             />
           ) : (
-            <>
-              <BottleSVG rank={rank} />
-              <span className={styles.imageNote}>{TEXT.result.imageFallbackNote}</span>
-            </>
+            <BottleSVG rank={rank} />
           )}
         </div>
 
