@@ -1,24 +1,25 @@
 /* ============================================================
    SO WHAT Pick — グローバルCSS
-   デザイントークン・リセット・ベーススタイル
+   デザイントークン・リセット・ベーススタイル (prototype-v3 準拠)
    ============================================================ */
 
 :root {
   --accent: #c8fe08;
-  --accent-dim: rgba(200, 254, 8, 0.15);
-  --surface: #1a1a18;
-  --surface2: #242420;
-  --surface3: #2e2e28;
-  --border: rgba(255, 255, 255, 0.1);
+  --accent-dim: rgba(200, 254, 8, 0.12);
+  --bg: #0d0d0b;
+  --surface: #141412;
+  --surface2: #1c1c1a;
+  --surface3: #242420;
+  --border: rgba(255, 255, 255, 0.08);
   --text1: #f0ede6;
   --text2: #9a9888;
-  --text3: #5a5a52;
+  --text3: #4a4a42;
   --rakuten-red: #bf0000;
 
   /* タイポグラフィ */
-  --font-ui: Arial, sans-serif;
-  --font-heading: 'Arial Narrow', Arial, sans-serif;
-  --font-body: 'Georgia', serif;
+  --font-ui: 'Helvetica Neue', 'Hiragino Sans', 'Yu Gothic', Arial, sans-serif;
+  --font-heading: 'Helvetica Neue', 'Hiragino Sans', Arial, sans-serif;
+  --font-body: 'Helvetica Neue', 'Hiragino Sans', 'Yu Gothic', sans-serif;
 }
 
 *,
@@ -35,15 +36,13 @@ body {
 }
 
 body {
-  background: #111110;
+  background: var(--bg);
   color: var(--text1);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100dvh;
-  display: flex;
-  justify-content: center;
-  padding: 24px 16px;
+  overflow-x: hidden;
 }
 
 a {

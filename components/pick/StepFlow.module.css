@@ -1,94 +1,201 @@
 /* ============================================================
-   StepFlow — メインUI
-   モックアップ (pick-whisky-mockup.html) に準拠
+   StepFlow — フルスクリーンUI (prototype-v3 準拠)
    ============================================================ */
 
-.frame {
-  background: var(--surface);
-  border-radius: 20px;
+/* ── アプリシェル ── */
+.appShell {
   width: 100%;
-  max-width: 400px;
-  overflow: hidden;
-  border: 0.5px solid var(--border);
-  align-self: flex-start;
+  min-height: 100dvh;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* ── トップバー ── */
+/* ── 固定トップバー ── */
 .topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 20px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px 12px;
-  border-bottom: 0.5px solid var(--border);
+  background: linear-gradient(to bottom, rgba(13, 13, 11, 0.92) 0%, transparent 100%);
+  pointer-events: none;
 }
 
 .wordmark {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.15em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   color: var(--accent);
-  font-family: var(--font-heading);
+  text-transform: uppercase;
   text-decoration: none;
+  pointer-events: all;
 }
+
 .wordmark:hover {
   opacity: 0.75;
 }
 
 .dots {
   display: flex;
-  gap: 5px;
+  gap: 6px;
+  align-items: center;
 }
 
 .dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: var(--surface3);
-  transition: background 0.3s;
+  background: var(--text3);
+  transition: background 0.3s, transform 0.3s;
 }
 
 .dotActive {
   background: var(--accent);
+  transform: scale(1.2);
 }
 
 .dotDone {
-  background: var(--text3);
+  background: var(--accent);
+  opacity: 0.55;
 }
 
-/* ── パネル共通 ── */
-.panel {
-  padding: 24px 20px;
+/* ── STEP 0: ヒーロースクリーン ── */
+.heroScreen {
+  min-height: 100dvh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  animation: fadeIn 0.6s ease both;
 }
 
+.heroScreen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(13, 13, 11, 0.28) 0%,
+    rgba(13, 13, 11, 0.55) 40%,
+    rgba(13, 13, 11, 0.92) 75%,
+    rgba(13, 13, 11, 1) 100%
+  );
+  z-index: 0;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  padding: 0 24px 56px;
+  max-width: 520px;
+  width: 100%;
+}
+
+/* ── STEP 1〜4: ステップスクリーン ── */
+.stepScreen {
+  min-height: 100dvh;
+  padding-top: 80px;
+  background: var(--bg);
+  animation: slideUp 0.4s ease both;
+}
+
+.stepContent {
+  padding: 0 24px 60px;
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ── ローディングスクリーン ── */
+.loadingScreen {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  text-align: center;
+  background: var(--bg);
+  padding: 24px;
+}
+
+/* ── アニメーション ── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.panelFadeIn {
+  animation: fadeInUp 0.55s ease both;
+}
+
+/* ── ラベル（eyebrow） ── */
 .label {
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: var(--text2);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-family: var(--font-ui);
 }
 
 .subLabel {
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: var(--text2);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  font-family: var(--font-ui);
+}
+
+/* ── タイポグラフィ ── */
+.heroTagline {
+  font-size: clamp(32px, 8vw, 52px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--text1);
+  margin-bottom: 12px;
+  font-family: var(--font-heading);
+}
+
+.heroSub {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.65;
+  margin-bottom: 32px;
   font-family: var(--font-ui);
 }
 
 .title {
-  font-size: 22px;
+  font-size: clamp(24px, 6vw, 34px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
   color: var(--text1);
-  line-height: 1.3;
-  margin-bottom: 20px;
-  font-family: var(--font-body);
-  font-weight: normal;
+  margin-bottom: 8px;
+  font-family: var(--font-heading);
 }
 
 .resultTitle {
   margin-bottom: 12px;
+  font-size: clamp(26px, 7vw, 40px);
 }
 
 /* ── ボタン類 ── */
@@ -100,7 +207,7 @@
   cursor: pointer;
   font-family: var(--font-ui);
   padding: 0;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -113,16 +220,16 @@
 
 .nextBtn {
   width: 100%;
-  padding: 14px;
-  border-radius: 10px;
+  padding: 16px;
+  border-radius: 12px;
   border: none;
   background: var(--accent);
-  color: #111;
-  font-size: 14px;
-  font-weight: 500;
+  color: #0d0d0b;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
   font-family: var(--font-ui);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   transition: opacity 0.2s;
 }
 
@@ -131,15 +238,15 @@
 }
 
 .nextBtn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .ghostBtn {
   width: 100%;
-  padding: 14px;
-  border-radius: 10px;
-  border: 0.5px solid var(--border);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
   background: transparent;
   color: var(--text2);
   font-size: 14px;
@@ -154,35 +261,56 @@
   color: var(--text1);
 }
 
-/* ── STEP 0: モード選択 ── */
+/* ── STEP 0: スピリッツバッジ ── */
+.heroSection {
+  margin-bottom: 4px;
+}
+
+.spiritBadges {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.spiritBadge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  background: rgba(200, 254, 8, 0.1);
+  border: 1px solid rgba(200, 254, 8, 0.28);
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-family: var(--font-ui);
+}
+
+/* ── STEP 0: 選択肢グリッド ── */
 .splitGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-bottom: 20px;
 }
 
 .choiceBtn {
-  padding: 18px 12px;
-  border-radius: 12px;
-  border: 0.5px solid var(--border);
-  background: var(--surface2);
+  padding: 20px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
   color: var(--text1);
   cursor: pointer;
-  text-align: center;
-  transition: border-color 0.2s, background 0.2s, color 0.2s;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
   font-family: var(--font-ui);
-  font-size: 13px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .choiceBtn:hover {
   border-color: var(--accent);
+  background: rgba(200, 254, 8, 0.06);
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
 .choiceBtn:active {
@@ -190,15 +318,81 @@
 }
 
 .choiceIcon {
-  font-size: 22px;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.choiceLabel {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.choiceDesc {
+  font-size: 11px;
+  color: var(--text2);
+  line-height: 1.4;
+}
+
+/* ── STEP 0: How Steps ── */
+.howSteps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4px;
+  margin-bottom: 24px;
+  padding: 12px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(8px);
+}
+
+.howStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  position: relative;
+}
+
+.howIcon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.howText {
+  font-size: 9px;
+  color: var(--text2);
+  font-family: var(--font-ui);
+  text-align: center;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
+.howArrow {
+  position: absolute;
+  right: -8px;
+  top: 8px;
+  font-size: 14px;
+  color: var(--text3);
+}
+
+.howStepLabel {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--accent);
+  font-family: var(--font-heading);
+  letter-spacing: 0.1em;
 }
 
 /* ── STEP 1A: シーン ── */
 .sceneGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 24px;
 }
 
 .autoNote {
@@ -206,19 +400,19 @@
   color: var(--text3);
   font-family: var(--font-ui);
   text-align: center;
-  padding: 0 0 12px;
+  padding: 0 0 16px;
 }
 
 /* ── STEP 1B: ギフト ── */
 .giftField {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .giftLabel {
   font-size: 12px;
   color: var(--text2);
   font-family: var(--font-ui);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 /* ── タグ共通 ── */
@@ -230,13 +424,13 @@
 }
 
 .tag {
-  padding: 7px 14px;
+  padding: 8px 16px;
   border-radius: 20px;
-  border: 0.5px solid var(--border);
+  border: 1px solid var(--border);
   background: var(--surface2);
   color: var(--text2);
   cursor: pointer;
-  font-size: 12px;
+  font-size: 13px;
   font-family: var(--font-ui);
   transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.15s;
 }
@@ -266,9 +460,9 @@
 
 .budgetTag {
   flex: 1;
-  padding: 10px 4px;
-  border-radius: 8px;
-  border: 0.5px solid var(--border);
+  padding: 14px 4px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
   background: var(--surface2);
   color: var(--text2);
   cursor: pointer;
@@ -296,22 +490,22 @@
 
 /* ── 区切り線 ── */
 .divider {
-  height: 0.5px;
+  height: 1px;
   background: var(--border);
-  margin: 16px 0;
+  margin: 20px 0;
 }
 
 /* ── RESULT: 理由バー ── */
 .reasonBar {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text1);
   font-family: var(--font-ui);
-  margin-bottom: 16px;
-  padding: 12px 14px;
-  border-radius: 8px;
-  background: var(--surface3);
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--surface2);
   border-left: 2px solid var(--accent);
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 /* ── エラー ── */
@@ -319,11 +513,11 @@
   font-size: 12px;
   color: #ff6b6b;
   font-family: var(--font-ui);
-  margin-bottom: 12px;
-  padding: 10px 12px;
-  border-radius: 8px;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
   background: rgba(255, 107, 107, 0.1);
-  border: 0.5px solid rgba(255, 107, 107, 0.3);
+  border: 1px solid rgba(255, 107, 107, 0.3);
 }
 
 /* ── 詳細こだわりセクションの注釈 ── */
@@ -331,222 +525,97 @@
   font-size: 10px;
   color: var(--text3);
   font-family: var(--font-ui);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   letter-spacing: 0.05em;
 }
 
 /* ── フッター ── */
 .footer {
-  border-top: 0.5px solid var(--border);
-  padding: 12px 20px;
+  padding: 20px 24px;
   text-align: center;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
 }
 
 .footerLink {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text3);
   text-decoration: none;
-  letter-spacing: 0.08em;
-  font-family: var(--font-heading);
+  letter-spacing: 0.1em;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
 }
 
 .footerLink:hover {
   color: var(--text2);
 }
 
-/* ── ローディングパネル ── */
-.loadingPanel {
+/* ── ローディング ── */
+.loadingRingWrap {
+  position: relative;
+  width: 72px;
+  height: 72px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 24px;
-  gap: 20px;
 }
 
 .loadingRing {
-  width: 52px;
-  height: 52px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  border: 2.5px solid var(--surface3);
+  border: 2px solid rgba(200, 254, 8, 0.15);
   border-top-color: var(--accent);
-  animation: spin 0.9s linear infinite;
+  animation: spin 1s linear infinite;
+  position: absolute;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
+.loadingDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulseDot 1s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+}
+
 .loadingMessage {
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 600;
   color: var(--text1);
   font-family: var(--font-heading);
-  letter-spacing: 0.04em;
-  margin: 0;
+  letter-spacing: 0.02em;
 }
 
 .loadingSub {
-  font-size: 11px;
-  color: var(--text3);
-  font-family: var(--font-ui);
-  letter-spacing: 0.06em;
-  margin: 0;
-  animation: pulse 1.6s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-/* ── STEP 0: フェードインアニメーション ── */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.panelFadeIn {
-  animation: fadeInUp 0.55s ease both;
-}
-
-/* ── STEP 0: ヒーローセクション ── */
-.heroSection {
-  margin: 8px 0 20px;
-}
-
-/* ── STEP 0: スピリッツバッジ ── */
-.spiritBadges {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
-.spiritBadge {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--accent);
-  background: rgba(200, 254, 8, 0.1);
-  border: 1px solid rgba(200, 254, 8, 0.28);
-  border-radius: 4px;
-  padding: 4px 10px;
-  font-family: var(--font-ui);
-}
-
-.heroTagline {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--accent);
-  font-family: var(--font-heading);
-  letter-spacing: 0.02em;
-  margin: 0 0 8px;
-  line-height: 1.2;
-}
-
-.heroSub {
   font-size: 12px;
-  color: var(--text2);
-  font-family: var(--font-ui);
-  line-height: 1.6;
-  letter-spacing: 0.04em;
-  margin: 0;
-}
-
-/* ── STEP 0: 3ステップ ── */
-.howSteps {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 4px;
-  margin-bottom: 20px;
-  padding: 14px 12px;
-  background: var(--surface2);
-  border-radius: 12px;
-  border: 0.5px solid var(--border);
-}
-
-.howStep {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  flex: 1;
-  position: relative;
-}
-
-.howIcon {
-  font-size: 20px;
-  line-height: 1;
-}
-
-.howText {
-  font-size: 10px;
-  color: var(--text2);
-  font-family: var(--font-ui);
-  text-align: center;
-  line-height: 1.4;
-  letter-spacing: 0.03em;
-}
-
-.howArrow {
-  position: absolute;
-  right: -10px;
-  top: 8px;
-  font-size: 16px;
   color: var(--text3);
-  line-height: 1;
+  font-family: var(--font-ui);
+  letter-spacing: 0.08em;
+  animation: blink 1.8s ease-in-out infinite;
 }
 
-.howStepLabel {
-  font-size: 9px;
-  font-weight: 600;
-  color: var(--accent);
-  font-family: var(--font-heading);
-  letter-spacing: 0.1em;
-  line-height: 1;
-}
-
-/* ── STEP 0: ヒーロー背景画像 ── */
-.heroPanel {
-  position: relative;
-  background-size: cover;
-  background-position: center top;
-}
-
-.heroPanel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(10, 10, 8, 0.72) 0%,
-    rgba(10, 10, 8, 0.88) 60%,
-    rgba(26, 26, 24, 0.97) 100%
-  );
-  z-index: 0;
-  border-radius: inherit;
-}
-
-.heroPanel > * {
-  position: relative;
-  z-index: 1;
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
 /* ── RESULT: カルーセル ── */
 .carousel {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  margin: 0 -20px;
-  padding: 4px 20px 12px;
+  margin: 0 -24px;
+  padding: 4px 24px 16px;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -588,15 +657,15 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 13px;
-  border-radius: 10px;
+  padding: 15px;
+  border-radius: 12px;
   border: 1px solid rgba(200, 254, 8, 0.3);
   background: rgba(200, 254, 8, 0.06);
   color: var(--accent);
   cursor: pointer;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   font-family: var(--font-ui);
   transition: background 0.2s, border-color 0.2s;
   margin-bottom: 10px;

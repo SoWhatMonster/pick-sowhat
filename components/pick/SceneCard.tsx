@@ -22,6 +22,7 @@ export default function SceneCard({ icon, label, selected, onClick }: SceneCardP
     >
       <span className={styles.icon}>{icon}</span>
       <span className={styles.label}>{label}</span>
+      <span className={styles.check}>✓</span>
     </button>
   )
 }
