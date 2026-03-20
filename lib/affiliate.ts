@@ -41,13 +41,13 @@ export function buildRakutenUrl(
   affiliateId: string,
   locale: Locale = 'ja'
 ): string {
-  const q = encodeURIComponent(keyword)
+  const searchUrl = `https://search.rakuten.co.jp/search/mall/${encodeURIComponent(keyword)}/`
 
   if (locale !== 'ja') {
     // Phase 2: 英語圏向けの代替ストア（例: The Whisky Exchange）
-    // return `https://www.thewhiskyexchange.com/search#q=${q}`
-    return `https://search.rakuten.co.jp/search/mall/${q}/?af=${affiliateId}`
+    // return `https://www.thewhiskyexchange.com/search#q=${encodeURIComponent(keyword)}`
+    return `https://hb.afl.rakuten.co.jp/ichiba/${affiliateId}/?pc=${encodeURIComponent(searchUrl)}`
   }
 
-  return `https://search.rakuten.co.jp/search/mall/${q}/?af=${affiliateId}`
+  return `https://hb.afl.rakuten.co.jp/ichiba/${affiliateId}/?pc=${encodeURIComponent(searchUrl)}`
 }
