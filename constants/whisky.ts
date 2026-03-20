@@ -15,11 +15,12 @@ export const SCENES: { icon: string; label: string }[] = [
   { icon: '☀️', label: '昼からゆっくりと' },
   { icon: '😤', label: '仕事終わり、気分転換' },
   { icon: '🌊', label: '自然の中で飲みたい' },
+  { icon: '🥂', label: '飲み比べをしたい' },
 ]
 
 /** STEP 1B: 関係性 */
 export const GIFT_RELATIONS: string[] = [
-  '上司・先輩', '父・母', '友人・同僚', '恋人・パートナー', '自分へのご褒美',
+  '上司・先輩', '父・母', '友人・同僚', '恋人・パートナー', 'クライアント・取引先', '自分へのご褒美',
 ]
 
 /** STEP 1B: 年代 */
