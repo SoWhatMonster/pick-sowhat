@@ -91,62 +91,63 @@ export default function ResultCard({
   const isBestMatch = rank === 'BEST MATCH'
   const rankIndex = RANK_ORDER[rank] ?? 4
 
+  const rankBadgeClass =
+    isBestMatch ? styles.rankBadgeBest :
+    rankIndex <= 1 ? styles.rankBadgeAlso :
+    styles.rankBadgeWild
+
   return (
     <div
       className={`${styles.card} ${isBestMatch ? styles.top : ''} ${styles.cardAnimate}`}
-      style={{ animationDelay: `${rankIndex * 0.12}s` }}
+      style={{ animationDelay: `${rankIndex * 0.1}s` }}
     >
-      <div className={styles.inner}>
-        {/* 商品画像 */}
-        <div className={`${styles.imageWrap} ${isBestMatch ? styles.imageWrapBest : ''}`}>
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={`${name} ${TEXT.result.imageAlt}`}
-              width={64}
-              height={90}
-              className={styles.productImage}
-              unoptimized
-            />
-          ) : (
-            <BottleSVG rank={rank} />
-          )}
+      {/* 画像エリア */}
+      <div className={`${styles.imageWrap} ${isBestMatch ? styles.imageWrapBest : ''}`}>
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt={`${name} ${TEXT.result.imageAlt}`}
+            width={80}
+            height={110}
+            className={styles.productImage}
+            unoptimized
+          />
+        ) : (
+          <BottleSVG rank={rank} />
+        )}
+        <div className={`${styles.rankBadge} ${rankBadgeClass}`}>
+          {isBestMatch ? `★ ${rank}` : rank}
         </div>
+      </div>
 
-        {/* テキスト情報 */}
-        <div className={styles.body}>
-          <div className={styles.rank}>{rank}</div>
-          <div className={styles.name}>{name}</div>
-          <div className={styles.tags}>
-            {tags.map((tag, i) => (
-              <span key={i} className={styles.tag}>
-                {tag}
-              </span>
-            ))}
-          </div>
-          <p className={styles.description}>{description}</p>
-
-          {/* アフィリエイトボタン */}
-          <div className={styles.buyBtns}>
-            <a
-              href={amazonUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.buyBtn}
-              onClick={onAmazonClick}
-            >
-              {TEXT.result.amazon}
-            </a>
-            <a
-              href={rakutenUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${styles.buyBtn} ${styles.rakuten}`}
-              onClick={onRakutenClick}
-            >
-              {TEXT.result.rakuten}
-            </a>
-          </div>
+      {/* 情報エリア */}
+      <div className={styles.body}>
+        <div className={styles.name}>{name}</div>
+        <div className={styles.tags}>
+          {tags.map((tag, i) => (
+            <span key={i} className={styles.tag}>{tag}</span>
+          ))}
+        </div>
+        <p className={styles.description}>{description}</p>
+        <div className={styles.buyBtns}>
+          <a
+            href={amazonUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.buyBtn}
+            onClick={onAmazonClick}
+          >
+            {TEXT.result.amazon}
+          </a>
+          <a
+            href={rakutenUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.buyBtn} ${styles.rakuten}`}
+            onClick={onRakutenClick}
+          >
+            {TEXT.result.rakuten}
+          </a>
         </div>
       </div>
     </div>

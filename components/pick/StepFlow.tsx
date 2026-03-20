@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import SceneCard from './SceneCard'
 import FlavorSlider from './FlavorSlider'
 import ResultCard from './ResultCard'
@@ -85,6 +85,8 @@ export default function StepFlow() {
 
   const isFirstVisit = useRef(true)
   const heroImage = useRef(HERO_IMAGES[Math.floor(Math.random() * HERO_IMAGES.length)])
+  const carouselRef = useRef<HTMLDivElement>(null)
+  const [activeDot, setActiveDot] = useState(0)
 
   const [step, setStep] = useState<Step>(0)
   const [mode, setMode] = useState<'self' | 'gift'>('self')
@@ -186,6 +188,35 @@ export default function StepFlow() {
     setResult(null); setError(null)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  // カルーセルスクロールでドット同期
+  useEffect(() => {
+    const el = carouselRef.current
+    if (!el) return
+    const handleScroll = () => {
+      const cards = el.querySelectorAll<HTMLElement>('[data-card]')
+      let closest = 0, minDist = Infinity
+      cards.forEach((card, i) => {
+        const dist = Math.abs(card.getBoundingClientRect().left - el.getBoundingClientRect().left)
+        if (dist < minDist) { minDist = dist; closest = i }
+      })
+      setActiveDot(closest)
+    }
+    el.addEventListener('scroll', handleScroll, { passive: true })
+    return () => el.removeEventListener('scroll', handleScroll)
+  }, [step, result])
+
+  // SNSシェア
+  const handleShare = useCallback(() => {
+    const best = result?.results[0]
+    const text = `AIが私に「${best?.name ?? ''}」をおすすめしました 🥃\n#SOWHATpick`
+    const url = TEXT.siteUrl
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      navigator.share({ title: TEXT.siteTitle, text, url }).catch(() => {})
+    } else {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank')
+    }
+  }, [result])
 
   const totalDots = 5
 
@@ -475,12 +506,40 @@ export default function StepFlow() {
           <div className={styles.label}>{TEXT.result.label}</div>
           <h2 className={`${styles.title} ${styles.resultTitle}`}>{TEXT.result.title}</h2>
           <div className={styles.reasonBar}>{result.reason}</div>
-          {result.results.map((item) => (
-            <ResultCard key={item.rank} rank={item.rank} name={item.name} tags={item.tags}
-              description={item.description} amazonKeyword={item.amazonKeyword} rakutenKeyword={item.rakutenKeyword}
-              onAmazonClick={() => pushGtmEvent('affiliate_click_amazon', { item_name: item.name })}
-              onRakutenClick={() => pushGtmEvent('affiliate_click_rakuten', { item_name: item.name })} />
-          ))}
+
+          {/* カルーセル */}
+          <div className={styles.carousel} ref={carouselRef}>
+            {result.results.map((item) => (
+              <div key={item.rank} data-card="1">
+                <ResultCard rank={item.rank} name={item.name} tags={item.tags}
+                  description={item.description} amazonKeyword={item.amazonKeyword} rakutenKeyword={item.rakutenKeyword}
+                  onAmazonClick={() => pushGtmEvent('affiliate_click_amazon', { item_name: item.name })}
+                  onRakutenClick={() => pushGtmEvent('affiliate_click_rakuten', { item_name: item.name })} />
+              </div>
+            ))}
+          </div>
+
+          {/* ドットインジケーター */}
+          <div className={styles.carouselDots}>
+            {result.results.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                className={`${styles.carouselDot} ${i === activeDot ? styles.carouselDotActive : ''}`}
+                onClick={() => {
+                  const el = carouselRef.current
+                  const cards = el?.querySelectorAll<HTMLElement>('[data-card]')
+                  cards?.[i]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+                }}
+              />
+            ))}
+          </div>
+
+          {/* シェアボタン */}
+          <button className={styles.shareBtn} onClick={handleShare} type="button">
+            𝕏 結果をシェアする
+          </button>
+
           <button className={styles.ghostBtn} onClick={restart} type="button">{TEXT.result.restart}</button>
         </div>
       )}
