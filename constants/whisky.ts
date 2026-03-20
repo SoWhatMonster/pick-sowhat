@@ -40,7 +40,7 @@ export const SPIRITS: string[] = ['ウイスキー', '焼酎', 'どちらでも'
 export const DEFAULT_SPIRIT = 'ウイスキー'
 
 /** STEP 3: 予算 */
-export const BUDGETS: string[] = ['〜2,000円', '〜5,000円', '〜10,000円', 'こだわらない']
+export const BUDGETS: string[] = ['〜2,000円', '〜5,000円', '〜10,000円', '10,000円以上', 'こだわらない']
 
 /** STEP 3: 予算デフォルト */
 export const DEFAULT_BUDGET = '〜5,000円'

@@ -348,7 +348,12 @@ export default function StepFlow() {
                 ))}
               </div>
             </div>
-            <button className={styles.nextBtn} onClick={() => goTo(2)} type="button">{TEXT.step1Gift.next}</button>
+            <button
+              className={styles.nextBtn}
+              onClick={() => goTo(2)}
+              type="button"
+              disabled={giftRelation.length === 0 || giftAge === '' || giftExperience === ''}
+            >{TEXT.step1Gift.next}</button>
           </div>
         </div>
       )}
@@ -463,7 +468,7 @@ export default function StepFlow() {
             <button className={styles.backBtn} onClick={() => goTo(2)} type="button">{TEXT.step3.back}</button>
             <div className={styles.label}>{TEXT.step3.label}</div>
             <h2 className={styles.title}>
-              {TEXT.step3.title.split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br />}</span>)}
+              {(mode === 'gift' ? TEXT.step3.titleGift : TEXT.step3.title).split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br />}</span>)}
             </h2>
 
             <div className={styles.giftField}>

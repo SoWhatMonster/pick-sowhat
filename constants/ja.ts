@@ -66,6 +66,7 @@ export const TEXT = {
   step3: {
     label: 'STEP 3 / 最後の調整',
     title: '予算と\nこだわりを教えて',
+    titleGift: '予算を\n教えてください',
     budgetLabel: '予算',
     experienceLabel: 'あなたの経験値',
     next: 'この条件で探す →',
