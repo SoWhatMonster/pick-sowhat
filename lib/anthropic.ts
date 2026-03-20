@@ -50,6 +50,11 @@ const SYSTEM_PROMPT = `あなたはウイスキーと焼酎の専門家です。
 必ずJSON形式のみで返答してください。前置きや説明文は不要です。
 マークダウンのコードブロック（\`\`\`）も使わないでください。
 
+【重要ルール】
+- amazonKeyword と rakutenKeyword は必ず「特定の銘柄名＋容量」など具体的な商品名で返してください（例: グレンフィディック 12年 700ml）。
+- 「飲み比べ」「セット」などの概念語だけをキーワードにしないでください。
+- シーンに「飲み比べをしたい」が含まれる場合は、それぞれの銘柄が産地・スタイル・フレーバーで対比的な個性を持つよう選んでください。テイスティングで違いが際立つ組み合わせが理想です。
+
 以下のJSON構造で返してください:
 {
   "reason": "選んだ理由（1〜2文）",
@@ -60,7 +65,7 @@ const SYSTEM_PROMPT = `あなたはウイスキーと焼酎の専門家です。
       "tags": ["産地", "フレーバー特徴", "価格帯"],
       "description": "説明文（2〜3文）",
       "amazonKeyword": "Amazon検索用キーワード（例: グレンフィディック 12年 700ml）",
-      "rakutenKeyword": "楽天検索用キーワード"
+      "rakutenKeyword": "楽天検索用キーワード（例: グレンフィディック 12年）"
     },
     { "rank": "RUNNER UP", "name": "...", "tags": [], "description": "...", "amazonKeyword": "...", "rakutenKeyword": "..." },
     { "rank": "ALSO GREAT", "name": "...", "tags": [], "description": "...", "amazonKeyword": "...", "rakutenKeyword": "..." },
@@ -96,6 +101,10 @@ export function buildUserPrompt(req: RecommendRequest): string {
 
   if (req.mode === 'self') {
     const sceneText = req.scenes?.join('、') ?? 'なし'
+    const isNomikurabe = req.scenes?.includes('飲み比べをしたい') ?? false
+    const nomikurabeNote = isNomikurabe
+      ? '\n【飲み比べ特別指示】産地・スタイル・フレーバーが対比的になるよう5銘柄を選んでください。各銘柄のamazonKeyword・rakutenKeywordは必ず具体的な銘柄名で返してください。'
+      : ''
     return `【自分用】
 現在の季節: ${req.season}（${req.month}月）
 シーン: ${sceneText}
@@ -104,7 +113,7 @@ export function buildUserPrompt(req: RecommendRequest): string {
 ${spiritDetail}
 予算: ${req.budget}
 経験値: ${req.experience ?? 'たまに飲む'}
-
+${nomikurabeNote}
 上記の条件でウイスキーまたは焼酎を5銘柄レコメンドしてください。`
   }
 
