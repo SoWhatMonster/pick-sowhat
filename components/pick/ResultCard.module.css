@@ -62,26 +62,25 @@
   padding: 5px 10px;
   border-radius: 4px;
   font-family: var(--font-ui);
-  backdrop-filter: blur(8px);
   white-space: nowrap;
 }
 
 .rankBadgeBest {
-  color: var(--accent);
-  background: rgba(13, 13, 11, 0.85);
-  border: 1px solid rgba(200, 254, 8, 0.4);
+  color: #0d0d0b;
+  background: #c8fe08;
+  border: none;
 }
 
 .rankBadgeAlso {
-  color: var(--text2);
-  background: rgba(13, 13, 11, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  background: #0d0d0b;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .rankBadgeWild {
-  color: var(--text3);
-  background: rgba(13, 13, 11, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cccccc;
+  background: #0d0d0b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 /* ── 情報エリア ── */
