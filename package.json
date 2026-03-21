@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "gen:images": "node scripts/gen-bottle-images.js",
-    "fetch:images": "node scripts/fetch-bottle-images.js"
+    "fetch:images": "node scripts/fetch-bottle-images.js",
+    "optimize:images": "python scripts/optimize-images.py"
   },
   "dependencies": {
     "next": "^14.2.0",

@@ -17,7 +17,9 @@ const CSV_PATH = path.join(__dirname, '..', 'bottle-images.csv')
 const OUT_PATH = path.join(__dirname, '..', 'constants', 'bottleImages.ts')
 
 // CSV をパース（ヘッダー行はスキップ）
-const lines = fs.readFileSync(CSV_PATH, 'utf8').trim().split('\n').slice(1)
+// BOM付きUTF-8（Excelで保存したCSV）にも対応
+const raw = fs.readFileSync(CSV_PATH, 'utf8').replace(/^\uFEFF/, '')
+const lines = raw.trim().split('\n').slice(1)
 
 // カテゴリ別にグループ化
 const groups = {}
