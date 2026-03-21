@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   },
 }
 
-const GTM_ID = 'GTM-MDDFMDK9'
+const GTM_ID = 'GTM-NLDMBKN7'
 
 export default function RootLayout({
   children,
