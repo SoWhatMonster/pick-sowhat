@@ -228,6 +228,18 @@ export default function StepFlow() {
   }, [])
 
   const submitOmikuji = useCallback(() => {
+    if (omikujiBirthdate) {
+      const birth = new Date(omikujiBirthdate)
+      const today = new Date()
+      let age = today.getFullYear() - birth.getFullYear()
+      const m = today.getMonth() - birth.getMonth()
+      if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--
+      if (age < 20) {
+        setOmikujiPhase('result')
+        setOmikujiError('本サービスは20歳以上の方を対象としています。')
+        return
+      }
+    }
     fetchOmikuji(omikujiBirthdate)
   }, [fetchOmikuji, omikujiBirthdate])
 
@@ -743,7 +755,14 @@ export default function StepFlow() {
             {omikujiPhase === 'result' && (
               <>
                 {omikujiError && (
-                  <p className={styles.omikujiErrorText}>{omikujiError}</p>
+                  <div className={styles.omikujiAgeError}>
+                    <p className={styles.omikujiErrorText}>{omikujiError}</p>
+                    <button
+                      className={styles.omikujiSkipBtn}
+                      onClick={() => { setOmikujiError(null); setOmikujiPhase('form') }}
+                      type="button"
+                    >← 戻る</button>
+                  </div>
                 )}
                 {omikujiResult && (
                   <>
