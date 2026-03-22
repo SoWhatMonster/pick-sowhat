@@ -243,6 +243,16 @@ export default function WhiskyPage() {
         </div>
       </section>
 
+      {/* ── フッター ── */}
+      <footer className="siteFooter">
+        <div className="staticInner">
+          <a href="https://sowhat.monster/" target="_blank" rel="noopener noreferrer" className="footerLogo">
+            SO WHAT
+          </a>
+          <p className="footerCopy">© {new Date().getFullYear()} SO WHAT. All rights reserved.</p>
+        </div>
+      </footer>
+
       <section aria-label="サービス説明" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}>
         <h1>SO WHAT Pick — ウイスキー・焼酎のAIレコメンドツール</h1>
         <p>シーン・気分・フレーバーから、あなたにぴったりのウイスキーや焼酎を3本AIが診断します。自分用はもちろん、誕生日や記念日のギフト選びにも対応。アイラ・ハイランド・スペイサイド・ジャパニーズウイスキーから、芋・麦・米焼酎まで幅広くカバー。産地・スタイル・熟成樽・熟成年数など細かいこだわりも指定できます。レコメンドされたボトルはAmazon・楽天市場でそのまま購入可能です。</p>
