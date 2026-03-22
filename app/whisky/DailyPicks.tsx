@@ -7,6 +7,7 @@
 import { unstable_cache } from 'next/cache'
 import Anthropic from '@anthropic-ai/sdk'
 import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
+import DailyPickImage from './DailyPickImage'
 
 export type DailyPick = {
   rank: number
@@ -14,12 +15,35 @@ export type DailyPick = {
   tags: string[]
   amazonKeyword: string
   rakutenKeyword: string
+  bottleSlug: string | null
 }
 
 type DailyPicksData = {
   date: string
   picks: DailyPick[]
 }
+
+// ── ボトル画像カタログ ──
+const BOTTLE_CATALOG = [
+  { slug: 'dewars',          name: 'デュワーズ' },
+  { slug: 'dewars12',        name: 'デュワーズ 12年' },
+  { slug: 'from-the-barrel', name: 'ニッカ フロム・ザ・バレル' },
+  { slug: 'glenfiddich',     name: 'グレンフィディック' },
+  { slug: 'glenfiddich12',   name: 'グレンフィディック 12年' },
+  { slug: 'glenfiddich18',   name: 'グレンフィディック 18年' },
+  { slug: 'macallan12',      name: 'マッカラン 12年' },
+  { slug: 'macallan12dc',    name: 'マッカラン 12年 ダブルカスク' },
+  { slug: 'macallan15dc',    name: 'マッカラン 15年 ダブルカスク' },
+  { slug: 'macallan18dc',    name: 'マッカラン 18年 ダブルカスク' },
+  { slug: 'macallanharmony', name: 'マッカラン ハーモニー' },
+  { slug: 'macallannight',   name: 'マッカラン ナイト オン アース' },
+  { slug: 'woodford-reserve', name: 'ウッドフォード リザーブ' },
+  { slug: 'chita',           name: '知多' },
+]
+
+const BOTTLE_CATALOG_TEXT = BOTTLE_CATALOG
+  .map(b => `  - ${b.name} → bottleSlug: "${b.slug}"`)
+  .join('\n')
 
 // ── 日本語日付フォーマット ──
 function formatJapaneseDate(dateStr: string): string {
@@ -39,6 +63,9 @@ async function fetchDailyPicks(date: string): Promise<DailyPicksData> {
 ・初心者向けから上級者向けまで価格帯を分散させること
 ・同じ銘柄の違う年数は極力避けること
 
+以下の銘柄はボトル画像があります。これらをレコメンドする場合は "bottleSlug" に該当スラッグを設定してください。それ以外は null にしてください:
+${BOTTLE_CATALOG_TEXT}
+
 必ずJSON形式のみで返してください。説明文は不要です。
 
 {
@@ -49,14 +76,15 @@ async function fetchDailyPicks(date: string): Promise<DailyPicksData> {
       "name": "銘柄名（正式名称）",
       "tags": ["産地", "フレーバー特徴", "価格帯"],
       "amazonKeyword": "Amazon検索用キーワード",
-      "rakutenKeyword": "楽天検索用キーワード"
+      "rakutenKeyword": "楽天検索用キーワード",
+      "bottleSlug": "スラッグ または null"
     }
   ]
 }`
 
   const message = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
-    max_tokens: 1200,
+    max_tokens: 1400,
     temperature: 1,
     system: systemPrompt,
     messages: [{ role: 'user', content: `今日（${date}）のおすすめウイスキー・焼酎10本を選んでください。` }],
@@ -87,7 +115,7 @@ export default async function DailyPicks() {
   try {
     data = await getCachedDailyPicks(today)
   } catch {
-    return null // エラー時はセクション自体を非表示
+    return null
   }
 
   return (
@@ -103,6 +131,7 @@ export default async function DailyPicks() {
           <div className="dailyPicksGrid">
             {data.picks.map((pick) => (
               <div key={pick.rank} className="dailyPickCard">
+                <DailyPickImage bottleSlug={pick.bottleSlug} name={pick.name} />
                 <span className="dailyPickRank">{String(pick.rank).padStart(2, '0')}</span>
                 <p className="dailyPickName">{pick.name}</p>
                 <div className="dailyPickTags">
