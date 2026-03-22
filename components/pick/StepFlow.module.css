@@ -845,6 +845,11 @@
   color: var(--text1);
 }
 
+/* ── wordmark サブテキスト ── */
+.wordmarkSub {
+  display: inline;
+}
+
 /* ── CTA 2列グリッド ── */
 .ctaGrid {
   display: grid;
@@ -854,9 +859,72 @@
   align-items: start;
 }
 
-@media (max-width: 480px) {
+/* ============================================================
+   Mobile responsive overrides
+   ============================================================ */
+@media (max-width: 640px) {
+  /* ── Topbar ── */
+  .topbar {
+    padding: 14px 16px;
+  }
+
+  .wordmarkSub {
+    display: none;
+  }
+
+  .betaBadge {
+    display: none;
+  }
+
+  .feedbackLink {
+    display: none;
+  }
+
+  /* ── Hero ── */
+  .heroContent {
+    padding: 0 16px 40px;
+  }
+
+  .heroSub {
+    margin-bottom: 20px;
+    font-size: 12px;
+  }
+
+  /* ── CTAグリッド → 1列 ── */
   .ctaGrid {
     grid-template-columns: 1fr;
+  }
+
+  /* choiceBtn 横並びを維持（splitGridはそのまま） */
+  .choiceBtn {
+    padding: 16px 14px;
+  }
+
+  .choiceIcon {
+    font-size: 22px;
+  }
+
+  .choiceLabel {
+    font-size: 14px;
+  }
+
+  /* ── ステップ画面 ── */
+  .stepContent {
+    padding: 0 16px 48px;
+  }
+
+  /* ── おみくじモーダル ── */
+  .omikujiModal {
+    padding: 24px 18px 20px;
+    margin: 0 4px;
+  }
+
+  .omikujiImageWrap {
+    height: 160px;
+  }
+
+  .omikujiName {
+    font-size: 19px;
   }
 }
 
@@ -1083,5 +1151,119 @@
   font-size: 10px;
   color: var(--text2);
   text-align: center;
+  opacity: 0.6;
+}
+
+/* ── おみくじ：生年月日フォーム ── */
+.omikujiForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 0 8px;
+}
+
+.omikujiFormLabel {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text1);
+  line-height: 1.4;
+}
+
+.omikujiFormSub {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-top: -4px;
+}
+
+.omikujiDateInput {
+  background: var(--surface3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text1);
+  font-size: 15px;
+  padding: 13px 14px;
+  outline: none;
+  font-family: var(--font-ui);
+  transition: border-color 0.2s;
+  width: 100%;
+  color-scheme: dark;
+}
+
+.omikujiDateInput:focus {
+  border-color: var(--accent);
+}
+
+.omikujiSubmitBtn {
+  background: var(--accent);
+  color: #0d0d0b;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  letter-spacing: 0.02em;
+}
+
+.omikujiSubmitBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.omikujiSubmitBtn:not(:disabled):hover {
+  opacity: 0.85;
+}
+
+.omikujiSkipBtn {
+  background: none;
+  border: none;
+  color: var(--text2);
+  font-size: 11px;
+  cursor: pointer;
+  text-align: center;
+  padding: 4px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  opacity: 0.7;
+}
+
+.omikujiSkipBtn:hover {
+  opacity: 1;
+  color: var(--text1);
+}
+
+/* ── おみくじ：製品画像 ── */
+.omikujiImageWrap {
+  width: 100%;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 18px;
+  background: var(--surface3);
+  position: relative;
+}
+
+.omikujiBottleImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  padding: 12px;
+}
+
+.omikujiImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--surface2) 0%, var(--surface3) 100%);
+}
+
+.omikujiCategoryIcon {
+  font-size: 64px;
+  line-height: 1;
   opacity: 0.6;
 }

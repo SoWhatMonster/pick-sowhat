@@ -439,3 +439,78 @@ input[type='range'] {
   opacity: 0.5;
   letter-spacing: 0.04em;
 }
+
+/* ============================================================
+   Mobile responsive — static sections (max-width: 640px)
+   ============================================================ */
+@media (max-width: 640px) {
+  .staticSection {
+    padding: 48px 0;
+  }
+
+  .staticInner {
+    padding: 0 16px;
+  }
+
+  .sectionHead {
+    margin-bottom: 28px;
+  }
+
+  /* スタイルガイド: 2列 */
+  .styleGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .styleCard {
+    padding: 16px 12px;
+  }
+
+  .styleIcon {
+    font-size: 1.75rem;
+  }
+
+  .styleName {
+    font-size: 0.8125rem;
+  }
+
+  /* シーン: 横スクロール */
+  .sceneGrid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    min-width: max-content;
+  }
+
+  .sceneCard {
+    min-width: 148px;
+    padding: 14px 12px;
+  }
+
+  /* FAQ */
+  .faqQ {
+    font-size: 0.875rem;
+  }
+
+  .faqA {
+    font-size: 0.8125rem;
+    padding-left: 1em;
+  }
+
+  /* フィードバック */
+  .feedbackSection {
+    padding: 48px 0 64px;
+  }
+
+  .feedbackSubmit {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* フッター */
+  .siteFooter .staticInner {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+}
