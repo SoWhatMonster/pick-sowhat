@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SO WHAT Pick — Phase 1 & 2 Mockup v2</title>
+  <style>
+    /* ─── CSS Variables ─── */
+    :root {
+      --accent:   #c8fe08;
+      --surface1: #1a1a16;
+      --surface2: #242420;
+      --surface3: #2e2e28;
+      --border:   rgba(255,255,255,0.1);
+      --text1:    #f0ede6;
+      --text2:    #9a9888;
+    }
+
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--surface1);
+      color: var(--text1);
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ─── Global Nav ─── */
+    .global-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(26,26,22,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0 24px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .beta-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 2px 7px;
+      background: rgba(200,254,8,0.12);
+      border: 0.5px solid var(--accent);
+      color: var(--accent);
+      border-radius: 3px;
+      text-transform: uppercase;
+      vertical-align: middle;
+    }
+    .nav-feedback {
+      font-size: 11px;
+      color: var(--text2);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.15s;
+    }
+    .nav-feedback:hover { color: var(--text1); }
+
+    /* ─── Feedback Section ─── */
+    .feedback-section {
+      background: var(--surface2);
+      border-top: 0.5px solid var(--border);
+    }
+    .feedback-section .section { padding: 56px 24px; }
+    .feedback-head {
+      margin-bottom: 8px;
+    }
+    .feedback-title {
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--text1);
+    }
+    .feedback-title .beta-badge {
+      font-size: 10px;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+    .feedback-desc {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.7;
+      max-width: 520px;
+    }
+    .feedback-form {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 520px;
+    }
+    .feedback-form input,
+    .feedback-form textarea {
+      background: var(--surface3);
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--text1);
+      font-size: 13px;
+      font-family: inherit;
+      width: 100%;
+      transition: border-color 0.2s;
+      outline: none;
+      resize: vertical;
+    }
+    .feedback-form input::placeholder,
+    .feedback-form textarea::placeholder { color: var(--text2); }
+    .feedback-form input:focus,
+    .feedback-form textarea:focus { border-color: var(--accent); }
+    .feedback-form textarea { min-height: 100px; }
+    .feedback-submit {
+      align-self: flex-start;
+      padding: 12px 32px;
+      background: var(--surface3);
+      border: 0.5px solid var(--accent);
+      border-radius: 6px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .feedback-submit:hover { background: rgba(200,254,8,0.08); }
+    .feedback-note {
+      margin-top: 10px;
+      font-size: 10px;
+      color: var(--text2);
+      opacity: 0.7;
+    }
+    .site-footer {
+      padding: 20px 24px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text2);
+      border-top: 0.5px solid var(--border);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── Hero（既存イメージ） ─── */
+    .hero {
+      padding: 80px 24px 60px;
+      text-align: center;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .hero-label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--text2);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero-title {
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      font-size: clamp(32px, 7vw, 56px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--text1);
+      line-height: 1.1;
+    }
+    .hero-title span { color: var(--accent); }
+    .hero-sub {
+      margin-top: 12px;
+      color: var(--text2);
+      font-size: 13px;
+    }
+    /* ─── Hero CTA 2択 ─── */
+    .hero-cta-group {
+      margin-top: 36px;
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .cta-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      padding: 18px 28px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      min-width: 220px;
+      text-align: left;
+    }
+    .cta-card:hover { transform: translateY(-2px); }
+    .cta-card--primary {
+      background: var(--accent);
+      color: #111;
+    }
+    .cta-card--secondary {
+      background: var(--surface2);
+      border: 0.5px solid var(--accent);
+      color: var(--text1);
+    }
+    .cta-card__label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      font-weight: 600;
+    }
+    .cta-card--primary .cta-card__label { color: #111; }
+    .cta-card--secondary .cta-card__label { color: var(--accent); opacity: 1; }
+    .cta-card__title {
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+    }
+    .cta-card__sub {
+      font-size: 11px;
+      opacity: 0.65;
+      margin-top: 2px;
+    }
+    .cta-card--primary .cta-card__sub { color: #111; }
+    .cta-card--secondary .cta-card__sub { color: var(--text2); opacity: 1; }
+    @media (max-width: 520px) {
+      .cta-card { min-width: 100%; }
+    }
+
+    /* ─── Modal ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.is-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal {
+      background: var(--surface2);
+      border: 0.5px solid var(--accent);
+      border-radius: 16px;
+      padding: 36px 32px;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      transform: translateY(16px);
+      transition: transform 0.25s ease;
+    }
+    .modal-overlay.is-open .modal {
+      transform: translateY(0);
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--text2);
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+    }
+    .modal-close:hover { color: var(--text1); }
+    .modal-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .modal-bottle {
+      width: 80px;
+      height: 120px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-bottle svg {
+      width: 100%;
+      height: 100%;
+      opacity: 0.9;
+    }
+    .modal-name {
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text1);
+      text-align: center;
+      margin-bottom: 12px;
+      letter-spacing: 0.04em;
+    }
+    .modal-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+    .modal-tag {
+      font-size: 11px;
+      padding: 3px 10px;
+      border: 0.5px solid var(--border);
+      border-radius: 20px;
+      color: var(--text2);
+    }
+    .modal-comment {
+      font-size: 13px;
+      color: var(--text2);
+      text-align: center;
+      line-height: 1.7;
+      margin-bottom: 24px;
+      padding: 0 8px;
+    }
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .modal-btn-amazon {
+      padding: 11px;
+      background: #ff9900;
+      color: #111;
+      font-size: 12px;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .modal-btn-rakuten {
+      padding: 11px;
+      background: #bf0000;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .modal-footer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .modal-btn-reroll {
+      padding: 11px;
+      background: var(--surface3);
+      border: 0.5px solid var(--accent);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .modal-btn-reroll:hover { background: var(--surface2); }
+    .modal-btn-close {
+      padding: 11px;
+      background: var(--surface3);
+      border: 0.5px solid var(--border);
+      color: var(--text2);
+      font-size: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .modal-btn-close:hover { color: var(--text1); }
+    .modal-disclaimer {
+      margin-top: 14px;
+      font-size: 10px;
+      color: var(--text2);
+      text-align: center;
+      opacity: 0.7;
+    }
+
+    /* ─── Section Common ─── */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 72px 24px;
+    }
+    .section + .section {
+      border-top: 0.5px solid var(--border);
+    }
+    .section-head {
+      margin-bottom: 36px;
+    }
+    .section-title {
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .section-sub {
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--text2);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── Section 1：産地・スタイルガイド ─── */
+    .style-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 900px) {
+      .style-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .style-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+
+    .style-card {
+      background: var(--surface2);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 20px;
+      transition: border-color 0.2s ease, background 0.2s ease;
+      cursor: default;
+    }
+    .style-card:hover {
+      border-color: var(--accent);
+      background: var(--surface3);
+    }
+    .style-icon {
+      font-size: 28px;
+      display: block;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+    .style-name {
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--text1);
+      margin-bottom: 6px;
+    }
+    .style-catch {
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 8px;
+      letter-spacing: 0.03em;
+      line-height: 1.4;
+    }
+    .style-brands {
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+
+    /* ─── Section 2：シーン別おすすめ ─── */
+    .scene-wrapper {
+      overflow: hidden;
+    }
+    .scene-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 900px) {
+      .scene-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .scene-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
+      .scene-wrapper::-webkit-scrollbar { height: 4px; }
+      .scene-wrapper::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+      .scene-grid {
+        grid-template-columns: repeat(8, 220px);
+        gap: 12px;
+        width: max-content;
+      }
+    }
+
+    .scene-card {
+      background: var(--surface2);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 18px;
+      transition: border-color 0.2s ease, background 0.2s ease;
+      cursor: default;
+    }
+    .scene-card:hover {
+      border-color: var(--accent);
+      background: var(--surface3);
+    }
+    .scene-icon {
+      font-size: 24px;
+      display: block;
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+    .scene-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text1);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+    .scene-catch {
+      font-size: 11px;
+      color: var(--accent);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .scene-styles {
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+
+    /* ─── SEO Text ─── */
+    .seo-section {
+      background: var(--surface2);
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+    }
+    .seo-section .section { padding: 48px 24px; }
+    .seo-text {
+      max-width: 700px;
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.9;
+    }
+    .seo-text p + p { margin-top: 14px; }
+
+    /* ─── FAQ ─── */
+    .faq-list { list-style: none; }
+    .faq-item {
+      border-bottom: 0.5px solid var(--border);
+      padding: 20px 0;
+    }
+    .faq-item:first-child { border-top: 0.5px solid var(--border); }
+    .faq-q {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text1);
+      margin-bottom: 8px;
+      display: flex;
+      gap: 10px;
+    }
+    .faq-q::before {
+      content: 'Q';
+      color: var(--accent);
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .faq-a {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.7;
+      padding-left: 24px;
+    }
+
+    /* ─── Phase Label（モックアップ用） ─── */
+    .phase-label {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      padding: 3px 10px;
+      border: 0.5px solid var(--accent);
+      color: var(--accent);
+      border-radius: 2px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .existing-label {
+      border-color: var(--border);
+      color: var(--text2);
+    }
+    .phase2-label {
+      border-color: #a78bfa;
+      color: #a78bfa;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── GLOBAL NAV ─── -->
+  <nav class="global-nav">
+    <span class="nav-logo">
+      ✦ SO WHAT Pick — Whisky &amp; Shochu
+      <span class="beta-badge">BETA</span>
+    </span>
+    <a href="#feedback" class="nav-feedback">フィードバックを送る →</a>
+  </nav>
+
+  <!-- ─── HERO（既存 + Phase 2 統合） ─── -->
+  <div style="max-width:1100px;margin:0 auto;padding:16px 24px 0;display:flex;align-items:center;gap:8px;">
+    <span class="phase-label existing-label">既存</span>
+    <span class="phase-label phase2-label">Phase 2 統合</span>
+  </div>
+  <section class="hero">
+    <p class="hero-label">SO WHAT Pick</p>
+    <h1 class="hero-title">Find Your Perfect<br><span>Bottle.</span></h1>
+    <p class="hero-sub">ウイスキーと焼酎から、AIがあなただけの1本を提案。</p>
+
+    <div class="hero-cta-group">
+      <!-- こだわり診断 -->
+      <div class="cta-card cta-card--primary">
+        <span class="cta-card__label">条件を指定して探す</span>
+        <span class="cta-card__title">こだわり診断 →</span>
+        <span class="cta-card__sub">シーン・フレーバー・予算から</span>
+      </div>
+
+      <!-- おみくじ -->
+      <div class="cta-card cta-card--secondary" onclick="openModal()">
+        <span class="cta-card__label">✦ AIに全部まかせる</span>
+        <span class="cta-card__title">今日の運勢で一発回答</span>
+        <span class="cta-card__sub">条件なし。今すぐ1本出てくる。</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── おみくじ 結果モーダル ─── -->
+  <div class="modal-overlay" id="omikujiModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <p class="modal-eyebrow">✦ 今日のあなたの1本</p>
+
+      <!-- ボトルSVGプレースホルダー -->
+      <div class="modal-bottle">
+        <svg viewBox="0 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="2" width="20" height="14" rx="3" fill="#c8fe08" opacity="0.6"/>
+          <path d="M28 16 C20 28 18 38 18 55 L18 108 C18 112 21 116 25 116 L55 116 C59 116 62 112 62 108 L62 55 C62 38 60 28 52 16 Z" fill="#242420" stroke="#c8fe08" stroke-width="0.8" opacity="0.9"/>
+          <rect x="22" y="58" width="36" height="36" rx="3" fill="#2e2e28" opacity="0.8"/>
+          <text x="40" y="80" text-anchor="middle" font-size="8" fill="#c8fe08" font-family="Arial Narrow,Arial,sans-serif" font-weight="700">GLЕН</text>
+          <text x="40" y="90" text-anchor="middle" font-size="6" fill="#9a9888" font-family="Arial,sans-serif">MORANGIE</text>
+        </svg>
+      </div>
+
+      <h2 class="modal-name">グレンモーレンジィ 10年</h2>
+      <div class="modal-tags">
+        <span class="modal-tag">スコットランド</span>
+        <span class="modal-tag">フルーティ</span>
+        <span class="modal-tag">〜5,000円</span>
+      </div>
+      <p class="modal-comment">今日のあなたには、オレンジの香りと柔らかな甘さが似合う。</p>
+
+      <div class="modal-actions">
+        <button class="modal-btn-amazon">Amazon →</button>
+        <button class="modal-btn-rakuten">楽天 →</button>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn-reroll" onclick="reroll()">もう1本引く ✦</button>
+        <button class="modal-btn-close" onclick="closeModal()">閉じる</button>
+      </div>
+      <p class="modal-disclaimer">AIによるランダム提案です</p>
+    </div>
+  </div>
+
+  <!-- ─── SECTION 1：産地・スタイルガイド（Phase 1 NEW） ─── -->
+  <div style="max-width:1100px;margin:0 auto;padding:24px 24px 0;">
+    <span class="phase-label">Phase 1 — NEW</span>
+  </div>
+  <section class="section" style="padding-top: 16px; border-top: 0.5px solid var(--border);">
+    <div class="section-head">
+      <h2 class="section-title">ウイスキー＆焼酎 スタイルガイド</h2>
+      <p class="section-sub">Find your style.</p>
+    </div>
+    <div class="style-grid">
+
+      <!-- ウイスキー列 -->
+      <div class="style-card" data-slug="scotch">
+        <span class="style-icon">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span>
+        <h3 class="style-name">スコッチ</h3>
+        <p class="style-catch">複雑で奥深い、世界の王道</p>
+        <p class="style-brands">グレンフィディック、マッカラン</p>
+      </div>
+
+      <div class="style-card" data-slug="irish">
+        <span class="style-icon">🇮🇪</span>
+        <h3 class="style-name">アイリッシュ</h3>
+        <p class="style-catch">なめらかで親しみやすい入門酒</p>
+        <p class="style-brands">ジェムソン、ブッシュミルズ</p>
+      </div>
+
+      <div class="style-card" data-slug="japanese">
+        <span class="style-icon">🇯🇵</span>
+        <h3 class="style-name">ジャパニーズ</h3>
+        <p class="style-catch">繊細で均整、職人の美学</p>
+        <p class="style-brands">山崎、白州、余市</p>
+      </div>
+
+      <div class="style-card" data-slug="american">
+        <span class="style-icon">🇺🇸</span>
+        <h3 class="style-name">バーボン＆アメリカン</h3>
+        <p class="style-catch">甘くてリッチ、アメリカンスピリット</p>
+        <p class="style-brands">メーカーズマーク、ジャックダニエル</p>
+      </div>
+
+      <div class="style-card" data-slug="newworld">
+        <span class="style-icon">🌍</span>
+        <h3 class="style-name">ニューワールド</h3>
+        <p class="style-catch">台湾・インド・欧州、新世代の挑戦</p>
+        <p class="style-brands">カバラン、アムルット</p>
+      </div>
+
+      <!-- 焼酎列 -->
+      <div class="style-card" data-slug="imo">
+        <span class="style-icon">🍠</span>
+        <h3 class="style-name">芋焼酎</h3>
+        <p class="style-catch">個性的な香り、鹿児島の魂</p>
+        <p class="style-brands">森伊蔵、魔王、伊佐美</p>
+      </div>
+
+      <div class="style-card" data-slug="mugi">
+        <span class="style-icon">🌾</span>
+        <h3 class="style-name">麦焼酎</h3>
+        <p class="style-catch">クセなく飲みやすい万能派</p>
+        <p class="style-brands">二階堂、いいちこ</p>
+      </div>
+
+      <div class="style-card" data-slug="kome">
+        <span class="style-icon">🍚</span>
+        <h3 class="style-name">米焼酎</h3>
+        <p class="style-catch">上品な甘さ、熊本の誇り</p>
+        <p class="style-brands">球磨焼酎、繊月</p>
+      </div>
+
+      <div class="style-card" data-slug="kokuto">
+        <span class="style-icon">🍬</span>
+        <h3 class="style-name">黒糖焼酎</h3>
+        <p class="style-catch">奄美だけの希少な甘さ</p>
+        <p class="style-brands">里の曙、にしの誉</p>
+      </div>
+
+      <div class="style-card" data-slug="other-shochu">
+        <span class="style-icon">🌿</span>
+        <h3 class="style-name">その他の焼酎</h3>
+        <p class="style-catch">そば・栗・泡盛、個性派ぞろい</p>
+        <p class="style-brands">雲海（そば）、池の露（栗）</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── SECTION 2：シーン別おすすめ（Phase 1 NEW） ─── -->
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;">
+    <span class="phase-label">Phase 1 — NEW</span>
+  </div>
+  <section class="section" style="padding-top: 16px;">
+    <div class="section-head">
+      <h2 class="section-title">シーン別おすすめ</h2>
+      <p class="section-sub">The right bottle for every moment.</p>
+    </div>
+    <div class="scene-wrapper">
+      <div class="scene-grid">
+
+        <!-- 初心者 -->
+        <div class="scene-card">
+          <span class="scene-icon">🔰</span>
+          <p class="scene-name">初めてウイスキーを飲む</p>
+          <p class="scene-catch">やさしくて飲みやすい入門</p>
+          <p class="scene-styles">アイリッシュ、ハイランド</p>
+        </div>
+
+        <!-- 個人用 -->
+        <div class="scene-card">
+          <span class="scene-icon">🌙</span>
+          <p class="scene-name">夜、ひとりで静かに</p>
+          <p class="scene-catch">スモーキーで落ち着く1本を</p>
+          <p class="scene-styles">アイラスコッチ、芋焼酎</p>
+        </div>
+
+        <div class="scene-card">
+          <span class="scene-icon">😮‍💨</span>
+          <p class="scene-name">仕事終わりの一杯</p>
+          <p class="scene-catch">さっと飲める、軽めのやつ</p>
+          <p class="scene-styles">米焼酎、グレーンウイスキー</p>
+        </div>
+
+        <div class="scene-card">
+          <span class="scene-icon">🍽️</span>
+          <p class="scene-name">食事に合わせたい</p>
+          <p class="scene-catch">料理を邪魔しない1本</p>
+          <p class="scene-styles">アイリッシュ、麦焼酎</p>
+        </div>
+
+        <div class="scene-card">
+          <span class="scene-icon">🔥</span>
+          <p class="scene-name">BBQ・アウトドア</p>
+          <p class="scene-catch">ハイボールにして映えるやつ</p>
+          <p class="scene-styles">バーボン、グレーン</p>
+        </div>
+
+        <div class="scene-card">
+          <span class="scene-icon">♨️</span>
+          <p class="scene-name">冬にホットで飲む</p>
+          <p class="scene-catch">温かく体に染みる1本</p>
+          <p class="scene-styles">アイリッシュ、ジャパニーズ</p>
+        </div>
+
+        <div class="scene-card">
+          <span class="scene-icon">🌸</span>
+          <p class="scene-name">女性が自分用に選ぶ</p>
+          <p class="scene-catch">甘くて華やか、自分へのご褒美に</p>
+          <p class="scene-styles">フルーティスコッチ、ジャパニーズ</p>
+        </div>
+
+        <!-- ギフト用 -->
+        <div class="scene-card">
+          <span class="scene-icon">🎁</span>
+          <p class="scene-name">手土産・ちょっとしたギフト</p>
+          <p class="scene-catch">見栄えよく、予算5,000円以内</p>
+          <p class="scene-styles">バーボン、ジャパニーズ</p>
+        </div>
+
+        <div class="scene-card">
+          <span class="scene-icon">👔</span>
+          <p class="scene-name">父の日・敬老の日</p>
+          <p class="scene-catch">贈って外さない定番を</p>
+          <p class="scene-styles">ジャパニーズ、スコッチ</p>
+        </div>
+
+        <div class="scene-card">
+          <span class="scene-icon">🥂</span>
+          <p class="scene-name">記念日・特別な夜</p>
+          <p class="scene-catch">少し奮発するならこれ</p>
+          <p class="scene-styles">山崎・白州・マッカラン</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SEO TEXT ─── -->
+  <div class="seo-section">
+    <div style="max-width:1100px;margin:0 auto;padding:8px 24px 0;">
+      <span class="phase-label existing-label">既存 + Phase 1 追記</span>
+    </div>
+    <div class="section">
+      <div class="seo-text">
+        <p>ウイスキーや焼酎選びに迷ったら、SO WHAT Pickにおまかせください。好みのフレーバーや予算、シーンを入力するだけで、AIがぴったりの1本をレコメンドします。</p>
+        <p>ウイスキーの産地で選ぶなら、スコットランド（スコッチ）・アメリカ（バーボン）・日本（ジャパニーズ）・アイルランド（アイリッシュ）が4大産地。焼酎は芋・麦・米・黒糖・そばなど原料で個性が大きく変わります。</p>
+        <p>初めてウイスキーを選ぶ方には、クセが少なく飲みやすいアイリッシュウイスキーやジャパニーズウイスキーがおすすめ。ギフトには、見栄えのいいボックス入りのジャパニーズウイスキーや、バーボンの定番銘柄が人気です。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── FAQ ─── -->
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;">
+    <span class="phase-label existing-label">既存 + Phase 1 追加</span>
+  </div>
+  <section class="section" style="border-top: 0.5px solid var(--border); padding-top: 16px;">
+    <div class="section-head">
+      <h2 class="section-title">よくある質問</h2>
+      <p class="section-sub">FAQ</p>
+    </div>
+    <ul class="faq-list">
+      <li class="faq-item">
+        <p class="faq-q">AIはどうやってレコメンドしますか？</p>
+        <p class="faq-a">入力されたフレーバー・シーン・予算をもとに、Anthropic Claude APIがリアルタイムで最適な銘柄を提案します。</p>
+      </li>
+      <li class="faq-item">
+        <p class="faq-q">焼酎も選べますか？</p>
+        <p class="faq-a">はい。芋・麦・米・黒糖焼酎に対応しています。</p>
+      </li>
+      <li class="faq-item">
+        <p class="faq-q">購入はどこでできますか？</p>
+        <p class="faq-a">各レコメンド結果にAmazon・楽天へのリンクを表示します。</p>
+      </li>
+      <li class="faq-item">
+        <p class="faq-q">スコッチとバーボンの違いは？</p>
+        <p class="faq-a">スコッチはスコットランド産で麦芽を原料とした深みある風味が特徴。バーボンはアメリカ産でトウモロコシ主体の甘くリッチな味わいです。</p>
+      </li>
+      <li class="faq-item">
+        <p class="faq-q">ウイスキーと焼酎、どちらが飲みやすいですか？</p>
+        <p class="faq-a">一般的に焼酎（特に麦・米）はクセが少なく飲みやすい傾向があります。ウイスキーではアイリッシュが初心者向けとされています。</p>
+      </li>
+      <li class="faq-item">
+        <p class="faq-q">予算3,000円以内でおすすめはありますか？</p>
+        <p class="faq-a">はい。予算の入力欄で「〜2,000円」または「〜5,000円」を選ぶと、その範囲でAIがレコメンドします。</p>
+      </li>
+      <li class="faq-item">
+        <p class="faq-q">ハイボールに合うウイスキーを選べますか？</p>
+        <p class="faq-a">診断のシーン選択で「食事と合わせたい」を選び、フレーバーで「軽め・ドライ」に設定するとハイボール向きの銘柄が出やすくなります。</p>
+      </li>
+      <li class="faq-item">
+        <p class="faq-q">焼酎のギフトも選べますか？</p>
+        <p class="faq-a">はい。ギフトモードで「酒の種類：焼酎」を選ぶと、芋・麦・米焼酎の中から相手に合った1本を提案します。</p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ─── FEEDBACK ─── -->
+  <div class="feedback-section" id="feedback">
+    <div class="section">
+      <div class="feedback-head">
+        <h2 class="feedback-title">
+          ご意見をお聞かせください
+          <span class="beta-badge">BETA</span>
+        </h2>
+        <p class="feedback-desc">SO WHAT Pick は現在ベータ版です。AIのレコメンド精度・使いやすさ・掲載してほしい銘柄など、気になった点をなんでもお送りください。今後の改善に活かします。</p>
+      </div>
+      <form class="feedback-form" action="https://formspree.io/f/mlgpkoea" method="POST">
+        <input type="email" name="email" placeholder="メールアドレス（任意）">
+        <textarea name="message" placeholder="ご意見・ご要望・気になった点など" required></textarea>
+        <button type="submit" class="feedback-submit">送信する →</button>
+        <p class="feedback-note">※ 個人情報は改善目的以外には使用しません</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="site-footer">© SO WHAT</footer>
+
+  <script>
+    function openModal() {
+      document.getElementById('omikujiModal').classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      document.getElementById('omikujiModal').classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+    function reroll() {
+      const modal = document.querySelector('.modal');
+      modal.style.opacity = '0.4';
+      setTimeout(() => { modal.style.opacity = '1'; }, 400);
+    }
+    document.getElementById('omikujiModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+  </script>
+
+</body>
+</html>

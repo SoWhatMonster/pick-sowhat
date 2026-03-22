@@ -13,6 +13,7 @@ import {
   SHOCHU_REGIONS, SHOCHU_INGREDIENTS, SHOCHU_AGING, DEFAULT_SHOCHU_AGING,
 } from '@/constants/whisky'
 import type { RecommendRequest, RecommendResponse } from '@/lib/anthropic'
+import type { OmikujiResult } from '@/app/api/omikuji/route'
 import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
 import styles from './StepFlow.module.css'
 
@@ -119,6 +120,13 @@ export default function StepFlow() {
   const [result, setResult] = useState<RecommendResponse | null>(null)
   const [error, setError] = useState<string | null>(null)
 
+  // おみくじ
+  const [omikujiOpen, setOmikujiOpen] = useState(false)
+  const [omikujiLoading, setOmikujiLoading] = useState(false)
+  const [omikujiResult, setOmikujiResult] = useState<OmikujiResult | null>(null)
+  const [omikujiError, setOmikujiError] = useState<string | null>(null)
+  const [omikujiSeed, setOmikujiSeed] = useState<string | undefined>(undefined)
+
   // 銘柄検索
   const [searchQuery, setSearchQuery] = useState('')
   const [searchSubmitted, setSearchSubmitted] = useState(false)
@@ -190,6 +198,41 @@ export default function StepFlow() {
     }
   }
 
+  const fetchOmikuji = useCallback(async (seed?: string) => {
+    setOmikujiLoading(true)
+    setOmikujiError(null)
+    setOmikujiResult(null)
+    const date = new Date().toISOString().split('T')[0]
+    try {
+      const res = await fetch('/api/omikuji', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ date, seed }),
+      })
+      if (!res.ok) throw new Error('おみくじに失敗しました')
+      const data: OmikujiResult = await res.json()
+      setOmikujiResult(data)
+    } catch (err) {
+      setOmikujiError(err instanceof Error ? err.message : 'おみくじに失敗しました')
+    } finally {
+      setOmikujiLoading(false)
+    }
+  }, [])
+
+  const openOmikuji = useCallback(() => {
+    setOmikujiOpen(true)
+    setOmikujiSeed(undefined)
+    fetchOmikuji(undefined)
+    pushGtmEvent('omikuji_open')
+  }, [fetchOmikuji])
+
+  const rerollOmikuji = useCallback(() => {
+    const newSeed = Math.random().toString(36).slice(2)
+    setOmikujiSeed(newSeed)
+    fetchOmikuji(newSeed)
+    pushGtmEvent('omikuji_reroll')
+  }, [fetchOmikuji])
+
   const restart = () => {
     setStep(0); setMode('self')
     setSelectedScenes([]); setGiftRelation([]); setGiftAge(''); setGiftExperience('')
@@ -238,14 +281,20 @@ export default function StepFlow() {
 
       {/* ── 固定トップバー ── */}
       <div className={styles.topbar}>
-        <a href={TEXT.siteUrl} className={styles.wordmark}>{TEXT.siteTitle}</a>
-        <div className={styles.dots}>
-          {Array.from({ length: totalDots }).map((_, i) => (
-            <div
-              key={i}
-              className={`${styles.dot} ${i === step ? styles.dotActive : i < step ? styles.dotDone : ''}`}
-            />
-          ))}
+        <a href={TEXT.siteUrl} className={styles.wordmark}>
+          {TEXT.siteTitle}
+          <span className={styles.betaBadge}>BETA</span>
+        </a>
+        <div className={styles.topbarRight}>
+          <a href="#feedback" className={styles.feedbackLink}>フィードバック →</a>
+          <div className={styles.dots}>
+            {Array.from({ length: totalDots }).map((_, i) => (
+              <div
+                key={i}
+                className={`${styles.dot} ${i === step ? styles.dotActive : i < step ? styles.dotDone : ''}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -283,20 +332,32 @@ export default function StepFlow() {
 
             <div className={styles.divider} />
 
-            <h2 className={styles.title}>
-              {TEXT.step0.title.split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br />}</span>)}
-            </h2>
-            <div className={styles.splitGrid}>
-              <button className={styles.choiceBtn} onClick={() => handleModeSelect('self')} type="button">
-                <span className={styles.choiceIcon}>{TEXT.step0.selfIcon}</span>
-                <span className={styles.choiceLabel}>{TEXT.step0.selfLabel}</span>
-                <span className={styles.choiceDesc}>シーン・気分・フレーバーから</span>
-              </button>
-              <button className={styles.choiceBtn} onClick={() => handleModeSelect('gift')} type="button">
-                <span className={styles.choiceIcon}>{TEXT.step0.giftIcon}</span>
-                <span className={styles.choiceLabel}>{TEXT.step0.giftLabel}</span>
-                <span className={styles.choiceDesc}>相手の好みに合わせて選ぶ</span>
-              </button>
+            <div className={styles.ctaGrid}>
+              {/* こだわり診断 */}
+              <div className={styles.ctaBlock}>
+                <div className={styles.ctaBlockLabel}>条件を指定して探す</div>
+                <div className={styles.splitGrid}>
+                  <button className={styles.choiceBtn} onClick={() => handleModeSelect('self')} type="button">
+                    <span className={styles.choiceIcon}>{TEXT.step0.selfIcon}</span>
+                    <span className={styles.choiceLabel}>{TEXT.step0.selfLabel}</span>
+                    <span className={styles.choiceDesc}>シーン・気分・フレーバーから</span>
+                  </button>
+                  <button className={styles.choiceBtn} onClick={() => handleModeSelect('gift')} type="button">
+                    <span className={styles.choiceIcon}>{TEXT.step0.giftIcon}</span>
+                    <span className={styles.choiceLabel}>{TEXT.step0.giftLabel}</span>
+                    <span className={styles.choiceDesc}>相手の好みに合わせて選ぶ</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* おみくじ */}
+              <div className={styles.ctaBlock}>
+                <div className={styles.ctaBlockLabel}>✦ AIに全部まかせる</div>
+                <button className={styles.omikujiCta} onClick={openOmikuji} type="button">
+                  <span className={styles.omikujiCtaTitle}>今日の運勢で一発回答</span>
+                  <span className={styles.omikujiCtaSub}>条件なし。今すぐ1本出てくる。</span>
+                </button>
+              </div>
             </div>
 
             {/* ── 銘柄直接検索 ── */}
@@ -632,6 +693,64 @@ export default function StepFlow() {
                 rel="noopener noreferrer"
               >{TEXT.copyright}</a>
             </footer>
+          </div>
+        </div>
+      )}
+
+      {/* ── おみくじモーダル ── */}
+      {omikujiOpen && (
+        <div className={styles.omikujiOverlay} onClick={() => setOmikujiOpen(false)}>
+          <div className={styles.omikujiModal} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.omikujiClose} onClick={() => setOmikujiOpen(false)} type="button">✕</button>
+            <div className={styles.omikujiEyebrow}>✦ 今日のあなたの1本</div>
+
+            {omikujiLoading && (
+              <div className={styles.omikujiLoading}>
+                <div className={styles.loadingRingWrap}>
+                  <div className={styles.loadingRing} />
+                  <div className={styles.loadingDot} />
+                </div>
+                <p className={styles.omikujiLoadingText}>おみくじを引いています…</p>
+              </div>
+            )}
+
+            {omikujiError && (
+              <p className={styles.omikujiErrorText}>{omikujiError}</p>
+            )}
+
+            {omikujiResult && !omikujiLoading && (
+              <>
+                <h2 className={styles.omikujiName}>{omikujiResult.name}</h2>
+                <div className={styles.omikujiTags}>
+                  {omikujiResult.tags.map((tag) => (
+                    <span key={tag} className={styles.omikujiTag}>{tag}</span>
+                  ))}
+                </div>
+                <p className={styles.omikujiComment}>{omikujiResult.comment}</p>
+                <div className={styles.omikujiActions}>
+                  <a
+                    href={buildAmazonUrl(omikujiResult.amazonKeyword, amazonTag)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.omikujiAmazon}
+                    onClick={() => pushGtmEvent('omikuji_amazon_click', { item_name: omikujiResult.name })}
+                  >Amazon →</a>
+                  <a
+                    href={buildRakutenUrl(omikujiResult.rakutenKeyword, rakutenAfId)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.omikujiRakuten}
+                    onClick={() => pushGtmEvent('omikuji_rakuten_click', { item_name: omikujiResult.name })}
+                  >楽天 →</a>
+                </div>
+                <div className={styles.omikujiFooter}>
+                  <button className={styles.omikujiReroll} onClick={rerollOmikuji} type="button">もう1本引く ✦</button>
+                  <button className={styles.omikujiCloseBtn} onClick={() => setOmikujiOpen(false)} type="button">閉じる</button>
+                </div>
+              </>
+            )}
+
+            <p className={styles.omikujiDisclaimer}>AIによるランダム提案です</p>
           </div>
         </div>
       )}
