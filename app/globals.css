@@ -722,3 +722,564 @@ input[type='range'] {
     align-items: flex-start;
   }
 }
+
+/* ============================================================
+   下層ページ共通スタイル
+   ============================================================ */
+
+/* ── トップバー ── */
+.subTopbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 16px 24px;
+  background: rgba(13, 13, 11, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+}
+
+.subWordmark {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.subWordmark:hover {
+  opacity: 0.75;
+}
+
+.subWordmarkSub {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--text2);
+  text-transform: none;
+}
+
+/* ── パンくずリスト ── */
+.breadcrumb {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.breadcrumbList {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  list-style: none;
+}
+
+.breadcrumbItem {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbSep {
+  color: var(--text3);
+  font-size: 0.75rem;
+  padding: 0 6px;
+}
+
+.breadcrumbLink {
+  font-size: 0.75rem;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.breadcrumbLink:hover {
+  color: var(--accent);
+}
+
+.breadcrumbCurrent {
+  font-size: 0.75rem;
+  color: var(--text1);
+}
+
+/* ── ページラッパー ── */
+.subpageWrap {
+  background: var(--bg);
+  min-height: 100dvh;
+}
+
+/* ── コンテンツ共通インナー ── */
+.subInner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── ページヘッダー ── */
+.subPageHeader {
+  padding: 56px 0 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.subPageEn {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.subPageTitle {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--text1);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* ── セクション共通 ── */
+.subSection {
+  padding: 56px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.subSectionTitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 700;
+  color: var(--text1);
+  letter-spacing: 0.02em;
+  margin-bottom: 24px;
+}
+
+/* ── リードテキスト ── */
+.subLeadText {
+  font-size: 0.9375rem;
+  color: var(--text2);
+  line-height: 1.8;
+  max-width: 680px;
+}
+
+/* ── 産地カードグリッド（5大産地など） ── */
+.subRegionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.subRegionCard {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 18px;
+}
+
+.subRegionName {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.subRegionDesc {
+  font-size: 0.8125rem;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.subRegionBrands {
+  font-size: 0.75rem;
+  color: var(--text3);
+  font-style: italic;
+}
+
+/* ── 2カラム比較 ── */
+.subCompare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.subCompareCol {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 18px;
+}
+
+.subCompareColTitle {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text1);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.subCompareList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subCompareList li {
+  font-size: 0.8125rem;
+  color: var(--text2);
+  line-height: 1.5;
+  padding-left: 14px;
+  position: relative;
+}
+
+.subCompareList li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--text3);
+}
+
+/* ── チェックリスト（条件など） ── */
+.subCheckList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.subCheckList li {
+  font-size: 0.9375rem;
+  color: var(--text2);
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.subCheckList li::before {
+  content: '✦';
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+  font-size: 0.75rem;
+}
+
+/* ── 飲み方カード（3カード） ── */
+.subStyleCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.subStyleCard {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 18px;
+  text-align: center;
+}
+
+.subStyleCardIcon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.subStyleCardName {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text1);
+  margin-bottom: 6px;
+}
+
+.subStyleCardDesc {
+  font-size: 0.8125rem;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+/* ── 銘柄カードグリッド ── */
+.subBottleGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.subBottleCard {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.subBottleCard:hover {
+  border-color: rgba(200, 254, 8, 0.3);
+  background: var(--surface3);
+}
+
+.subBottleImgWrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.subBottleImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.subBottleImgFallback {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+
+.subBottleBody {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.subBottleRank {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+.subBottleName {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text1);
+  line-height: 1.4;
+}
+
+.subBottleRegion {
+  font-size: 0.75rem;
+  color: var(--text2);
+}
+
+.subBottleTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.subBottleTag {
+  font-size: 0.625rem;
+  padding: 2px 7px;
+  border: 0.5px solid var(--border);
+  border-radius: 20px;
+  color: var(--text2);
+  white-space: nowrap;
+}
+
+.subBottleReason {
+  font-size: 0.75rem;
+  color: var(--text2);
+  line-height: 1.5;
+  font-style: italic;
+  margin-top: 2px;
+}
+
+.subBottlePrice {
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.subBottleBtns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.subBtnAmazon {
+  display: block;
+  padding: 8px 4px;
+  background: #ff9900;
+  color: #111;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.subBtnAmazon:hover { opacity: 0.85; }
+
+.subBtnRakuten {
+  display: block;
+  padding: 8px 4px;
+  background: var(--rakuten-red);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.subBtnRakuten:hover { opacity: 0.85; }
+
+/* ── FAQ ── */
+.subFaqList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--border);
+}
+
+.subFaqItem {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.subFaqQ {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text1);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.subFaqQ::before {
+  content: 'Q';
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.subFaqA {
+  font-size: 0.875rem;
+  color: var(--text2);
+  line-height: 1.7;
+  padding-left: 22px;
+}
+
+/* ── CTAバナー ── */
+.subCTABanner {
+  background: var(--surface2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 48px 0;
+}
+
+.subCTAInner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.subCTAText {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 700;
+  color: var(--text1);
+  letter-spacing: -0.01em;
+}
+
+.subCTABtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 28px;
+  background: var(--accent);
+  color: #0d0d0b;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+
+.subCTABtn:hover { opacity: 0.85; }
+
+/* ── レスポンシブ ── */
+@media (max-width: 640px) {
+  .subWordmarkSub {
+    display: none;
+  }
+
+  .subTopbar {
+    padding: 14px 16px;
+  }
+
+  .breadcrumbList {
+    padding: 0 16px;
+  }
+
+  .subInner {
+    padding: 0 16px;
+  }
+
+  .subPageHeader {
+    padding: 36px 0 28px;
+  }
+
+  .subPageTitle {
+    font-size: 1.625rem;
+  }
+
+  .subSection {
+    padding: 36px 0;
+  }
+
+  .subRegionGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .subCompare {
+    grid-template-columns: 1fr;
+  }
+
+  .subStyleCards {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .subBottleGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .subCTAInner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 16px;
+  }
+
+  .subCTABanner {
+    padding: 36px 0;
+  }
+}
