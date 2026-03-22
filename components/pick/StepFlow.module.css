@@ -851,6 +851,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   margin-top: 0;
+  align-items: start;
 }
 
 @media (max-width: 480px) {
@@ -879,11 +880,12 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
-  padding: 15px 16px;
+  justify-content: center;
+  gap: 6px;
+  padding: 20px 16px;
   background: var(--surface2);
-  border: 0.5px solid var(--accent);
-  border-radius: 12px;
+  border: 1px solid var(--accent);
+  border-radius: 14px;
   cursor: pointer;
   transition: background 0.2s, transform 0.15s;
   width: 100%;

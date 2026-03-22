@@ -317,19 +317,6 @@ export default function StepFlow() {
               <p className={styles.heroSub}>{TEXT.step0.sub}</p>
             </div>
 
-            <div className={styles.howSteps}>
-              {TEXT.step0.howSteps.map((s, i) => (
-                <div key={i} className={styles.howStep}>
-                  <span className={styles.howStepLabel}>{s.step}</span>
-                  <span className={styles.howIcon}>{s.icon}</span>
-                  <span className={styles.howText}>
-                    {s.text.split('\n').map((line, j) => <span key={j}>{line}{j === 0 && <br />}</span>)}
-                  </span>
-                  {i < TEXT.step0.howSteps.length - 1 && <span className={styles.howArrow}>›</span>}
-                </div>
-              ))}
-            </div>
-
             <div className={styles.divider} />
 
             <div className={styles.ctaGrid}>
