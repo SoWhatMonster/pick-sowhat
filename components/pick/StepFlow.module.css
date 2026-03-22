@@ -1176,6 +1176,8 @@
   flex-direction: column;
   gap: 12px;
   padding: 4px 0 8px;
+  min-width: 0;
+  width: 100%;
 }
 
 .omikujiFormLabel {
@@ -1193,19 +1195,23 @@
 }
 
 .omikujiDateInput {
+  display: block;
   background: var(--surface3);
   border: 1px solid var(--border);
   border-radius: 10px;
   color: var(--text1);
-  font-size: 15px;
-  padding: 13px 14px;
+  font-size: 16px; /* 16px未満だとiOS Safariが強制ズームするため */
+  padding: 12px 14px;
   outline: none;
   font-family: var(--font-ui);
   transition: border-color 0.2s;
   width: 100%;
+  min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
   color-scheme: dark;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .omikujiDateInput:focus {
@@ -1259,7 +1265,7 @@
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 18px;
-  background: var(--surface3);
+  background: #ffffff;
   position: relative;
 }
 
@@ -1277,7 +1283,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--surface2) 0%, var(--surface3) 100%);
+  background: #ffffff;
 }
 
 .omikujiCategoryIcon {
