@@ -1280,60 +1280,32 @@ input[type='range'] {
 
 /* ── 主要ブランド解説 ── */
 .subBrandGrid {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
 }
 
 .subBrandCard {
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 14px;
-  display: grid;
-  grid-template-columns: 140px 1fr;
-  gap: 0;
   overflow: hidden;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background 0.2s;
+  display: flex;
+  flex-direction: column;
 }
 
 .subBrandCard:hover {
   border-color: rgba(200, 254, 8, 0.3);
-}
-
-.subBrandImgWrap {
-  background: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 180px;
-  padding: 12px;
-  flex-shrink: 0;
-}
-
-.subBrandImg {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  max-height: 220px;
-}
-
-.subBrandImgFallback {
-  font-size: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  min-height: 160px;
-  background: #ffffff;
+  background: var(--surface3);
 }
 
 .subBrandBody {
-  padding: 20px 22px;
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
   gap: 6px;
+  flex: 1;
 }
 
 .subBrandMeta {
@@ -1468,13 +1440,8 @@ input[type='range'] {
     gap: 10px;
   }
 
-  .subBrandCard {
-    grid-template-columns: 100px 1fr;
-  }
-
-  .subBrandImgWrap {
-    min-height: 140px;
-    padding: 10px;
+  .subBrandGrid {
+    grid-template-columns: 1fr;
   }
 
   .subBrandBody {
@@ -1484,15 +1451,6 @@ input[type='range'] {
 
   .subBrandNameJa {
     font-size: 1rem;
-  }
-
-  .subBrandDesc {
-    font-size: 0.75rem;
-    /* モバイルでは2行程度に省略 */
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 
   .subBrandBtns {
