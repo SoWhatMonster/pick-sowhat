@@ -14,7 +14,7 @@ import SubpageFooter from '@/components/subpage/SubpageFooter'
 // ── 型定義 ────────────────────────────────────────────────
 
 type DrinkingStyle = {
-  icon: string
+  imageSrc: string  // /public/ 以下の画像パス
   name: string
   desc: string
 }
@@ -50,17 +50,17 @@ const BEGINNER: SceneData = {
     'ウイスキーを初めて飲む多くの方が、いきなりストレートで飲んで「まずい」と感じてしまいます。ウイスキーの本当の魅力は、正しい飲み方で初めて体験できます。',
   drinkingStyles: [
     {
-      icon: '🥤',
+      imageSrc: '/drinks/highball.jpg',
       name: 'ハイボール',
       desc: 'ウイスキー1:ソーダ3〜4。最もとっつきやすく、食事にも合う。炭酸の爽快感がアルコールの刺激を和らげる。',
     },
     {
-      icon: '💧',
+      imageSrc: '/drinks/mizuwari.jpg',
       name: '水割り',
       desc: 'ウイスキー1:水2〜2.5。アルコールが和らいで飲みやすい。ゆっくりと香りを楽しみながら飲める。',
     },
     {
-      icon: '🧊',
+      imageSrc: '/drinks/rock.jpg',
       name: 'ロック',
       desc: '氷で冷やすことで香りが落ち着き、甘みが引き立つ。少しずつ溶ける氷で味わいの変化も楽しめる。',
     },
@@ -125,17 +125,6 @@ const BEGINNER: SceneData = {
       price: '2,500円〜',
       amazonKeyword: 'メーカーズマーク バーボン',
       rakutenKeyword: 'メーカーズマーク バーボン',
-      bottleSlug: null,
-    },
-    {
-      rank: 6,
-      name: '黒霧島（麦）',
-      region: '焼酎',
-      tags: ['麦焼酎', '飲みやすい'],
-      reason: 'ウイスキーが苦手な方でも飲みやすい麦焼酎',
-      price: '1,500円〜',
-      amazonKeyword: '黒霧島 麦焼酎',
-      rakutenKeyword: '黒霧島 麦焼酎',
       bottleSlug: null,
     },
   ],
@@ -243,7 +232,14 @@ export default async function ScenePage({
               <div className="subStyleCards">
                 {data.drinkingStyles.map((s) => (
                   <div key={s.name} className="subStyleCard">
-                    <span className="subStyleCardIcon">{s.icon}</span>
+                    <div className="subStyleCardImgWrap">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={s.imageSrc}
+                        alt={s.name}
+                        className="subStyleCardImg"
+                      />
+                    </div>
                     <p className="subStyleCardName">{s.name}</p>
                     <p className="subStyleCardDesc">{s.desc}</p>
                   </div>

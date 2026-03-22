@@ -1033,27 +1033,41 @@ input[type='range'] {
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 20px 18px;
+  overflow: hidden;
   text-align: center;
+  transition: border-color 0.2s;
 }
 
-.subStyleCardIcon {
-  font-size: 2rem;
+.subStyleCard:hover {
+  border-color: rgba(200, 254, 8, 0.3);
+}
+
+.subStyleCardImgWrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--surface3);
+}
+
+.subStyleCardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
-  margin-bottom: 10px;
 }
 
 .subStyleCardName {
   font-size: 0.9375rem;
   font-weight: 700;
   color: var(--text1);
-  margin-bottom: 6px;
+  margin: 14px 18px 6px;
 }
 
 .subStyleCardDesc {
   font-size: 0.8125rem;
   color: var(--text2);
   line-height: 1.6;
+  padding: 0 18px 18px;
 }
 
 /* ── 銘柄カードグリッド ── */
