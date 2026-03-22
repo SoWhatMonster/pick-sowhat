@@ -12,6 +12,7 @@ export const SCENES: { icon: string; label: string }[] = [
   { icon: '🌙', label: 'ひとりで静かに' },
   { icon: '🔥', label: '誰かと語りたい' },
   { icon: '🍽', label: '食事と合わせたい' },
+  { icon: '🫧', label: 'ハイボールで飲みたい' },
   { icon: '☀️', label: '昼からゆっくりと' },
   { icon: '😤', label: '仕事終わり、気分転換' },
   { icon: '🌊', label: '自然の中で飲みたい' },
