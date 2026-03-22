@@ -29,11 +29,20 @@ export const metadata: Metadata = {
     siteName: 'SO WHAT Pick',
     locale: 'ja_JP',
     type: 'website',
+    images: [
+      {
+        url: '/og-whisky.png',
+        width: 1200,
+        height: 630,
+        alt: 'SO WHAT Pick — Whisky & Shochu | Find Your Perfect Bottle.',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'SO WHAT Pick — Whisky & Shochu',
     description: 'シーン・気分・フレーバーから、あなたにぴったりのウイスキー・焼酎をAIがレコメンド。',
+    images: ['/og-whisky.png'],
   },
 }
 
