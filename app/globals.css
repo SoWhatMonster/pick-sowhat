@@ -117,6 +117,7 @@ input[type='range'] {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .dailyPickImg {
@@ -150,7 +151,9 @@ input[type='range'] {
 
 @media (max-width: 640px) {
   .dailyPickCard {
+    width: 160px;
     min-width: 160px;
+    flex-shrink: 0;
   }
 }
 
