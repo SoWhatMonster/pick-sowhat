@@ -61,6 +61,149 @@ input[type='range'] {
 }
 
 /* ============================================================
+   Phase 3 — 今日のおすすめ10本
+   ============================================================ */
+
+.dailyPicksSection {
+  background: var(--surface);
+}
+
+.dailyPicksDate {
+  font-size: 0.8125rem;
+  color: var(--text2);
+  margin-bottom: 24px;
+  letter-spacing: 0.02em;
+}
+
+.dailyPicksScrollWrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.dailyPicksScrollWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.dailyPicksGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .dailyPicksGrid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .dailyPicksGrid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    min-width: max-content;
+  }
+}
+
+.dailyPickCard {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s, background 0.2s;
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .dailyPickCard {
+    min-width: 160px;
+  }
+}
+
+.dailyPickCard:hover {
+  border-color: rgba(200, 254, 8, 0.4);
+  background: var(--surface3);
+}
+
+.dailyPickRank {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.dailyPickName {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text1);
+  line-height: 1.4;
+  flex: 1;
+}
+
+.dailyPickTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.dailyPickTag {
+  font-size: 0.625rem;
+  padding: 2px 7px;
+  border: 0.5px solid var(--border);
+  border-radius: 20px;
+  color: var(--text2);
+  white-space: nowrap;
+}
+
+.dailyPickBtns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.dailyPickAmazon {
+  display: block;
+  padding: 7px 4px;
+  background: #ff9900;
+  color: #111;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.dailyPickAmazon:hover {
+  opacity: 0.85;
+}
+
+.dailyPickRakuten {
+  display: block;
+  padding: 7px 4px;
+  background: var(--rakuten-red);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.dailyPickRakuten:hover {
+  opacity: 0.85;
+}
+
+/* ============================================================
    Static Sections — Phase 1 (Style Guide, Scenes, SEO, FAQ, Feedback)
    ============================================================ */
 

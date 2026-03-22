@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import StepFlow from '@/components/pick/StepFlow'
+import DailyPicks from './DailyPicks'
 
 export const metadata: Metadata = {
   title: 'SO WHAT Pick — Whisky & Shochu | 今、最高の1本を見つける',
@@ -146,6 +148,11 @@ export default function WhiskyPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <StepFlow />
+
+      {/* ── Phase 3：今日のおすすめ10本 ── */}
+      <Suspense fallback={null}>
+        <DailyPicks />
+      </Suspense>
 
       {/* ── Phase 1：産地・スタイルガイド ── */}
       <section className="staticSection styleGuideSection" aria-label="スタイルガイド">
