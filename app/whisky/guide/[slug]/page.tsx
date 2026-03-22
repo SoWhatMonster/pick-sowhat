@@ -40,6 +40,19 @@ type HeroImage = {
   credit?: string
 }
 
+type Brand = {
+  nameJa: string            // ブランド名（日本語）
+  nameEn: string            // ブランド名（英語）
+  founded: number           // 創業年
+  region: string            // 産地
+  flavorTags: string[]      // フレーバータグ
+  desc: string              // ブランド解説（2〜3文）
+  signature: string         // 代表的な銘柄・表現
+  bottleSlug?: string | null // ボトル画像スラッグ
+  amazonKeyword: string
+  rakutenKeyword: string
+}
+
 type GuideData = {
   slug: string
   flag: string             // 国旗絵文字
@@ -52,6 +65,7 @@ type GuideData = {
   regions?: Region[]
   compareLeft?: CompareCol
   compareRight?: CompareCol
+  brandProfiles?: Brand[]
   beginnerTip?: string
   bottles: BottleData[]
   faqItems?: { q: string; a: string }[]
@@ -139,6 +153,80 @@ const SCOTCH: GuideData = {
     amazonKeyword: 'グレーンウイスキー スコッチ',
     rakutenKeyword: 'グレーンウイスキー スコッチ',
   },
+  brandProfiles: [
+    {
+      nameJa: 'グレンフィディック',
+      nameEn: 'Glenfiddich',
+      founded: 1887,
+      region: 'スペイサイド',
+      flavorTags: ['洋梨', 'リンゴ', 'バニラ', '蜂蜜'],
+      desc: 'ウィリアム・グラント一家が1887年に創業した、世界で最も売れているシングルモルト。スペイサイドを代表する蒸留所であり、三角形のボトルとそのフルーティな風味は世界中で愛されている。クリーンで洗練されたスタイルはスコッチ入門に最適。',
+      signature: 'グレンフィディック 12年（洋梨・ハチミツ）、18年（リッチ・複雑）',
+      bottleSlug: 'glenfiddich12',
+      amazonKeyword: 'グレンフィディック ウイスキー',
+      rakutenKeyword: 'グレンフィディック ウイスキー',
+    },
+    {
+      nameJa: 'グレンリベット',
+      nameEn: 'The Glenlivet',
+      founded: 1824,
+      region: 'スペイサイド',
+      flavorTags: ['柑橘', 'トロピカル', '草花', '甘め'],
+      desc: 'スコッチウイスキーの政府公認を受けた最初の蒸留所（1824年）。スペイサイドの典型ともいえる、甘くフルーティで上品なスタイルが特徴。世界第2位の販売量を誇り、バランスの取れた味わいから「入門用スコッチの定番」として長年親しまれている。',
+      signature: 'グレンリベット 12年（柑橘・フローラル）、15年（フレンチオーク熟成）',
+      bottleSlug: null,
+      amazonKeyword: 'グレンリベット ウイスキー',
+      rakutenKeyword: 'グレンリベット ウイスキー',
+    },
+    {
+      nameJa: 'マッカラン',
+      nameEn: 'The Macallan',
+      founded: 1824,
+      region: 'スペイサイド',
+      flavorTags: ['シェリー', 'ドライフルーツ', 'スパイス', 'チョコレート'],
+      desc: '「シェリー樽の王」と称される、スコッチウイスキーの最高峰ブランド。スペイン産シェリー樽を使った熟成にこだわり、豊かなフルーツ香とリッチな甘みが世界中の愛好家を魅了する。コレクターズアイテムとしても人気が高く、希少なボトルはオークションで高値がつく。',
+      signature: 'マッカラン 12年 ダブルカスク、18年 シェリーオーク（熟成感が際立つ逸品）',
+      bottleSlug: 'macallan12dc',
+      amazonKeyword: 'マッカラン ウイスキー',
+      rakutenKeyword: 'マッカラン ウイスキー',
+    },
+    {
+      nameJa: 'グレンモーレンジィ',
+      nameEn: 'Glenmorangie',
+      founded: 1843,
+      region: 'ハイランド',
+      flavorTags: ['フローラル', '白桃', 'バニラ', '繊細'],
+      desc: 'スコットランド北部ハイランドの老舗蒸留所。スコッチ業界最長クラスのポットスチルを使用することで、軽やかでフローラルな個性的なスタイルを実現。多彩な樽フィニッシュ（ポートウッド、ネクター・ドール等）のシリーズはウイスキーの幅広い可能性を示している。',
+      signature: 'グレンモーレンジィ オリジナル（入門向け）、ネクター・ドール（ソーテルヌ樽仕上げ）',
+      bottleSlug: null,
+      amazonKeyword: 'グレンモーレンジィ ウイスキー',
+      rakutenKeyword: 'グレンモーレンジィ ウイスキー',
+    },
+    {
+      nameJa: 'ボウモア',
+      nameEn: 'Bowmore',
+      founded: 1779,
+      region: 'アイラ',
+      flavorTags: ['スモーク', 'シーウィード', 'ダークフルーツ', '複雑'],
+      desc: '1779年創業のアイラ島最古の蒸留所のひとつ。アイラのスモーキーさを持ちながら、シェリー樽熟成によるフルーツ感も兼ね備えたバランス派。「アイラの女王」とも称され、ラフロイグやアードベッグほど強烈ではないが、奥深い複雑さはウイスキー上級者をも唸らせる。',
+      signature: 'ボウモア 12年（バランス派の入口）、18年（深みとエレガンスの両立）',
+      bottleSlug: null,
+      amazonKeyword: 'ボウモア ウイスキー',
+      rakutenKeyword: 'ボウモア ウイスキー',
+    },
+    {
+      nameJa: 'ラフロイグ',
+      nameEn: 'Laphroaig',
+      founded: 1815,
+      region: 'アイラ',
+      flavorTags: ['強烈なスモーク', 'ヨード', '海塩', '薬品香'],
+      desc: 'スコッチウイスキーの中でもとりわけ個性的なアイラモルトの代名詞。「好きか嫌いかがはっきり分かれる」と言われるほど独特のスモーキー&ヨード香は、一度体験すると忘れられない。チャールズ国王（当時皇太子）が愛飲し、王室御用達の称号「ロイヤル・ワラント」を授与されたことでも有名。',
+      signature: 'ラフロイグ 10年（アイラスタイルの原点）、クォーターカスク（甘みと煙のバランス）',
+      bottleSlug: null,
+      amazonKeyword: 'ラフロイグ ウイスキー',
+      rakutenKeyword: 'ラフロイグ ウイスキー',
+    },
+  ],
   beginnerTip:
     'スコッチ初心者にはスペイサイドモルトがおすすめ。クセが少なくフルーティで、ウイスキーの基本的な魅力を無理なく体験できます。',
   bottles: [
@@ -391,7 +479,78 @@ export default async function GuidePage({
           </section>
         )}
 
-        {/* ── 4. 初心者へのヒント ── */}
+        {/* ── 4. 主要ブランド解説 ── */}
+        {data.brandProfiles && (
+          <section className="subSection">
+            <div className="subInner">
+              <h2 className="subSectionTitle">主要ブランド解説</h2>
+              <div className="subBrandGrid">
+                {data.brandProfiles.map((brand) => {
+                  const imgExt = brand.bottleSlug === 'chita' ? 'png' : 'jpg'
+                  const amazonUrl = buildAmazonUrl(brand.amazonKeyword, AMAZON_TAG)
+                  const rakutenUrl = buildRakutenUrl(brand.rakutenKeyword, RAKUTEN_ID)
+                  return (
+                    <div key={brand.nameEn} className="subBrandCard">
+                      {/* ボトル画像 */}
+                      <div className="subBrandImgWrap">
+                        {brand.bottleSlug ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={`/bottles/${brand.bottleSlug}.${imgExt}`}
+                            alt={brand.nameJa}
+                            className="subBrandImg"
+                          />
+                        ) : (
+                          <div className="subBrandImgFallback">🥃</div>
+                        )}
+                      </div>
+
+                      {/* テキストエリア */}
+                      <div className="subBrandBody">
+                        <div className="subBrandMeta">
+                          <span className="subBrandRegion">{brand.region}</span>
+                          <span className="subBrandFounded">Est. {brand.founded}</span>
+                        </div>
+                        <h3 className="subBrandNameJa">{brand.nameJa}</h3>
+                        <p className="subBrandNameEn">{brand.nameEn}</p>
+                        <div className="subBrandFlavorTags">
+                          {brand.flavorTags.map((t) => (
+                            <span key={t} className="subBrandFlavorTag">{t}</span>
+                          ))}
+                        </div>
+                        <p className="subBrandDesc">{brand.desc}</p>
+                        <p className="subBrandSignature">
+                          <span className="subBrandSignatureLabel">代表銘柄：</span>
+                          {brand.signature}
+                        </p>
+                        <div className="subBrandBtns">
+                          <a
+                            href={amazonUrl}
+                            target="_blank"
+                            rel="noopener noreferrer nofollow"
+                            className="subBtnAmazon"
+                          >
+                            Amazon
+                          </a>
+                          <a
+                            href={rakutenUrl}
+                            target="_blank"
+                            rel="noopener noreferrer nofollow"
+                            className="subBtnRakuten"
+                          >
+                            楽天
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ── 6. 初心者へのヒント ── */}
         {data.beginnerTip && (
           <section className="subSection">
             <div className="subInner">
@@ -401,7 +560,7 @@ export default async function GuidePage({
           </section>
         )}
 
-        {/* ── 5. おすすめ銘柄 ── */}
+        {/* ── 7. おすすめ銘柄 ── */}
         <section className="subSection">
           <div className="subInner">
             <h2 className="subSectionTitle">おすすめ銘柄</h2>

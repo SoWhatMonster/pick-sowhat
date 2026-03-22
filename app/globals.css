@@ -1278,6 +1278,148 @@ input[type='range'] {
 
 .subCTABtn:hover { opacity: 0.85; }
 
+/* ── 主要ブランド解説 ── */
+.subBrandGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.subBrandCard {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.subBrandCard:hover {
+  border-color: rgba(200, 254, 8, 0.3);
+}
+
+.subBrandImgWrap {
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  padding: 12px;
+  flex-shrink: 0;
+}
+
+.subBrandImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  max-height: 220px;
+}
+
+.subBrandImgFallback {
+  font-size: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 160px;
+  background: #ffffff;
+}
+
+.subBrandBody {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.subBrandMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.subBrandRegion {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.subBrandFounded {
+  font-size: 0.6875rem;
+  color: var(--text3);
+  letter-spacing: 0.05em;
+}
+
+.subBrandNameJa {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text1);
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.subBrandNameEn {
+  font-size: 0.8125rem;
+  color: var(--text2);
+  font-style: italic;
+  margin-bottom: 2px;
+}
+
+.subBrandFlavorTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.subBrandFlavorTag {
+  font-size: 0.6875rem;
+  padding: 2px 8px;
+  background: var(--accent-dim);
+  border: 0.5px solid rgba(200, 254, 8, 0.25);
+  border-radius: 20px;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.subBrandDesc {
+  font-size: 0.8125rem;
+  color: var(--text2);
+  line-height: 1.75;
+}
+
+.subBrandSignature {
+  font-size: 0.75rem;
+  color: var(--text2);
+  line-height: 1.5;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+}
+
+.subBrandSignatureLabel {
+  color: var(--text1);
+  font-weight: 600;
+}
+
+.subBrandBtns {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.subBrandBtns .subBtnAmazon,
+.subBrandBtns .subBtnRakuten {
+  padding: 7px 16px;
+  font-size: 0.75rem;
+}
+
 /* ── レスポンシブ ── */
 @media (max-width: 640px) {
   .subWordmarkSub {
@@ -1324,6 +1466,37 @@ input[type='range'] {
   .subBottleGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+  }
+
+  .subBrandCard {
+    grid-template-columns: 100px 1fr;
+  }
+
+  .subBrandImgWrap {
+    min-height: 140px;
+    padding: 10px;
+  }
+
+  .subBrandBody {
+    padding: 14px 16px;
+    gap: 4px;
+  }
+
+  .subBrandNameJa {
+    font-size: 1rem;
+  }
+
+  .subBrandDesc {
+    font-size: 0.75rem;
+    /* モバイルでは2行程度に省略 */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .subBrandBtns {
+    flex-wrap: wrap;
   }
 
   .subCTAInner {
