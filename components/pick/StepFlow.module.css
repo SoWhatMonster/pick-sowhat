@@ -914,9 +914,16 @@
   }
 
   /* ── おみくじモーダル ── */
+  .omikujiOverlay {
+    padding: 16px;
+  }
+
   .omikujiModal {
-    padding: 24px 18px 20px;
-    margin: 0 4px;
+    padding: 24px 16px 20px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   .omikujiImageWrap {
@@ -1187,6 +1194,8 @@
   font-family: var(--font-ui);
   transition: border-color 0.2s;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   color-scheme: dark;
 }
 
