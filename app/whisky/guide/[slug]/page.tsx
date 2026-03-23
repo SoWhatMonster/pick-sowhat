@@ -997,7 +997,7 @@ const NEW_WORLD: GuideData = {
   titleJa: 'ニューワールドウイスキー',
   titleEn: 'New World Whisky Guide',
   intro: 'スコットランド・アイルランド・アメリカ・日本という「伝統4大産地」以外で造られるウイスキーの総称。台湾・インド・オーストラリア・スウェーデン・ウェールズなど世界50カ国以上で蒸留が行われるようになり、2010年代から急速に品質が向上。独自の気候や原料を活かした個性が「次の名産地」として世界中のウイスキーファンの注目を集めている。',
-  heroImage: { src: '/distillery/newworld.jpg', alt: '日の出とともに雲の中から現れる山頂', credit: 'Photo by Marek Piwnicki on Unsplash', creditUrl: 'https://unsplash.com/photos/ghMXd_muObI', objectPosition: 'center center' },
+  heroImage: { src: '/distillery/newworld.jpg', alt: '夜明けに雲の海から山々が現れる', credit: 'Photo by ki Zhang on Unsplash', creditUrl: 'https://unsplash.com/photos/Nk9AlZ5WPu8', objectPosition: 'center center' },
   regions: [
     { name: '台湾（カバラン）', desc: '亜熱帯の高温多湿が熟成を加速させ、創業わずか数年で世界最高賞を受賞。フルーティで濃厚なトロピカル風味が特徴。', brands: 'カバラン ソリスト、カバラン クラシック', amazonKeyword: 'カバラン ウイスキー', rakutenKeyword: 'カバラン ウイスキー' },
     { name: 'インド（アムルット・ポールジョン）', desc: 'ヒマラヤの清冽な水と高地の寒暖差がユニークな熟成をもたらす。スパイシーかつフルーティな個性でスコッチ通も唸らせる。', brands: 'アムルット フュージョン、ポールジョン ビリーブ', amazonKeyword: 'アムルット インドウイスキー', rakutenKeyword: 'アムルット ウイスキー' },
