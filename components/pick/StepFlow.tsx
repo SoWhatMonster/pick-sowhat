@@ -323,7 +323,7 @@ export default function StepFlow() {
           style={{ backgroundImage: `url(${heroImage.current})` }}
         >
           <div className={styles.heroContent}>
-            <div className={styles.label}>{TEXT.step0.label}</div>
+            <div className={styles.heroLabel}>{TEXT.step0.label}</div>
 
             <div className={styles.heroSection}>
               <div className={styles.spiritBadges}>

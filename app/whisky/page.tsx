@@ -6,7 +6,7 @@ import DailyPicks from './DailyPicks'
 import SceneCarousel from './SceneCarousel'
 
 export const metadata: Metadata = {
-  title: 'SO WHAT Pick — Whisky & Shochu | 今、最高の1本を見つける',
+  title: 'SO WHAT Pick — Whisky & Shochu | 今日、運命の1本を見つける',
   description:
     'シーン・気分・フレーバーから、あなたにぴったりのウイスキー・焼酎を3本AIがレコメンド。ギフト選びにも対応。アイラ・ジャパニーズ・バーボン・芋焼酎など幅広く対応。Amazon・楽天でそのまま購入できます。',
   keywords: [
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     // Phase 2: { en: 'https://pick.sowhat.monster/en/whisky' }
   },
   openGraph: {
-    title: 'SO WHAT Pick — Whisky & Shochu | 今、最高の1本を見つける',
+    title: 'SO WHAT Pick — Whisky & Shochu | 今日、運命の1本を見つける',
     description:
       'シーン・気分・フレーバーから、あなたにぴったりのウイスキー・焼酎を3本AIがレコメンド。ギフト選びにも対応。',
     url: 'https://pick.sowhat.monster/whisky',

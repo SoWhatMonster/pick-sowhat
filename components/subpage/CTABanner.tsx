@@ -8,7 +8,7 @@ export default function CTABanner() {
   return (
     <section className="subCTABanner" aria-label="AI診断">
       <div className="subCTAInner">
-        <p className="subCTAText">あなたにぴったりの1本をAIが選ぶ</p>
+        <p className="subCTAText">今日、運命の1本をAIが選ぶ</p>
         <Link href="/whisky" className="subCTABtn">
           今すぐ診断する →
         </Link>

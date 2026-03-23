@@ -20,7 +20,7 @@ export const TEXT = {
   },
 
   step0: {
-    label: '今、最高の1本を見つける',
+    label: '今日、運命の1本を見つける',
     tagline: 'Find Your Perfect Bottle.',
     spirits: ['WHISKY', 'SHOCHU'] as const,
     sub: 'ウイスキーと焼酎から、シーン・気分・フレーバーをもとにAIがあなただけの1本を提案。',

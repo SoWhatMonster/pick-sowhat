@@ -146,6 +146,17 @@
   animation: fadeInUp 0.55s ease both;
 }
 
+/* ── ヒーロー大見出し（step0専用） ── */
+.heroLabel {
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-bottom: 14px;
+  font-family: var(--font-heading);
+  line-height: 1.2;
+}
+
 /* ── ラベル（eyebrow） ── */
 .label {
   font-size: 10px;
