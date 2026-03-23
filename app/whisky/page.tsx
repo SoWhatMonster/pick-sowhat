@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
+import Link from 'next/link'
 import StepFlow from '@/components/pick/StepFlow'
 import DailyPicks from './DailyPicks'
+import SceneCarousel from './SceneCarousel'
 
 export const metadata: Metadata = {
   title: 'SO WHAT Pick — Whisky & Shochu | 今、最高の1本を見つける',
@@ -110,30 +112,30 @@ const faqJsonLd = {
 }
 
 const STYLE_CARDS = [
-  { slug: 'scotch',    icon: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', name: 'スコッチ',         catch: '複雑で奥深い、世界の王道',           brands: 'グレンフィディック、マッカラン' },
-  { slug: 'irish',     icon: '🇮🇪', name: 'アイリッシュ',      catch: 'なめらかで親しみやすい入門酒',         brands: 'ジェムソン、ブッシュミルズ' },
-  { slug: 'japanese',  icon: '🇯🇵', name: 'ジャパニーズ',      catch: '繊細で均整、職人の美学',              brands: '山崎、白州、余市' },
-  { slug: 'american',  icon: '🇺🇸', name: 'バーボン＆アメリカン', catch: '甘くてリッチ、アメリカンスピリット',    brands: 'メーカーズマーク、ジャックダニエル' },
-  { slug: 'newworld',  icon: '🌍', name: 'ニューワールド',    catch: '台湾・インド・欧州、新世代の挑戦',       brands: 'カバラン、アムルット' },
-  { slug: 'imo',       icon: '🍠', name: '芋焼酎',           catch: '個性的な香り、鹿児島の魂',             brands: '森伊蔵、魔王、伊佐美' },
-  { slug: 'mugi',      icon: '🌾', name: '麦焼酎',           catch: 'クセなく飲みやすい万能派',              brands: '二階堂、いいちこ' },
-  { slug: 'kome',      icon: '🍚', name: '米焼酎',           catch: '上品な甘さ、熊本の誇り',               brands: '球磨焼酎、繊月' },
-  { slug: 'kokuto',    icon: '🍬', name: '黒糖焼酎',         catch: '奄美だけの希少な甘さ',                 brands: '里の曙、にしの誉' },
-  { slug: 'other-shochu', icon: '🌿', name: 'その他の焼酎',  catch: 'そば・栗・泡盛、個性派ぞろい',          brands: '雲海（そば）、池の露（栗）' },
+  { slug: 'scotch',       icon: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', name: 'スコッチ',           catch: '複雑で奥深い、世界の王道',           brands: 'グレンフィディック、マッカラン',   guidePath: '/whisky/guide/scotch' },
+  { slug: 'irish',        icon: '🇮🇪', name: 'アイリッシュ',        catch: 'なめらかで親しみやすい入門酒',         brands: 'ジェムソン、ブッシュミルズ',       guidePath: '/whisky/guide/irish' },
+  { slug: 'japanese',     icon: '🇯🇵', name: 'ジャパニーズ',        catch: '繊細で均整、職人の美学',              brands: '山崎、白州、余市',               guidePath: '/whisky/guide/japanese' },
+  { slug: 'american',     icon: '🇺🇸', name: 'バーボン＆アメリカン', catch: '甘くてリッチ、アメリカンスピリット',   brands: 'メーカーズマーク、ジャックダニエル', guidePath: '/whisky/guide/bourbon' },
+  { slug: 'newworld',     icon: '🌍', name: 'ニューワールド',       catch: '台湾・インド・欧州、新世代の挑戦',     brands: 'カバラン、アムルット',            guidePath: null },
+  { slug: 'imo',          icon: '🍠', name: '芋焼酎',             catch: '個性的な香り、鹿児島の魂',             brands: '森伊蔵、魔王、伊佐美',           guidePath: '/whisky/guide/imo' },
+  { slug: 'mugi',         icon: '🌾', name: '麦焼酎',             catch: 'クセなく飲みやすい万能派',             brands: '二階堂、いいちこ',               guidePath: '/whisky/guide/mugi' },
+  { slug: 'kome',         icon: '🍚', name: '米焼酎',             catch: '上品な甘さ、熊本の誇り',              brands: '球磨焼酎、繊月',                guidePath: '/whisky/guide/kome' },
+  { slug: 'kokuto',       icon: '🍬', name: '黒糖焼酎',           catch: '奄美だけの希少な甘さ',                brands: '里の曙、にしの誉',               guidePath: '/whisky/guide/kokuto' },
+  { slug: 'other-shochu', icon: '🌿', name: 'その他の焼酎',        catch: 'そば・栗・泡盛、個性派ぞろい',         brands: '雲海（そば）、池の露（栗）',       guidePath: null },
 ]
 
 const SCENE_CARDS = [
-  { icon: '🔰', name: '初めてウイスキーを飲む',  catch: 'やさしくて飲みやすい入門',      styles: 'アイリッシュ、ハイランド' },
-  { icon: '🌙', name: '夜、ひとりで静かに',       catch: 'スモーキーで落ち着く1本を',     styles: 'アイラスコッチ、芋焼酎' },
-  { icon: '😮‍💨', name: '仕事終わりの一杯',       catch: 'さっと飲める、軽めのやつ',      styles: '米焼酎、グレーンウイスキー' },
-  { icon: '🍽️', name: '食事に合わせたい',        catch: '料理を邪魔しない1本',           styles: 'アイリッシュ、麦焼酎' },
-  { icon: '🫧', name: 'ハイボールにおすすめ',     catch: '炭酸で映える、さっぱり系を',    styles: 'グレーン、バーボン、麦焼酎' },
-  { icon: '🔥', name: 'BBQ・アウトドア',          catch: '外飲みで盛り上がる1本',         styles: 'バーボン、グレーン' },
-  { icon: '♨️', name: '冬にホットで飲む',         catch: '温かく体に染みる1本',           styles: 'アイリッシュ、ジャパニーズ' },
-  { icon: '🌸', name: '女性が自分用に選ぶ',       catch: '甘くて華やか、自分へのご褒美に', styles: 'フルーティスコッチ、ジャパニーズ' },
-  { icon: '🎁', name: '手土産・ちょっとしたギフト', catch: '見栄えよく、予算5,000円以内',  styles: 'バーボン、ジャパニーズ' },
-  { icon: '👔', name: '父の日・敬老の日',          catch: '贈って外さない定番を',          styles: 'ジャパニーズ、スコッチ' },
-  { icon: '🥂', name: '記念日・特別な夜',          catch: '少し奮発するならこれ',          styles: '山崎・白州・マッカラン' },
+  { icon: '🔰', name: '初めてウイスキーを飲む',    catch: 'やさしくて飲みやすい入門',       styles: 'アイリッシュ、ハイランド',          scenePath: '/whisky/scene/beginner' },
+  { icon: '🌙', name: '夜、ひとりで静かに',         catch: 'スモーキーで落ち着く1本を',      styles: 'アイラスコッチ、芋焼酎',            scenePath: null },
+  { icon: '😮‍💨', name: '仕事終わりの一杯',         catch: 'さっと飲める、軽めのやつ',       styles: '米焼酎、グレーンウイスキー',         scenePath: null },
+  { icon: '🍽️', name: '食事に合わせたい',          catch: '料理を邪魔しない1本',            styles: 'アイリッシュ、麦焼酎',             scenePath: '/whisky/scene/food-pairing' },
+  { icon: '🫧', name: 'ハイボールにおすすめ',       catch: '炭酸で映える、さっぱり系を',     styles: 'グレーン、バーボン、麦焼酎',         scenePath: null },
+  { icon: '🔥', name: 'BBQ・アウトドア',            catch: '外飲みで盛り上がる1本',          styles: 'バーボン、グレーン',               scenePath: '/whisky/scene/outdoor' },
+  { icon: '♨️', name: '冬にホットで飲む',           catch: '温かく体に染みる1本',            styles: 'アイリッシュ、ジャパニーズ',         scenePath: '/whisky/scene/winter-night' },
+  { icon: '🌸', name: '女性が自分用に選ぶ',         catch: '甘くて華やか、自分へのご褒美に',  styles: 'フルーティスコッチ、ジャパニーズ',   scenePath: null },
+  { icon: '🎁', name: '手土産・ちょっとしたギフト', catch: '見栄えよく、予算5,000円以内',     styles: 'バーボン、ジャパニーズ',            scenePath: '/whisky/scene/gift' },
+  { icon: '👔', name: '父の日・敬老の日',            catch: '贈って外さない定番を',           styles: 'ジャパニーズ、スコッチ',            scenePath: '/whisky/scene/fathers-day' },
+  { icon: '🥂', name: '記念日・特別な夜',            catch: '少し奮発するならこれ',           styles: '山崎・白州・マッカラン',             scenePath: '/whisky/scene/special' },
 ]
 
 export default function WhiskyPage() {
@@ -162,14 +164,24 @@ export default function WhiskyPage() {
             <p className="sectionSub">Find your style.</p>
           </div>
           <div className="styleGrid">
-            {STYLE_CARDS.map((c) => (
-              <div key={c.slug} className="styleCard" data-slug={c.slug}>
-                <span className="styleIcon">{c.icon}</span>
-                <h3 className="styleName">{c.name}</h3>
-                <p className="styleCatch">{c.catch}</p>
-                <p className="styleBrands">{c.brands}</p>
-              </div>
-            ))}
+            {STYLE_CARDS.map((c) =>
+              c.guidePath ? (
+                <Link key={c.slug} href={c.guidePath} className="styleCard styleCardLink" data-slug={c.slug}>
+                  <span className="styleIcon">{c.icon}</span>
+                  <h3 className="styleName">{c.name}</h3>
+                  <p className="styleCatch">{c.catch}</p>
+                  <p className="styleBrands">{c.brands}</p>
+                  <span className="styleArrow">詳しく →</span>
+                </Link>
+              ) : (
+                <div key={c.slug} className="styleCard" data-slug={c.slug}>
+                  <span className="styleIcon">{c.icon}</span>
+                  <h3 className="styleName">{c.name}</h3>
+                  <p className="styleCatch">{c.catch}</p>
+                  <p className="styleBrands">{c.brands}</p>
+                </div>
+              )
+            )}
           </div>
         </div>
       </section>
@@ -181,18 +193,7 @@ export default function WhiskyPage() {
             <h2 className="sectionTitle">シーン別おすすめ</h2>
             <p className="sectionSub">The right bottle for every moment.</p>
           </div>
-          <div className="sceneScrollWrapper">
-            <div className="sceneGrid">
-              {SCENE_CARDS.map((c) => (
-                <div key={c.name} className="sceneCard">
-                  <span className="sceneIcon">{c.icon}</span>
-                  <p className="sceneName">{c.name}</p>
-                  <p className="sceneCatch">{c.catch}</p>
-                  <p className="sceneStyles">{c.styles}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <SceneCarousel cards={SCENE_CARDS} />
         </div>
       </section>
 

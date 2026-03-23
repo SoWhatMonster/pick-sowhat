@@ -420,6 +420,92 @@ input[type='range'] {
   letter-spacing: 0.02em;
 }
 
+/* ── Scene Carousel PC buttons ── */
+.sceneCarouselOuter {
+  position: relative;
+}
+
+.carouselBtn {
+  display: none; /* mobile: hidden */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text1);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+}
+
+.carouselBtn:hover {
+  background: var(--surface3);
+  border-color: var(--accent);
+}
+
+.carouselBtnLeft  { left:  -20px; }
+.carouselBtnRight { right: -20px; }
+
+.carouselBtnHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (min-width: 561px) {
+  .carouselBtn {
+    display: flex;
+  }
+}
+
+/* ── Style card link ── */
+.styleCardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.styleCardLink:hover {
+  border-color: var(--accent);
+  background: var(--surface3);
+}
+
+.styleArrow {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--accent);
+  margin-top: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* ── Scene card link ── */
+.sceneCardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.sceneCardLink:hover {
+  border-color: var(--accent);
+  background: var(--surface3);
+}
+
+.sceneArrow {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--accent);
+  margin-top: 8px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
 /* ── SEOテキスト ── */
 .seoSection {
   background: var(--surface);
