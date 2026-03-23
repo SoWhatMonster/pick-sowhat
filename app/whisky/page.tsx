@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: 'https://pick.sowhat.monster/og-image.jpg',
+        url: 'https://pick.sowhat.monster/og-whisky.png',
         width: 1200,
         height: 630,
         alt: 'ウイスキー・焼酎AIレコメンド | SO WHAT Pick',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'ウイスキー・焼酎AIレコメンド | SO WHAT Pick',
     description: 'AIがあなたにぴったりのウイスキー・焼酎を診断。シーン・気分・フレーバーを入力するだけ。',
-    images: ['https://pick.sowhat.monster/og-image.jpg'],
+    images: ['https://pick.sowhat.monster/og-whisky.png'],
   },
 }
 
