@@ -338,7 +338,16 @@ export default function StepFlow() {
             <div className={styles.divider} />
 
             <div className={styles.ctaGrid}>
-              {/* こだわり診断 */}
+              {/* おみくじ（上段・全幅） */}
+              <div className={styles.ctaBlock}>
+                <div className={styles.ctaBlockLabel}>✦ AIに全部まかせる</div>
+                <button className={styles.omikujiCta} onClick={openOmikuji} type="button">
+                  <span className={styles.omikujiCtaTitle}>今日の運勢で一発回答</span>
+                  <span className={styles.omikujiCtaSub}>条件なし。今すぐ1本出てくる。</span>
+                </button>
+              </div>
+
+              {/* こだわり診断（下段・2カラム） */}
               <div className={styles.ctaBlock}>
                 <div className={styles.ctaBlockLabel}>条件を指定して探す</div>
                 <div className={styles.splitGrid}>
@@ -353,15 +362,6 @@ export default function StepFlow() {
                     <span className={styles.choiceDesc}>相手の好みに合わせて選ぶ</span>
                   </button>
                 </div>
-              </div>
-
-              {/* おみくじ */}
-              <div className={styles.ctaBlock}>
-                <div className={styles.ctaBlockLabel}>✦ AIに全部まかせる</div>
-                <button className={styles.omikujiCta} onClick={openOmikuji} type="button">
-                  <span className={styles.omikujiCtaTitle}>今日の運勢で一発回答</span>
-                  <span className={styles.omikujiCtaSub}>条件なし。今すぐ1本出てくる。</span>
-                </button>
               </div>
             </div>
 

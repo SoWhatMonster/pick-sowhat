@@ -861,13 +861,11 @@
   display: inline;
 }
 
-/* ── CTA 2列グリッド ── */
+/* ── CTA 縦積みレイアウト（おみくじ上段 → 条件選択下段） ── */
 .ctaGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
-  margin-top: 0;
-  align-items: start;
 }
 
 /* ============================================================
@@ -899,11 +897,6 @@
   .heroSub {
     margin-bottom: 20px;
     font-size: 12px;
-  }
-
-  /* ── CTAグリッド → 1列 ── */
-  .ctaGrid {
-    grid-template-columns: 1fr;
   }
 
   /* choiceBtn 横並びを維持（splitGridはそのまま） */
@@ -964,12 +957,12 @@
 /* ── おみくじCTAボタン ── */
 .omikujiCta {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 6px;
-  padding: 20px 16px;
-  background: var(--surface2);
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 22px 20px;
+  background: rgba(200, 254, 8, 0.06);
   border: 1px solid var(--accent);
   border-radius: 14px;
   cursor: pointer;
@@ -979,12 +972,12 @@
 }
 
 .omikujiCta:hover {
-  background: var(--surface3);
+  background: rgba(200, 254, 8, 0.12);
   transform: translateY(-1px);
 }
 
 .omikujiCtaTitle {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--text1);
   letter-spacing: 0.02em;
@@ -994,6 +987,7 @@
 .omikujiCtaSub {
   font-size: 11px;
   color: var(--text2);
+  white-space: nowrap;
 }
 
 /* ── おみくじモーダル ── */
