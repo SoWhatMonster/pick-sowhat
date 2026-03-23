@@ -113,9 +113,9 @@ const SCOTCH: GuideData = {
     // ──────────────────────────────────────────────────────
     src: '/distillery/scotch.jpg',
     alt: 'スコットランドの蒸留所',
-    objectPosition: 'center center',
-    // credit: 'Photo by [名前] on Unsplash',
-    // creditUrl: 'https://unsplash.com/photos/...',
+    objectPosition: 'center 70%',
+    credit: 'Photo by Alexander Hanssen on Unsplash',
+    creditUrl: 'https://unsplash.com/photos/p17IHRg7K-Q',
   },
   regions: [
     {
@@ -1006,10 +1006,7 @@ export default async function GuidePage({
         {/* ── ページヘッダー ── */}
         <div className="subPageHeader">
           <div className="subInner">
-            <p className="subPageEn">
-              <span className="subPageFlag">{data.flag}</span>
-              {data.titleEn}
-            </p>
+            <p className="subPageEn">{data.titleEn}</p>
             <h1 className="subPageTitle">
               <span className="subPageFlag">{data.flag}</span>
               {data.titleJa}
