@@ -9,13 +9,13 @@ export const RESULT_COUNT = 3
 
 /** STEP 1A: シーン選択 */
 export const SCENES: { icon: string; label: string }[] = [
-  { icon: '🌙', label: 'ひとりで静かに' },
-  { icon: '🔥', label: '誰かと語りたい' },
+  { icon: '🌙', label: 'ひとりにさせてくれ' },
+  { icon: '🔥', label: '誰かに愚痴りたい' },
   { icon: '🍽', label: '食事と合わせたい' },
   { icon: '🫧', label: 'ハイボールで飲みたい' },
-  { icon: '☀️', label: '昼からゆっくりと' },
-  { icon: '😤', label: '仕事終わり、気分転換' },
-  { icon: '🌊', label: '自然の中で飲みたい' },
+  { icon: '☀️', label: '昼からダラダラ飲みたい' },
+  { icon: '🎉', label: '仕事終わり、パーティだ！' },
+  { icon: '🌊', label: '宇宙や自然と一体になりたい' },
   { icon: '🥂', label: '飲み比べをしたい' },
 ]
 

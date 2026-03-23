@@ -38,7 +38,7 @@ export const TEXT = {
 
   step1Self: {
     label: 'STEP 1 / シーン',
-    title: '今はどんな\nシーンですか？',
+    title: '今はどんな\n気分？',
     seasonNote: (season: string) => `📍 現在の季節（${season}）を自動で考慮します`,
     next: '次へ →',
     back: '← 戻る',
