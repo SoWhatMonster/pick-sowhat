@@ -756,7 +756,7 @@ const MUGI: GuideData = {
   titleJa: '麦焼酎',
   titleEn: 'Mugi Shochu Guide',
   intro: '大麦を主原料とした本格焼酎。芋焼酎に比べてクセが少なくすっきりとした風味で、焼酎の中で最も日常的に飲まれている種類の一つ。大分県・長崎県（壱岐）が二大産地で、常圧蒸留と減圧蒸留によって全く異なる個性が生まれる。',
-  heroImage: { src: '/distillery/mugi.jpg', alt: '麦焼酎の蒸留所' },
+  heroImage: { src: '/distillery/mugi.jpg', alt: '麦焼酎の風景', objectPosition: 'center center' },
   regions: [
     { name: '大分県', desc: '麦焼酎の最大産地。「いいちこ」「二階堂」「吉四六」など全国ブランドを輩出する本場。', brands: 'いいちこ、二階堂、吉四六、兼八', amazonKeyword: '大分 麦焼酎', rakutenKeyword: '大分 麦焼酎' },
     { name: '長崎県（壱岐）', desc: '壱岐島は麦焼酎発祥の地とされる。米麹2/3・麦1/3という独自の製法が「壱岐焼酎」として地理的表示認定を受けている。', brands: '壱岐の蔵、玄海、壱岐ゴールド', amazonKeyword: '壱岐 麦焼酎', rakutenKeyword: '壱岐 麦焼酎' },
@@ -822,7 +822,7 @@ const KOME: GuideData = {
   titleJa: '米焼酎',
   titleEn: 'Kome Shochu Guide',
   intro: '米を主原料とした本格焼酎で、日本酒に近い甘みとフルーティな香りが特徴。熊本県球磨地方が最も有名な産地で、「球磨焼酎」として地理的表示が認定されている。清酒の製造技術がベースにあるため、発酵・蒸留のコントロールが精緻で品質の高い銘柄が多い。',
-  heroImage: { src: '/distillery/kome.jpg', alt: '米焼酎の蒸留所' },
+  heroImage: { src: '/distillery/kome.jpg', alt: '山を背景に野原に立つ人', credit: 'Photo by Jinomono Media on Unsplash', creditUrl: 'https://unsplash.com/photos/HQnY0twPFkc', objectPosition: 'center center' },
   regions: [
     { name: '熊本県（球磨地方）', desc: '米焼酎の聖地。球磨川の清冽な水と地元産のヒノヒカリを使う球磨焼酎は「日本のラム」と呼ばれることも。', brands: '白岳、繊月、球磨の泉、豊永蔵', amazonKeyword: '球磨 米焼酎 熊本', rakutenKeyword: '球磨焼酎 米' },
     { name: '宮崎県', desc: '米焼酎においても宮崎は独自の個性を持つ産地。豊かな自然の恵みと独自技術が個性ある銘柄を生む。', brands: '鳥飼、宮崎 米焼酎', amazonKeyword: '鳥飼 米焼酎 宮崎', rakutenKeyword: '宮崎 米焼酎' },
@@ -883,7 +883,7 @@ const KOKUTO: GuideData = {
   titleJa: '黒糖焼酎',
   titleEn: 'Kokuto Shochu Guide',
   intro: '鹿児島県奄美群島のみで製造が認められた特産焼酎。サトウキビから作られた黒糖と米麹を使うことで、ラム酒に似た甘い香りと本格焼酎の個性を兼ね備えた唯一無二の酒が生まれる。奄美大島の温暖な気候と豊かな自然が育む、南国の恵みを感じられる焼酎。',
-  heroImage: { src: '/distillery/kokuto.jpg', alt: '黒糖焼酎の蒸留所' },
+  heroImage: { src: '/distillery/kokuto.jpg', alt: '黒糖焼酎の風景', objectPosition: 'center center' },
   regions: [
     { name: '奄美大島', desc: '黒糖焼酎の中心地。島全体に多くの蔵元が点在し、各蔵が独自のこだわりを持った多様な銘柄を生産している。', brands: '里の曙、龍宮、奄美、れんと', amazonKeyword: '奄美大島 黒糖焼酎', rakutenKeyword: '奄美大島 黒糖焼酎' },
     { name: '喜界島', desc: '奄美群島の一島・喜界島で造られる黒糖焼酎。サトウキビの生産が盛んな島ならではの豊かな黒糖風味が特徴。', brands: '喜界島 焼酎、朝日', amazonKeyword: '喜界島 黒糖焼酎', rakutenKeyword: '喜界島 黒糖焼酎' },
