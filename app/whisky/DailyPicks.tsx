@@ -102,7 +102,7 @@ ${BOTTLE_CATALOG_TEXT}
 
   const message = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
-    max_tokens: 1400,
+    max_tokens: 2400,
     temperature: 1,
     system: systemPrompt,
     messages: [{ role: 'user', content: `今日の日付: ${date}\nこの日付をシードとして、前日と異なる構成にすること。\n今日（${date}）のおすすめウイスキー・焼酎10本を選んでください。` }],
