@@ -917,6 +917,21 @@
     padding: 0 16px 48px;
   }
 
+  /* ── おみくじCTA モバイル：縦積み・改行表示 ── */
+  .omikujiCta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .omikujiCtaSub {
+    white-space: normal;
+  }
+
+  .omikujiCtaBr {
+    display: inline;
+  }
+
   /* ── おみくじモーダル ── */
   .omikujiOverlay {
     padding: 16px;
@@ -988,6 +1003,11 @@
   font-size: 11px;
   color: var(--text2);
   white-space: nowrap;
+}
+
+/* PC では改行しない */
+.omikujiCtaBr {
+  display: none;
 }
 
 /* ── おみくじモーダル ── */
