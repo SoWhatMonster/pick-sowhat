@@ -8,6 +8,8 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import SubpageTopbar from '@/components/subpage/SubpageTopbar'
 import Breadcrumb from '@/components/subpage/Breadcrumb'
+import SubpageNav, { type SubpageNavItem } from '@/components/subpage/SubpageNav'
+import RelatedPages, { type RelatedPageItem } from '@/components/subpage/RelatedPages'
 import BottleCard, { type BottleData } from '@/components/subpage/BottleCard'
 import CTABanner from '@/components/subpage/CTABanner'
 import SubpageFooter from '@/components/subpage/SubpageFooter'
@@ -15,6 +17,19 @@ import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
 
 const AMAZON_TAG = process.env.AMAZON_ASSOCIATE_TAG ?? ''
 const RAKUTEN_ID = process.env.RAKUTEN_AFFILIATE_ID ?? ''
+
+// ── ナビゲーションデータ ──────────────────────────────────
+
+const GUIDE_NAV_ITEMS: (SubpageNavItem & { desc: string })[] = [
+  { slug: 'scotch',   label: 'スコッチ',       emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', desc: '5大産地・20ブランドを徹底解説' },
+  { slug: 'bourbon',  label: 'バーボン',       emoji: '🇺🇸', desc: '甘くリッチなアメリカンウイスキー' },
+  { slug: 'japanese', label: 'ジャパニーズ',   emoji: '🇯🇵', desc: '山崎・白州など国産ウイスキーを解説' },
+  { slug: 'irish',    label: 'アイリッシュ',   emoji: '🇮🇪', desc: '3回蒸留のなめらかな味わい' },
+  { slug: 'imo',      label: '芋焼酎',         emoji: '🍠', desc: '鹿児島・宮崎の本格芋焼酎' },
+  { slug: 'mugi',     label: '麦焼酎',         emoji: '🌾', desc: '大分・長崎発のクリーンな麦焼酎' },
+  { slug: 'kome',     label: '米焼酎',         emoji: '🍚', desc: '熊本・球磨の米焼酎' },
+  { slug: 'kokuto',   label: '黒糖焼酎',       emoji: '🏝️', desc: '奄美大島限定の特産焼酎' },
+]
 
 // ── 型定義 ────────────────────────────────────────────────
 
@@ -970,6 +985,12 @@ export default async function GuidePage({
     <div className="subpageWrap">
       <SubpageTopbar />
       <Breadcrumb items={breadcrumbs} />
+      <SubpageNav
+        items={GUIDE_NAV_ITEMS}
+        basePath="/whisky/guide"
+        currentSlug={slug}
+        categoryLabel="スタイルガイド"
+      />
 
       <main>
         {/* ── ページヘッダー ── */}
@@ -1172,6 +1193,12 @@ export default async function GuidePage({
         </section>
       </main>
 
+      <RelatedPages
+        items={GUIDE_NAV_ITEMS}
+        basePath="/whisky/guide"
+        currentSlug={slug}
+        title="他のスタイルガイドを見る"
+      />
       <CTABanner />
       <SubpageFooter />
     </div>

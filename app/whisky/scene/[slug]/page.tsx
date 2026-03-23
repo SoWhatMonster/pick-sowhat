@@ -8,6 +8,8 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import SubpageTopbar from '@/components/subpage/SubpageTopbar'
 import Breadcrumb from '@/components/subpage/Breadcrumb'
+import SubpageNav, { type SubpageNavItem } from '@/components/subpage/SubpageNav'
+import RelatedPages, { type RelatedPageItem } from '@/components/subpage/RelatedPages'
 import BottleCard, { type BottleData } from '@/components/subpage/BottleCard'
 import CTABanner from '@/components/subpage/CTABanner'
 import SubpageFooter from '@/components/subpage/SubpageFooter'
@@ -144,6 +146,18 @@ const BEGINNER: SceneData = {
     },
   ],
 }
+
+// ── ナビゲーションデータ ──────────────────────────────────
+
+const SCENE_NAV_ITEMS: (SubpageNavItem & { desc: string })[] = [
+  { slug: 'beginner',     label: '初めてのウイスキー', emoji: '🥃', desc: '入門者向け飲み方・銘柄ガイド' },
+  { slug: 'gift',         label: 'ギフト・手土産',     emoji: '🎁', desc: '喜ばれるウイスキーの選び方' },
+  { slug: 'winter-night', label: '冬の夜',             emoji: '🌙', desc: 'ホット・ストレートで温まる1本' },
+  { slug: 'fathers-day',  label: '父の日・敬老の日',   emoji: '👔', desc: 'お父さんへの感謝の1本' },
+  { slug: 'food-pairing', label: '食事に合わせたい',   emoji: '🍽️', desc: '料理に合うウイスキー・焼酎' },
+  { slug: 'outdoor',      label: 'BBQ・アウトドア',    emoji: '🔥', desc: '外で飲む爽快な1本' },
+  { slug: 'special',      label: '記念日・特別な夜',   emoji: '✨', desc: 'とっておきの特別な1本' },
+]
 
 // ── シーンデータマップ ────────────────────────────────────
 
@@ -407,6 +421,12 @@ export default async function ScenePage({
     <div className="subpageWrap">
       <SubpageTopbar />
       <Breadcrumb items={breadcrumbs} />
+      <SubpageNav
+        items={SCENE_NAV_ITEMS}
+        basePath="/whisky/scene"
+        currentSlug={slug}
+        categoryLabel="シーン別"
+      />
 
       <main>
         {/* ── ページヘッダー ── */}
@@ -495,6 +515,12 @@ export default async function ScenePage({
         )}
       </main>
 
+      <RelatedPages
+        items={SCENE_NAV_ITEMS}
+        basePath="/whisky/scene"
+        currentSlug={slug}
+        title="他のシーンを見る"
+      />
       <CTABanner />
       <SubpageFooter />
     </div>

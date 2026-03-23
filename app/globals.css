@@ -1482,3 +1482,167 @@ input[type='range'] {
     padding: 36px 0;
   }
 }
+
+/* ============================================================
+   SubpageNav — カテゴリ横断タブナビ
+   ============================================================ */
+
+.subpageNav {
+  background: var(--surface2);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  position: sticky;
+  top: 52px; /* SubpageTopbarの高さ分 */
+  z-index: 90;
+}
+
+.subpageNavScroll {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow-x: auto;
+  padding: 0 20px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.subpageNavScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.subpageNavCategory {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text2);
+  white-space: nowrap;
+  padding-right: 12px;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.subpageNavItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text2);
+  padding: 12px 12px;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.subpageNavItem:hover {
+  color: var(--text1);
+}
+
+.subpageNavItemActive {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 700;
+}
+
+.subpageNavEmoji {
+  font-size: 0.9375rem;
+}
+
+/* ============================================================
+   RelatedPages — 関連ページカードグリッド
+   ============================================================ */
+
+.subRelatedSection {
+  background: var(--surface2);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.relatedCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 18px;
+  background: var(--bg);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  text-decoration: none;
+  transition: border-color 0.15s, transform 0.15s;
+  position: relative;
+}
+
+.relatedCard:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.relatedEmoji {
+  font-size: 1.375rem;
+  line-height: 1;
+}
+
+.relatedLabel {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text1);
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+.relatedDesc {
+  font-size: 0.75rem;
+  color: var(--text2);
+  line-height: 1.5;
+}
+
+.relatedArrow {
+  font-size: 0.875rem;
+  color: var(--accent);
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+@media (max-width: 900px) {
+  .relatedGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .subpageNav {
+    top: 46px;
+  }
+
+  .subpageNavCategory {
+    display: none;
+  }
+
+  .subpageNavItem {
+    font-size: 0.75rem;
+    padding: 10px 10px;
+  }
+
+  .relatedGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .relatedCard {
+    padding: 16px 14px;
+  }
+
+  .relatedLabel {
+    font-size: 0.8125rem;
+  }
+}
