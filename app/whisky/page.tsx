@@ -116,6 +116,7 @@ const STYLE_CARDS = [
   { slug: 'irish',        icon: '🇮🇪', name: 'アイリッシュ',        catch: 'なめらかで親しみやすい入門酒',         brands: 'ジェムソン、ブッシュミルズ',       guidePath: '/whisky/guide/irish' },
   { slug: 'japanese',     icon: '🇯🇵', name: 'ジャパニーズ',        catch: '繊細で均整、職人の美学',              brands: '山崎、白州、余市',               guidePath: '/whisky/guide/japanese' },
   { slug: 'american',     icon: '🇺🇸', name: 'バーボン＆アメリカン', catch: '甘くてリッチ、アメリカンスピリット',   brands: 'メーカーズマーク、ジャックダニエル', guidePath: '/whisky/guide/bourbon' },
+  { slug: 'canadian',     icon: '🇨🇦', name: 'カナディアン',         catch: '軽やかでまろやか、北米の隠れた名酒',  brands: 'クラウンローヤル、カナディアンクラブ', guidePath: '/whisky/guide/canadian' },
   { slug: 'newworld',     icon: '🌍', name: 'ニューワールド',       catch: '台湾・インド・欧州、新世代の挑戦',     brands: 'カバラン、アムルット',            guidePath: '/whisky/guide/newworld' },
   { slug: 'imo',          icon: '🍠', name: '芋焼酎',             catch: '個性的な香り、鹿児島の魂',             brands: '森伊蔵、魔王、伊佐美',           guidePath: '/whisky/guide/imo' },
   { slug: 'mugi',         icon: '🌾', name: '麦焼酎',             catch: 'クセなく飲みやすい万能派',             brands: '二階堂、いいちこ',               guidePath: '/whisky/guide/mugi' },

@@ -29,6 +29,7 @@ const GUIDE_NAV_ITEMS: (SubpageNavItem & { desc: string })[] = [
   { slug: 'mugi',     label: '麦焼酎',         emoji: '🌾', desc: '大分・長崎発のクリーンな麦焼酎' },
   { slug: 'kome',     label: '米焼酎',         emoji: '🍚', desc: '熊本・球磨の米焼酎' },
   { slug: 'kokuto',      label: '黒糖焼酎',         emoji: '🏝️', desc: '奄美大島限定の特産焼酎' },
+  { slug: 'canadian',     label: 'カナディアン',     emoji: '🇨🇦', desc: '軽やかでなめらか、北米の隠れた名酒' },
   { slug: 'newworld',    label: 'ニューワールド',   emoji: '🌍', desc: '台湾・インド・欧州の新世代ウイスキー' },
   { slug: 'other-shochu', label: 'その他の焼酎',    emoji: '🌿', desc: 'そば・栗・泡盛、個性派ぞろい' },
 ]
@@ -932,6 +933,57 @@ const KOKUTO: GuideData = {
   ],
 }
 
+// ── カナディアンウイスキーデータ ──────────────────────────
+
+const CANADIAN: GuideData = {
+  slug: 'canadian',
+  flag: '🇨🇦',
+  introTitle: 'カナディアンウイスキーとは',
+  regionsTitle: '主要スタイル・産地',
+  compareTitle: 'ライトブレンデッド vs プレミアム・クラフトの違い',
+  titleTag: 'カナディアンウイスキーとは？種類・特徴・おすすめ銘柄を解説 | SO WHAT Pick',
+  descriptionTag: 'クラウンローヤル・カナディアンクラブ・フォーティークリークなど、カナディアンウイスキーの特徴・種類・銘柄をわかりやすく解説。Amazon・楽天でそのまま購入できます。',
+  titleJa: 'カナディアンウイスキー',
+  titleEn: 'Canadian Whisky Guide',
+  intro: 'カナダで製造・熟成されるウイスキーで、世界5大ウイスキーのひとつ。ライ麦を中心とした穀物を原料に、軽やかでなめらかな飲み口が特徴。法律で最低3年以上の樽熟成が義務付けられ、"カナディアンライ"と呼ばれることも多い。バーボンやスコッチほど国際的な認知度は高くないが、ハイボールやカクテルベースとしての実力は折り紙付き。近年はクラフト蒸留所の台頭でプレミアム路線も急成長中。',
+  heroImage: { src: '/distillery/canadian.jpg', alt: 'カナディアンウイスキー', objectPosition: 'center center' },
+  regions: [
+    { name: 'オンタリオ州', desc: 'カナダ最大のウイスキー生産地。クラウンローヤルの本拠地・ウォータールー蒸留所をはじめ、大手から老舗クラフトまで集積。なめらかで飲みやすいスタイルが中心。', brands: 'クラウンローヤル、カナディアンクラブ、フォーティークリーク', amazonKeyword: 'カナディアンウイスキー オンタリオ', rakutenKeyword: 'クラウンローヤル ウイスキー' },
+    { name: 'アルバータ州', desc: 'カナダ最大の100%ライ麦ウイスキー産地。アルバータ・ディスティラーズが代表格。ロッキー山脈の雪解け水と大平原産ライ麦が生む、スパイシーでコクのある個性派スタイル。', brands: 'アルバータ プレミアム、アルバータ ダーク バッチ', amazonKeyword: 'アルバータ カナディアンライ ウイスキー', rakutenKeyword: 'アルバータ ウイスキー カナダ' },
+    { name: 'ブリティッシュコロンビア州', desc: '近年クラフト蒸留所が急増するカナダ西海岸の新興産地。太平洋の温暖な気候を活かした個性豊かなウイスキーが注目を集めている。', brands: 'ビクトリア スピリッツ、スティルヘッド', amazonKeyword: 'BC カナディアン クラフト ウイスキー', rakutenKeyword: 'カナダ ウイスキー クラフト' },
+    { name: 'ケベック州', desc: 'フランス語圏らしいアート感覚あふれるクラフト蒸留所が点在。地元産大麦・ライ麦に加え、メープルシロップ等の地場素材を使った独創的なウイスキーが話題。', brands: 'ラ・ガロワーズ、ウィスキーデュケベック', amazonKeyword: 'ケベック カナディアン ウイスキー', rakutenKeyword: 'カナダ クラフトウイスキー' },
+  ],
+  compareLeft: {
+    title: 'ライトブレンデッド（定番）',
+    items: ['ライ麦主体のベース原酒 × 軽いグレーン原酒のブレンド', 'なめらかで軽い口当たり、クセが少ない', 'ハイボール・カクテルベースに最適', 'クラウンローヤルやカナディアンクラブが代表格', '価格帯が広くデイリー使いしやすい'],
+    amazonKeyword: 'クラウンローヤル カナディアンクラブ ウイスキー',
+    rakutenKeyword: 'クラウンローヤル ウイスキー',
+  },
+  compareRight: {
+    title: 'プレミアム・クラフト（近年急成長）',
+    items: ['単一蒸留所または高比率ライ麦使用', 'スパイシーでコク深い本格的な風味', 'バーボンやスコッチに近い重厚感', 'フォーティークリーク・アルバータが代表格', '世界のウイスキーコンペで高評価が続く'],
+    amazonKeyword: 'フォーティークリーク アルバータ プレミアム カナダ',
+    rakutenKeyword: 'フォーティークリーク カナディアン',
+  },
+  brandProfiles: [
+    { nameJa: 'クラウンローヤル', nameEn: 'Crown Royal', founded: 1939, region: 'オンタリオ州', flavorTags: ['定番', 'なめらか', '王道'], desc: '1939年にイギリス国王ジョージ6世の訪カナダを記念して造られた国民的ブランド。バニラ・キャラメルの甘みとシルクのようになめらかな口当たりは世界中で愛される。', signature: 'クラウンローヤル デラックス', amazonKeyword: 'クラウンローヤル ウイスキー', rakutenKeyword: 'クラウンローヤル デラックス' },
+    { nameJa: 'カナディアンクラブ', nameEn: 'Canadian Club', founded: 1858, region: 'オンタリオ州', flavorTags: ['歴史', 'ライト', 'ハイボール向き'], desc: '1858年創業のカナダ最古の蒸留所のひとつ。軽やかでクセのないライトなスタイルはハイボールとの相性が抜群。世界150カ国以上で販売される国際派ブランド。', signature: 'カナディアンクラブ 12年', amazonKeyword: 'カナディアンクラブ ウイスキー', rakutenKeyword: 'カナディアンクラブ ウイスキー' },
+    { nameJa: 'フォーティークリーク', nameEn: 'Forty Creek', founded: 1992, region: 'オンタリオ州', flavorTags: ['プレミアム', 'フルーティ', 'クラフト'], desc: 'ジョン・ホールが設立したカナダクラフトウイスキーの先駆け。コーン・ライ・バーリーを別々に蒸留・熟成してブレンドする独自手法でフルーティかつ複雑な風味を実現。', signature: 'フォーティークリーク バレルセレクト', amazonKeyword: 'フォーティークリーク カナディアンウイスキー', rakutenKeyword: 'フォーティークリーク ウイスキー' },
+    { nameJa: 'アルバータ プレミアム', nameEn: 'Alberta Premium', founded: 1946, region: 'アルバータ州', flavorTags: ['100%ライ麦', 'スパイシー', '個性派'], desc: '世界唯一の100%ライ麦ウイスキー。アルバータ大平原産のライ麦のみを使用した骨太でスパイシーなスタイルはライウイスキー好きから絶大な支持を受ける。', signature: 'アルバータ プレミアム ライ', amazonKeyword: 'アルバータ プレミアム ウイスキー', rakutenKeyword: 'アルバータ プレミアム カナダ' },
+    { nameJa: 'ギブソンズ', nameEn: "Gibson's", founded: 1956, region: 'オンタリオ州', flavorTags: ['バランス', 'まろやか', 'コスパ'], desc: 'カナダ国内で高いシェアを誇るブレンデッドウイスキー。ライのスパイシーさとコーンの甘みがバランスよく融合し、デイリーユースに最適なコストパフォーマンスが魅力。', signature: 'ギブソンズ ファイネスト', amazonKeyword: 'ギブソンズ カナディアンウイスキー', rakutenKeyword: 'ギブソンズ ウイスキー カナダ' },
+    { nameJa: 'J.P.ウィザーズ', nameEn: 'J.P. Wiser\'s', founded: 1857, region: 'オンタリオ州', flavorTags: ['老舗', 'スムース', '熟成'], desc: '1857年創業のカナダ最古の蒸留所のひとつ。長期熟成シリーズは深みとまろやかさが際立ち、プレミアムカナディアンの代表格として国際コンペでも高評価を得ている。', signature: 'J.P.ウィザーズ トリプルバレル', amazonKeyword: 'ウィザーズ カナディアンウイスキー', rakutenKeyword: 'ウィザーズ ウイスキー カナダ' },
+  ],
+  beginnerTip: 'カナディアンウイスキー入門には「クラウンローヤル デラックス」が最適。なめらかで飲みやすく、ハイボールにしても美味しい。ライウイスキーの個性を体験したい方は「アルバータ プレミアム」でスパイシーな風味を楽しんでみてください。',
+  bottles: [
+    { rank: 1, name: 'クラウンローヤル デラックス', region: 'カナダ（オンタリオ）', tags: ['定番', 'なめらか'], reason: '世界最多販売のカナディアン。バニラ甘みとシルクの口当たりで誰でも飲みやすい', price: '2,500円〜（750ml）', amazonKeyword: 'クラウンローヤル デラックス ウイスキー', rakutenKeyword: 'クラウンローヤル デラックス', bottleSlug: null },
+    { rank: 2, name: 'カナディアンクラブ 12年', region: 'カナダ（オンタリオ）', tags: ['ライト', 'ハイボール向き'], reason: '12年熟成で深みが増した正統派。ハイボールにすると真価発揮', price: '2,000円〜（700ml）', amazonKeyword: 'カナディアンクラブ 12年 ウイスキー', rakutenKeyword: 'カナディアンクラブ 12年', bottleSlug: null },
+    { rank: 3, name: 'フォーティークリーク バレルセレクト', region: 'カナダ（オンタリオ）', tags: ['プレミアム', 'フルーティ'], reason: 'クラフト先駆けのフルーティで複雑な風味。カナディアンの進化形', price: '3,000円〜（750ml）', amazonKeyword: 'フォーティークリーク バレルセレクト ウイスキー', rakutenKeyword: 'フォーティークリーク ウイスキー', bottleSlug: null },
+    { rank: 4, name: 'アルバータ プレミアム ライ', region: 'カナダ（アルバータ）', tags: ['100%ライ麦', 'スパイシー'], reason: '世界唯一の100%ライ麦。スパイシーで骨太、ライウイスキー好きに', price: '3,500円〜（750ml）', amazonKeyword: 'アルバータ プレミアム ライ ウイスキー', rakutenKeyword: 'アルバータ プレミアム カナダ', bottleSlug: null },
+    { rank: 5, name: 'クラウンローヤル ノーザンハーベスト ライ', region: 'カナダ（オンタリオ）', tags: ['ライ麦', '世界最高賞'], reason: '2016年ワールドベストウイスキー受賞。高比率ライ麦のスパイシーさとクラウンのなめらかさが融合', price: '4,000円〜（750ml）', amazonKeyword: 'クラウンローヤル ノーザンハーベスト ウイスキー', rakutenKeyword: 'クラウンローヤル ノーザンハーベスト', bottleSlug: null },
+    { rank: 6, name: 'J.P.ウィザーズ トリプルバレル', region: 'カナダ（オンタリオ）', tags: ['老舗', '熟成', 'プレミアム'], reason: '3種の樽で熟成した複雑でまろやかな風味。コンペ受賞歴多数の実力派', price: '3,000円〜（700ml）', amazonKeyword: 'ウィザーズ トリプルバレル カナディアン', rakutenKeyword: 'ウィザーズ ウイスキー', bottleSlug: null },
+  ],
+}
+
 // ── ニューワールドデータ ───────────────────────────────────
 
 const NEW_WORLD: GuideData = {
@@ -1044,6 +1096,7 @@ const GUIDE_DATA: Record<string, GuideData> = {
   mugi: MUGI,
   kome: KOME,
   kokuto: KOKUTO,
+  canadian: CANADIAN,
   newworld: NEW_WORLD,
   'other-shochu': OTHER_SHOCHU,
 }
