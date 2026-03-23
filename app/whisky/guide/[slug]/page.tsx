@@ -946,7 +946,7 @@ const CANADIAN: GuideData = {
   titleJa: 'カナディアンウイスキー',
   titleEn: 'Canadian Whisky Guide',
   intro: 'カナダで製造・熟成されるウイスキーで、世界5大ウイスキーのひとつ。ライ麦を中心とした穀物を原料に、軽やかでなめらかな飲み口が特徴。法律で最低3年以上の樽熟成が義務付けられ、"カナディアンライ"と呼ばれることも多い。バーボンやスコッチほど国際的な認知度は高くないが、ハイボールやカクテルベースとしての実力は折り紙付き。近年はクラフト蒸留所の台頭でプレミアム路線も急成長中。',
-  heroImage: { src: '/distillery/canadian.jpg', alt: 'カナディアンウイスキー', objectPosition: 'center center' },
+  heroImage: { src: '/distillery/canadian.jpg', alt: '山の近くを流れる川', credit: 'Photo by Oxana Lyashenko on Unsplash', creditUrl: 'https://unsplash.com/photos/znYf62fSGJM', objectPosition: 'center center' },
   regions: [
     { name: 'オンタリオ州', desc: 'カナダ最大のウイスキー生産地。クラウンローヤルの本拠地・ウォータールー蒸留所をはじめ、大手から老舗クラフトまで集積。なめらかで飲みやすいスタイルが中心。', brands: 'クラウンローヤル、カナディアンクラブ、フォーティークリーク', amazonKeyword: 'カナディアンウイスキー オンタリオ', rakutenKeyword: 'クラウンローヤル ウイスキー' },
     { name: 'アルバータ州', desc: 'カナダ最大の100%ライ麦ウイスキー産地。アルバータ・ディスティラーズが代表格。ロッキー山脈の雪解け水と大平原産ライ麦が生む、スパイシーでコクのある個性派スタイル。', brands: 'アルバータ プレミアム、アルバータ ダーク バッチ', amazonKeyword: 'アルバータ カナディアンライ ウイスキー', rakutenKeyword: 'アルバータ ウイスキー カナダ' },
@@ -997,7 +997,7 @@ const NEW_WORLD: GuideData = {
   titleJa: 'ニューワールドウイスキー',
   titleEn: 'New World Whisky Guide',
   intro: 'スコットランド・アイルランド・アメリカ・日本という「伝統4大産地」以外で造られるウイスキーの総称。台湾・インド・オーストラリア・スウェーデン・ウェールズなど世界50カ国以上で蒸留が行われるようになり、2010年代から急速に品質が向上。独自の気候や原料を活かした個性が「次の名産地」として世界中のウイスキーファンの注目を集めている。',
-  heroImage: { src: '/distillery/newworld.jpg', alt: 'ニューワールドウイスキー', objectPosition: 'center center' },
+  heroImage: { src: '/distillery/newworld.jpg', alt: '日の出とともに雲の中から現れる山頂', credit: 'Photo by Marek Piwnicki on Unsplash', creditUrl: 'https://unsplash.com/photos/ghMXd_muObI', objectPosition: 'center center' },
   regions: [
     { name: '台湾（カバラン）', desc: '亜熱帯の高温多湿が熟成を加速させ、創業わずか数年で世界最高賞を受賞。フルーティで濃厚なトロピカル風味が特徴。', brands: 'カバラン ソリスト、カバラン クラシック', amazonKeyword: 'カバラン ウイスキー', rakutenKeyword: 'カバラン ウイスキー' },
     { name: 'インド（アムルット・ポールジョン）', desc: 'ヒマラヤの清冽な水と高地の寒暖差がユニークな熟成をもたらす。スパイシーかつフルーティな個性でスコッチ通も唸らせる。', brands: 'アムルット フュージョン、ポールジョン ビリーブ', amazonKeyword: 'アムルット インドウイスキー', rakutenKeyword: 'アムルット ウイスキー' },
@@ -1048,7 +1048,7 @@ const OTHER_SHOCHU: GuideData = {
   titleJa: 'その他の焼酎',
   titleEn: 'Other Shochu Guide',
   intro: '芋・麦・米・黒糖以外の多彩な原料で造られる本格焼酎の世界。そば・栗・ごま・酒粕など個性豊かな原料焼酎のほか、沖縄の伝統酒「泡盛」も含まれる。主原料の風味が素直に出やすいのがこのカテゴリーの魅力で、食事との相性を探る楽しさも抜群。個性派好きや焼酎上級者に人気が高い。',
-  heroImage: { src: '/distillery/other-shochu.jpg', alt: 'その他の焼酎', objectPosition: 'center center' },
+  heroImage: { src: '/distillery/other-shochu.jpg', alt: '山頂の写真', credit: 'Photo by takahiro taguchi on Unsplash', creditUrl: 'https://unsplash.com/photos/ryUr3SC6Lpo', objectPosition: 'center center' },
   regions: [
     { name: 'そば焼酎', desc: '宮崎県を中心に製造。そば本来の香ばしい風味とすっきりした飲み口が特徴。食事との相性が抜群でクセが少なく飲みやすい。', brands: '雲海、そばや、天の刻印', amazonKeyword: 'そば焼酎', rakutenKeyword: 'そば焼酎' },
     { name: '栗焼酎', desc: '熊本・宮崎・愛媛などで製造。栗の上品な甘みとほのかなナッツ感が特徴。香り高くデザート感覚でも楽しめる。', brands: '池の露、栗天照、四万十大正', amazonKeyword: '栗焼酎', rakutenKeyword: '栗焼酎' },
