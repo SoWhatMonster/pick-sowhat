@@ -492,7 +492,7 @@ const BOURBON: GuideData = {
   titleJa: 'バーボンウイスキー',
   titleEn: 'Bourbon Whiskey Guide',
   intro: 'アメリカ・ケンタッキー州を中心に生産されるバーボンは、原料の51%以上にトウモロコシを使用し、新品のオーク樽で熟成させることが法律で規定されている。バニラ・キャラメル・オークの甘い香りが特徴で、ストレートからハイボールまで幅広いシーンで楽しめる。',
-  heroImage: { src: '/distillery/bourbon.jpg', alt: 'バーボン蒸留所' },
+  heroImage: { src: '/distillery/bourbon.jpg', alt: 'ジャックダニエル オールドNo.7 テネシーウイスキー', credit: 'Photo by Ryan Parker on Unsplash', creditUrl: 'https://unsplash.com/photos/PtGwPV5fKn0', objectPosition: 'center center' },
   regions: [
     { name: 'ストレートバーボン', desc: '2年以上新品チャーオーク樽で熟成。バーボンの基本形。', brands: 'ジム・ビーム、ワイルド・ターキー', amazonKeyword: 'ストレートバーボン ウイスキー', rakutenKeyword: 'バーボン ストレート' },
     { name: 'スモールバッチ', desc: '限られた樽を選別してブレンドした高品質バーボン。複雑な味わい。', brands: 'ウッドフォードリザーブ、ノブクリーク', amazonKeyword: 'スモールバッチ バーボン', rakutenKeyword: 'スモールバッチ バーボン' },
@@ -558,7 +558,7 @@ const JAPANESE: GuideData = {
   titleJa: 'ジャパニーズウイスキー',
   titleEn: 'Japanese Whisky Guide',
   intro: '日本のウイスキーは1923年に山崎蒸留所が創設されてから100年の歴史を持つ。スコッチの製法を基盤にしつつ、日本独自の職人気質と繊細な感性で磨き上げられた。ミズナラ樽熟成による独特のオリエンタルな香りが世界的に高く評価され、近年は入手困難な銘柄も増えている。',
-  heroImage: { src: '/distillery/japanese.jpg', alt: 'ジャパニーズウイスキー蒸留所' },
+  heroImage: { src: '/distillery/japanese.jpg', alt: '棚に並ぶ日本のウイスキーボトル', credit: 'Photo by Truong Tuyet Ly on Unsplash', creditUrl: 'https://unsplash.com/photos/OrngjB5RRTw', objectPosition: 'center center' },
   regions: [
     { name: '山崎蒸留所（大阪）', desc: '日本最古のモルトウイスキー蒸留所。霧深い山崎の地でミズナラ樽熟成による優美な香りを生む。', brands: '山崎12年・18年・25年', amazonKeyword: '山崎 サントリー ウイスキー', rakutenKeyword: '山崎 ウイスキー' },
     { name: '白州蒸留所（山梨）', desc: '南アルプスの森に囲まれた高原の蒸留所。爽やかなグリーンノートと清涼感が特徴。', brands: '白州12年・18年・ノンエイジ', amazonKeyword: '白州 サントリー ウイスキー', rakutenKeyword: '白州 ウイスキー' },
@@ -624,7 +624,7 @@ const IRISH: GuideData = {
   titleJa: 'アイリッシュウイスキー',
   titleEn: 'Irish Whiskey Guide',
   intro: 'アイルランドで製造されるウイスキーで、伝統的に3回蒸留することでなめらかで飲みやすい風味を生み出す。「ウイスキー（Whiskey）」という言葉はアイルランド語の"Uisce Beatha"（命の水）に由来するとも言われる。近年は新蒸留所が急増し、世界のウイスキーシーンで再び注目を集めている。',
-  heroImage: { src: '/distillery/irish.jpg', alt: 'アイリッシュウイスキー蒸留所' },
+  heroImage: { src: '/distillery/irish.jpg', alt: 'アイルランドの緑の草原と山', credit: 'Photo by K. Mitch Hodge on Unsplash', creditUrl: 'https://unsplash.com/photos/418qmDW2HCU', objectPosition: 'center center' },
   regions: [
     { name: 'ブレンデッド', desc: 'モルト・グレーン・ポットスチル原酒をブレンド。飲みやすく世界で最も多く飲まれるスタイル。', brands: 'ジェムソン、ブッシュミルズ ブラック', amazonKeyword: 'ジェムソン アイリッシュウイスキー', rakutenKeyword: 'ジェムソン ウイスキー' },
     { name: 'シングルモルト', desc: '大麦麦芽のみで単一蒸留所製造。アイリッシュモルトは3回蒸留で軽やか。', brands: 'コネマラ、ティーリング シングルモルト', amazonKeyword: 'コネマラ アイリッシュ シングルモルト', rakutenKeyword: 'コネマラ ウイスキー' },
@@ -689,7 +689,7 @@ const IMO: GuideData = {
   titleJa: '芋焼酎',
   titleEn: 'Imo Shochu Guide',
   intro: 'サツマイモを主原料とした本格焼酎で、鹿児島県（薩摩）と宮崎県が二大産地。独特の甘みと芋の香りが特徴で、白麹・黒麹・黄麹などの麹の種類によって風味が大きく変わる。国税庁が「薩摩焼酎」として地理的表示を認定するほどの伝統的な酒造文化を持つ。',
-  heroImage: { src: '/distillery/imo.jpg', alt: '芋焼酎の蒸留所' },
+  heroImage: { src: '/distillery/imo.jpg', alt: '青空の下に広がる山の風景', credit: 'Photo by Marek Piwnicki on Unsplash', creditUrl: 'https://unsplash.com/photos/mCCGOBmTE4Q', objectPosition: 'center 60%' },
   regions: [
     { name: '鹿児島県（薩摩）', desc: '芋焼酎の本場。薩摩芋と豊富な地下水を使った伝統製法が守られ、「薩摩焼酎」の地理的表示が認定されている。', brands: '森伊蔵、村尾、魔王、さつま白波', amazonKeyword: '薩摩 芋焼酎 鹿児島', rakutenKeyword: '鹿児島 芋焼酎' },
     { name: '宮崎県', desc: '鹿児島に次ぐ芋焼酎の産地。霧島山系の清冽な水が個性ある風味を生む。霧島酒造の本拠地。', brands: '霧島、黒霧島、赤霧島、松露', amazonKeyword: '宮崎 芋焼酎', rakutenKeyword: '宮崎 芋焼酎' },
