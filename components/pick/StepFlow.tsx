@@ -14,6 +14,7 @@ import {
 } from '@/constants/whisky'
 import type { RecommendRequest, RecommendResponse } from '@/lib/anthropic'
 import type { OmikujiResult } from '@/app/api/omikuji/route'
+import type { SearchResponse } from '@/app/api/search/route'
 import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
 import styles from './StepFlow.module.css'
 
@@ -130,13 +131,34 @@ export default function StepFlow() {
 
   // 銘柄検索
   const [searchQuery, setSearchQuery] = useState('')
-  const [searchSubmitted, setSearchSubmitted] = useState(false)
+  const [searchLoading, setSearchLoading] = useState(false)
+  const [searchResult, setSearchResult] = useState<SearchResponse | null>(null)
+  const [searchError, setSearchError] = useState<string | null>(null)
 
   const amazonTag = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG ?? ''
   const rakutenAfId = process.env.NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID ?? ''
 
-  const handleSearch = useCallback(() => {
-    if (searchQuery.trim()) setSearchSubmitted(true)
+  const handleSearch = useCallback(async () => {
+    const q = searchQuery.trim()
+    if (!q) return
+    setSearchLoading(true)
+    setSearchResult(null)
+    setSearchError(null)
+    try {
+      const res = await fetch('/api/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: q }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? '検索に失敗しました')
+      setSearchResult(data as SearchResponse)
+      pushGtmEvent('bottle_search', { keyword: q })
+    } catch (err) {
+      setSearchError(err instanceof Error ? err.message : '検索に失敗しました')
+    } finally {
+      setSearchLoading(false)
+    }
   }, [searchQuery])
 
   const goTo = useCallback((s: Step) => {
@@ -367,7 +389,7 @@ export default function StepFlow() {
               </div>
             </div>
 
-            {/* ── 銘柄直接検索 ── */}
+            {/* ── 銘柄指定検索 ── */}
             <div className={styles.searchDivider}>{TEXT.search.divider}</div>
             <div className={styles.searchSection}>
               <div className={styles.searchRow}>
@@ -376,30 +398,54 @@ export default function StepFlow() {
                   className={styles.searchInput}
                   placeholder={TEXT.search.placeholder}
                   value={searchQuery}
-                  onChange={(e) => { setSearchQuery(e.target.value); setSearchSubmitted(false) }}
+                  onChange={(e) => { setSearchQuery(e.target.value); setSearchResult(null); setSearchError(null) }}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                 />
-                <button className={styles.searchBtn} onClick={handleSearch} type="button">
-                  {TEXT.search.btn}
+                <button className={styles.searchBtn} onClick={handleSearch} type="button" disabled={searchLoading}>
+                  {searchLoading ? '…' : TEXT.search.btn}
                 </button>
               </div>
-              {searchSubmitted && searchQuery.trim() && (
-                <div className={styles.searchResult}>
-                  <span className={styles.searchResultLabel}>「{searchQuery.trim()}」を探す</span>
-                  <div className={styles.searchResultBtns}>
-                    <a
-                      href={buildAmazonUrl(searchQuery.trim(), amazonTag)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.searchResultBtn}
-                    >{TEXT.search.amazonBtn}</a>
-                    <a
-                      href={buildRakutenUrl(searchQuery.trim(), rakutenAfId)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`${styles.searchResultBtn} ${styles.searchResultRakuten}`}
-                    >{TEXT.search.rakutenBtn}</a>
-                  </div>
+              {searchLoading && (
+                <div className={styles.searchLoading}>
+                  <span className={styles.searchLoadingDot} />
+                  <span className={styles.searchLoadingDot} />
+                  <span className={styles.searchLoadingDot} />
+                </div>
+              )}
+              {searchError && (
+                <div className={styles.searchErrorMsg}>{searchError}</div>
+              )}
+              {searchResult && searchResult.results.length > 0 && (
+                <div className={styles.searchResults}>
+                  {searchResult.results.map((item, i) => (
+                    <div key={i} className={styles.searchResultCard}>
+                      <div className={styles.searchResultCardHeader}>
+                        <p className={styles.searchResultName}>{item.name}</p>
+                        <div className={styles.searchResultTags}>
+                          {item.tags.map((tag) => (
+                            <span key={tag} className={styles.searchResultTag}>{tag}</span>
+                          ))}
+                        </div>
+                      </div>
+                      <p className={styles.searchResultDesc}>{item.description}</p>
+                      <div className={styles.searchResultBtns}>
+                        <a
+                          href={buildAmazonUrl(item.amazonKeyword, amazonTag)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.searchResultBtn}
+                          onClick={() => pushGtmEvent('search_amazon_click', { item_name: item.name })}
+                        >{TEXT.search.amazonBtn}</a>
+                        <a
+                          href={buildRakutenUrl(item.rakutenKeyword, rakutenAfId)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`${styles.searchResultBtn} ${styles.searchResultRakuten}`}
+                          onClick={() => pushGtmEvent('search_rakuten_click', { item_name: item.name })}
+                        >{TEXT.search.rakutenBtn}</a>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>

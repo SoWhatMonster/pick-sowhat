@@ -688,16 +688,18 @@
 
 .searchInput {
   flex: 1;
+  min-width: 0;
   padding: 13px 16px;
   border-radius: 12px;
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
   color: var(--text1);
-  font-size: 14px;
+  font-size: 16px; /* iOS Safari のズーム防止には16px必要 */
   font-family: var(--font-ui);
   outline: none;
   transition: border-color 0.2s;
+  box-sizing: border-box;
 }
 
 .searchInput::placeholder {
@@ -728,21 +730,90 @@
   border-color: rgba(200, 254, 8, 0.5);
 }
 
-.searchResult {
+/* ── 検索ローディング ── */
+.searchLoading {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 16px 0;
+}
+
+.searchLoadingDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: searchDotBounce 1s infinite;
+}
+
+.searchLoadingDot:nth-child(2) { animation-delay: 0.15s; }
+.searchLoadingDot:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes searchDotBounce {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+  40%           { opacity: 1;   transform: scale(1); }
+}
+
+.searchErrorMsg {
+  font-size: 12px;
+  color: #ff6b6b;
+  text-align: center;
+  padding: 8px 0;
+}
+
+/* ── 検索結果リスト ── */
+.searchResults {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 14px 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 12px;
-  border: 1px solid var(--border);
   animation: fadeInUp 0.3s ease both;
 }
 
-.searchResultLabel {
-  font-size: 12px;
+.searchResultCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.searchResultCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.searchResultName {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text1);
+  font-family: var(--font-ui);
+  margin: 0;
+}
+
+.searchResultTags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.searchResultTag {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
   color: var(--text2);
   font-family: var(--font-ui);
+}
+
+.searchResultDesc {
+  font-size: 11px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin: 0;
 }
 
 .searchResultBtns {
@@ -752,7 +823,7 @@
 
 .searchResultBtn {
   flex: 1;
-  padding: 10px 8px;
+  padding: 8px 6px;
   border-radius: 8px;
   border: 1px solid var(--accent);
   background: transparent;
@@ -761,6 +832,7 @@
   font-weight: 600;
   font-family: var(--font-ui);
   text-align: center;
+  text-decoration: none;
   transition: background 0.2s;
   cursor: pointer;
 }
@@ -770,8 +842,8 @@
 }
 
 .searchResultRakuten {
-  border-color: #ff5555;
-  color: #ff5555;
+  border-color: var(--rakuten-red);
+  color: var(--rakuten-red);
 }
 
 .searchResultRakuten:hover {

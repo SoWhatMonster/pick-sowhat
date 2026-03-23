@@ -14,9 +14,9 @@ export const TEXT = {
     placeholder: '例：グレンフィディック 12年',
     label: '銘柄名で直接探す',
     btn: '探す',
-    divider: 'または AIにおすすめしてもらう',
-    amazonBtn: 'Amazonで探す →',
-    rakutenBtn: '楽天で探す →',
+    divider: '銘柄指定で検索',
+    amazonBtn: 'Amazon →',
+    rakutenBtn: '楽天 →',
   },
 
   step0: {
