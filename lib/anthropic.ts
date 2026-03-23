@@ -132,7 +132,7 @@ export function buildUserPrompt(req: RecommendRequest): string {
 
   if (req.mode === 'self') {
     const sceneText = req.scenes?.join('、') ?? 'なし'
-    const isNomikurabe = req.scenes?.includes('飲み比べをしたい') ?? false
+    const isNomikurabe = req.scenes?.includes('いろいろ飲み比べたい') ?? false
     const nomikurabeNote = isNomikurabe
       ? '\n【飲み比べ特別指示】産地・スタイル・フレーバーが対比的になるよう5銘柄を選んでください。各銘柄のamazonKeyword・rakutenKeywordは必ず具体的な銘柄名で返してください。'
       : ''

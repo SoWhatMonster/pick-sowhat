@@ -11,12 +11,12 @@ export const RESULT_COUNT = 3
 export const SCENES: { icon: string; label: string }[] = [
   { icon: '🌙', label: 'ひとりにさせてくれ' },
   { icon: '🔥', label: '誰かに愚痴りたい' },
-  { icon: '🍽', label: '食事と合わせたい' },
-  { icon: '🫧', label: 'ハイボールで飲みたい' },
   { icon: '☀️', label: '昼からダラダラ飲みたい' },
   { icon: '🎉', label: '仕事終わり、パーティだ！' },
   { icon: '🌊', label: '宇宙や自然と一体になりたい' },
-  { icon: '🥂', label: '飲み比べをしたい' },
+  { icon: '🍽', label: 'メシを食いながら飲む' },
+  { icon: '🫧', label: 'とりあえずハイボール' },
+  { icon: '🥂', label: 'いろいろ飲み比べたい' },
 ]
 
 /** STEP 1B: 関係性 */
