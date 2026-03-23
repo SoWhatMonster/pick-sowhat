@@ -28,7 +28,9 @@ const GUIDE_NAV_ITEMS: (SubpageNavItem & { desc: string })[] = [
   { slug: 'imo',      label: '芋焼酎',         emoji: '🍠', desc: '鹿児島・宮崎の本格芋焼酎' },
   { slug: 'mugi',     label: '麦焼酎',         emoji: '🌾', desc: '大分・長崎発のクリーンな麦焼酎' },
   { slug: 'kome',     label: '米焼酎',         emoji: '🍚', desc: '熊本・球磨の米焼酎' },
-  { slug: 'kokuto',   label: '黒糖焼酎',       emoji: '🏝️', desc: '奄美大島限定の特産焼酎' },
+  { slug: 'kokuto',      label: '黒糖焼酎',         emoji: '🏝️', desc: '奄美大島限定の特産焼酎' },
+  { slug: 'newworld',    label: 'ニューワールド',   emoji: '🌍', desc: '台湾・インド・欧州の新世代ウイスキー' },
+  { slug: 'other-shochu', label: 'その他の焼酎',    emoji: '🌿', desc: 'そば・栗・泡盛、個性派ぞろい' },
 ]
 
 // ── 型定義 ────────────────────────────────────────────────
@@ -930,6 +932,109 @@ const KOKUTO: GuideData = {
   ],
 }
 
+// ── ニューワールドデータ ───────────────────────────────────
+
+const NEW_WORLD: GuideData = {
+  slug: 'newworld',
+  flag: '🌍',
+  introTitle: 'ニューワールドウイスキーとは',
+  regionsTitle: '主要生産国・地域',
+  compareTitle: 'アジア系 vs ヨーロッパ系の違い',
+  titleTag: 'ニューワールドウイスキーとは？台湾・インド・欧州の新世代ウイスキーを解説 | SO WHAT Pick',
+  descriptionTag: '台湾・インド・オーストラリア・ヨーロッパなど、スコッチ・バーボン以外の新世代ウイスキーを徹底解説。カバラン・アムルット・マックミラなど世界で注目の銘柄をAmazon・楽天で購入できます。',
+  titleJa: 'ニューワールドウイスキー',
+  titleEn: 'New World Whisky Guide',
+  intro: 'スコットランド・アイルランド・アメリカ・日本という「伝統4大産地」以外で造られるウイスキーの総称。台湾・インド・オーストラリア・スウェーデン・ウェールズなど世界50カ国以上で蒸留が行われるようになり、2010年代から急速に品質が向上。独自の気候や原料を活かした個性が「次の名産地」として世界中のウイスキーファンの注目を集めている。',
+  heroImage: { src: '/distillery/newworld.jpg', alt: 'ニューワールドウイスキー', objectPosition: 'center center' },
+  regions: [
+    { name: '台湾（カバラン）', desc: '亜熱帯の高温多湿が熟成を加速させ、創業わずか数年で世界最高賞を受賞。フルーティで濃厚なトロピカル風味が特徴。', brands: 'カバラン ソリスト、カバラン クラシック', amazonKeyword: 'カバラン ウイスキー', rakutenKeyword: 'カバラン ウイスキー' },
+    { name: 'インド（アムルット・ポールジョン）', desc: 'ヒマラヤの清冽な水と高地の寒暖差がユニークな熟成をもたらす。スパイシーかつフルーティな個性でスコッチ通も唸らせる。', brands: 'アムルット フュージョン、ポールジョン ビリーブ', amazonKeyword: 'アムルット インドウイスキー', rakutenKeyword: 'アムルット ウイスキー' },
+    { name: 'オーストラリア（サリバンズコーブ）', desc: 'タスマニア島の冷涼な気候がスコッチに近い繊細な熟成を生む。世界大会でスコッチを破ったフレンチオーク樽表現が有名。', brands: 'サリバンズコーブ フレンチオーク', amazonKeyword: 'サリバンズコーブ オーストラリア ウイスキー', rakutenKeyword: 'サリバンズコーブ ウイスキー' },
+    { name: 'ヨーロッパ（スウェーデン・ウェールズ）', desc: 'マックミラ（スウェーデン）はスウェーデン産大麦とジュニパーを使った北欧スタイル。ペンダーリン（ウェールズ）はチャールズ国王も愛飲する軽やかなモルト。', brands: 'マックミラ スウェディッシュ ミーティング、ペンダーリン マデイラ', amazonKeyword: 'マックミラ スウェーデン ウイスキー', rakutenKeyword: 'ペンダーリン ウェールズ ウイスキー' },
+  ],
+  compareLeft: {
+    title: 'アジア系（台湾・インド）',
+    items: ['高温・多湿が熟成を加速（3〜5年でスコッチの10年相当も）', 'トロピカルフルーツ・スパイスの濃厚な風味', 'コストパフォーマンスが高い傾向', '日本での入手しやすさが増加中', '若い蒸留所が多いが品質は世界最高水準'],
+    amazonKeyword: 'カバラン アムルット アジアンウイスキー',
+    rakutenKeyword: 'カバラン ウイスキー アジア',
+  },
+  compareRight: {
+    title: 'ヨーロッパ系（スウェーデン・ウェールズ等）',
+    items: ['冷涼な気候でスコッチに近い繊細な熟成', '地元産穀物・独自原料で個性を打ち出す', 'クラフト精神旺盛で限定品が多い', 'スコッチファンに受け入れられやすい風味', '入手が難しい銘柄も多くコレクター人気'],
+    amazonKeyword: 'マックミラ ペンダーリン ヨーロッパウイスキー',
+    rakutenKeyword: 'マックミラ ウイスキー スウェーデン',
+  },
+  brandProfiles: [
+    { nameJa: 'カバラン ソリスト', nameEn: 'Kavalan Solist', founded: 2006, region: '台湾', flavorTags: ['トロピカル', '濃厚', '世界最高賞'], desc: '台湾・宜蘭の亜熱帯気候が生む超高速熟成ウイスキー。ソリストシリーズは単一樽原酒でカスクストレングス。世界中のコンペで受賞歴多数。', signature: 'カバラン ソリスト バーボンカスク', amazonKeyword: 'カバラン ソリスト ウイスキー', rakutenKeyword: 'カバラン ソリスト' },
+    { nameJa: 'カバラン クラシック', nameEn: 'Kavalan Classic', founded: 2006, region: '台湾', flavorTags: ['入門', 'フルーティ', 'バランス'], desc: 'カバランの定番エントリーモデル。バニラ・バナナ・トロピカルフルーツのフレッシュな香りでニューワールド入門に最適な1本。', signature: 'カバラン クラシック シングルモルト', amazonKeyword: 'カバラン クラシック ウイスキー', rakutenKeyword: 'カバラン クラシック' },
+    { nameJa: 'アムルット フュージョン', nameEn: 'Amrut Fusion', founded: 1948, region: 'インド・バンガロール', flavorTags: ['スパイシー', 'ピーティ', '複雑'], desc: 'インド産大麦とスコットランド産ピート麦芽をブレンド。スモーキーでスパイシーな複雑味はスコッチファンを唸らせる。世界三大ウイスキー本で絶賛。', signature: 'アムルット フュージョン シングルモルト', amazonKeyword: 'アムルット フュージョン ウイスキー', rakutenKeyword: 'アムルット フュージョン' },
+    { nameJa: 'ポールジョン ビリーブ', nameEn: 'Paul John Brilliance', founded: 1996, region: 'インド・ゴア', flavorTags: ['クリーミー', 'フルーティ', '上品'], desc: 'インド・ゴア州のジョン蒸留所が手がけるシングルモルト。インド産6列大麦を使用し、熱帯の温暖な気候が生むクリーミーで熟したフルーツの風味が特徴。', signature: 'ポールジョン ビリーブ', amazonKeyword: 'ポールジョン ウイスキー インド', rakutenKeyword: 'ポールジョン インドウイスキー' },
+    { nameJa: 'サリバンズコーブ フレンチオーク', nameEn: "Sullivan's Cove French Oak", founded: 1994, region: 'オーストラリア・タスマニア', flavorTags: ['世界最高賞', 'フレンチオーク', '上品'], desc: '2014年にスコッチを破り世界最高賞を受賞したオーストラリアの雄。フレンチオーク樽による甘くエレガントな風味は世界中のコレクターが注目。', signature: 'サリバンズコーブ フレンチオーク シングルカスク', amazonKeyword: 'サリバンズコーブ オーストラリア ウイスキー', rakutenKeyword: 'サリバンズコーブ ウイスキー' },
+    { nameJa: 'マックミラ スウェディッシュ ミーティング', nameEn: 'Mackmyra Svensk Rök', founded: 1999, region: 'スウェーデン', flavorTags: ['北欧', 'ジュニパー', '個性的'], desc: 'スウェーデン産大麦・泥炭・ジュニパーで燻製した独自のスモーキーさが特徴。北欧の森を思わせるハーバルで個性的な風味は唯一無二。', signature: 'マックミラ スヴェンスク レック', amazonKeyword: 'マックミラ スウェーデン ウイスキー', rakutenKeyword: 'マックミラ ウイスキー' },
+  ],
+  beginnerTip: 'ニューワールド入門には「カバラン クラシック」が最適。トロピカルでフルーティな風味はスコッチやバーボンとも一線を画す新鮮な体験ができます。ピートが好きな方はアムルット フュージョンで、スコッチとはひと味違うインドのスモーキーさをお楽しみください。',
+  bottles: [
+    { rank: 1, name: 'カバラン クラシック シングルモルト', region: '台湾', tags: ['入門', 'トロピカル'], reason: '台湾最大の蒸留所の定番。フルーティで飲みやすくニューワールド入門に最適', price: '4,000円〜（700ml）', amazonKeyword: 'カバラン クラシック ウイスキー', rakutenKeyword: 'カバラン クラシック', bottleSlug: null },
+    { rank: 2, name: 'アムルット フュージョン', region: 'インド', tags: ['スパイシー', 'ピーティ'], reason: 'スコッチファンも納得の複雑なピートとスパイス。コスパも優秀', price: '5,000円〜（700ml）', amazonKeyword: 'アムルット フュージョン ウイスキー', rakutenKeyword: 'アムルット フュージョン', bottleSlug: null },
+    { rank: 3, name: 'カバラン ソリスト バーボンカスク', region: '台湾', tags: ['濃厚', 'カスクストレングス'], reason: '単一樽のカスクストレングス。バニラ・ドライフルーツの濃密な風味', price: '10,000円〜（700ml）', amazonKeyword: 'カバラン ソリスト バーボン ウイスキー', rakutenKeyword: 'カバラン ソリスト', bottleSlug: null },
+    { rank: 4, name: 'ポールジョン ビリーブ', region: 'インド', tags: ['クリーミー', '上品'], reason: 'ゴアの蒸留所が作るクリーミーで熟したフルーツ感。飲みやすくて上品', price: '5,500円〜（700ml）', amazonKeyword: 'ポールジョン ウイスキー インド', rakutenKeyword: 'ポールジョン ウイスキー', bottleSlug: null },
+    { rank: 5, name: 'マックミラ スヴェンスク レック', region: 'スウェーデン', tags: ['北欧', '個性派'], reason: 'ジュニパーで燻した北欧ならではのスモーキーさ。他では味わえない個性', price: '6,000円〜（700ml）', amazonKeyword: 'マックミラ スウェーデン ウイスキー', rakutenKeyword: 'マックミラ ウイスキー', bottleSlug: null },
+    { rank: 6, name: 'サリバンズコーブ フレンチオーク', region: 'オーストラリア', tags: ['世界最高賞', '希少'], reason: '世界最高賞受賞のオーストラリア産。エレガントなフレンチオーク熟成', price: '20,000円〜（700ml）', amazonKeyword: 'サリバンズコーブ ウイスキー オーストラリア', rakutenKeyword: 'サリバンズコーブ', bottleSlug: null },
+  ],
+}
+
+// ── その他の焼酎データ ─────────────────────────────────────
+
+const OTHER_SHOCHU: GuideData = {
+  slug: 'other-shochu',
+  flag: '🌿',
+  introTitle: 'その他の焼酎とは',
+  regionsTitle: '主要スタイル',
+  compareTitle: '泡盛と本格焼酎（本土）の違い',
+  titleTag: 'その他の焼酎（そば・栗・泡盛）とは？種類・銘柄・飲み方を解説 | SO WHAT Pick',
+  descriptionTag: 'そば焼酎・栗焼酎・泡盛・ごま焼酎など、芋・麦・米以外の個性派本格焼酎を徹底解説。雲海・池の露・久米島の久米仙など、おすすめ銘柄をAmazon・楽天で購入できます。',
+  titleJa: 'その他の焼酎',
+  titleEn: 'Other Shochu Guide',
+  intro: '芋・麦・米・黒糖以外の多彩な原料で造られる本格焼酎の世界。そば・栗・ごま・酒粕など個性豊かな原料焼酎のほか、沖縄の伝統酒「泡盛」も含まれる。主原料の風味が素直に出やすいのがこのカテゴリーの魅力で、食事との相性を探る楽しさも抜群。個性派好きや焼酎上級者に人気が高い。',
+  heroImage: { src: '/distillery/other-shochu.jpg', alt: 'その他の焼酎', objectPosition: 'center center' },
+  regions: [
+    { name: 'そば焼酎', desc: '宮崎県を中心に製造。そば本来の香ばしい風味とすっきりした飲み口が特徴。食事との相性が抜群でクセが少なく飲みやすい。', brands: '雲海、そばや、天の刻印', amazonKeyword: 'そば焼酎', rakutenKeyword: 'そば焼酎' },
+    { name: '栗焼酎', desc: '熊本・宮崎・愛媛などで製造。栗の上品な甘みとほのかなナッツ感が特徴。香り高くデザート感覚でも楽しめる。', brands: '池の露、栗天照、四万十大正', amazonKeyword: '栗焼酎', rakutenKeyword: '栗焼酎' },
+    { name: '泡盛（沖縄）', desc: '沖縄に伝わる日本最古の蒸留酒。タイ米と黒麹菌を使い全麹仕込みで造られる。長期熟成させた「古酒（クース）」は格別の深みを持つ。', brands: '久米島の久米仙、残波、瑞穂、菊之露', amazonKeyword: '泡盛 沖縄', rakutenKeyword: '泡盛 古酒' },
+    { name: 'ごま焼酎', desc: '福岡県発祥。ごまを原料の一部に使うことでナッツのような香ばしさとコクが生まれる。ロック・お湯割りどちらでも香りが引き立つ。', brands: '紅乙女、胡麻祥酎', amazonKeyword: 'ごま焼酎 紅乙女', rakutenKeyword: 'ごま焼酎' },
+    { name: '酒粕焼酎（粕取り焼酎）', desc: '日本酒の製造過程で出る酒粕を蒸留した焼酎。日本酒のような吟醸香と独特の風味が特徴で、地酒産地に多く見られる伝統的なスタイル。', brands: '大石長一郎（熊本）、豊明（大分）', amazonKeyword: '粕取り焼酎 酒粕焼酎', rakutenKeyword: '酒粕焼酎' },
+  ],
+  compareLeft: {
+    title: '泡盛（沖縄）',
+    items: ['原料はタイ米 × 黒麹菌（全麹仕込み）', '一次仕込みのみのシンプルな製法', '長期熟成「古酒（クース）」文化が根付く', 'アルコール度数30度以上が多い', '沖縄料理・島の食文化と深く結びつく'],
+    amazonKeyword: '泡盛 古酒 沖縄',
+    rakutenKeyword: '泡盛 古酒 久米仙',
+  },
+  compareRight: {
+    title: '本格焼酎（本土）',
+    items: ['原料は多様（そば・栗・ごま・酒粕等）', '白麹・黒麹・黄麹など麹の選択肢も豊富', '一般的に熟成期間は短め（タンク貯蔵中心）', 'アルコール度数25度前後が主流', '各産地の食材・料理に合わせた設計が多い'],
+    amazonKeyword: 'そば焼酎 栗焼酎 個性派',
+    rakutenKeyword: 'そば焼酎 雲海',
+  },
+  brandProfiles: [
+    { nameJa: '雲海', nameEn: 'Unkai', founded: 1972, region: '宮崎県・五ヶ瀬', flavorTags: ['そば', '定番', '飲みやすい'], desc: '宮崎県五ヶ瀬の清冽な水と国産そばで造るそば焼酎の代名詞的ブランド。すっきりと香ばしいそばの風味は焼酎初心者から通まで幅広く愛される。', signature: '雲海 そば焼酎 25度', amazonKeyword: '雲海 そば焼酎', rakutenKeyword: '雲海 そば焼酎' },
+    { nameJa: '池の露', nameEn: 'Ikenotsuyu', founded: 1905, region: '熊本県・五木村', flavorTags: ['栗', 'フルーティ', '香り高い'], desc: '熊本県球磨の五木村が産地の栗焼酎。栗のほのかな甘みとフルーティな香りが上品で、デザート感覚でも楽しめる個性派焼酎の傑作。', signature: '池の露 栗焼酎', amazonKeyword: '池の露 栗焼酎 熊本', rakutenKeyword: '池の露 栗焼酎' },
+    { nameJa: '久米島の久米仙', nameEn: 'Kumejima no Kumesen', founded: 1952, region: '沖縄県・久米島', flavorTags: ['泡盛', '古酒', '人気No.1'], desc: '沖縄で最も親しまれる泡盛ブランドのひとつ。久米島の自然湧き水と黒麹で醸す正統派泡盛。古酒（クース）シリーズは長期熟成の深みが楽しめる。', signature: '久米島の久米仙 古酒', amazonKeyword: '久米島 久米仙 泡盛', rakutenKeyword: '久米島の久米仙 泡盛' },
+    { nameJa: '残波', nameEn: 'Zanpa', founded: 1946, region: '沖縄県・読谷村', flavorTags: ['泡盛', 'スッキリ', '全国区'], desc: '沖縄を代表する大手泡盛ブランド。すっきりとしたクリーンな飲み口は泡盛初心者に最も薦めやすい1本。白と黒ラベルで飲み比べも楽しい。', signature: '残波 ホワイト 30度', amazonKeyword: '残波 泡盛 沖縄', rakutenKeyword: '残波 泡盛' },
+    { nameJa: '紅乙女', nameEn: 'Beni Otome', founded: 1973, region: '福岡県・久留米', flavorTags: ['ごま', '香ばしい', '独自スタイル'], desc: '日本で初めてごまを原料に取り入れた福岡発の焼酎。ごまの香ばしさとコクは他に類を見ない個性。お湯割りにすると香りがより際立つ。', signature: '紅乙女 ゴールド 25度', amazonKeyword: '紅乙女 ごま焼酎', rakutenKeyword: '紅乙女 焼酎' },
+    { nameJa: '菊之露', nameEn: 'Kikunotsuyu', founded: 1928, region: '沖縄県・宮古島', flavorTags: ['泡盛', '宮古', '芳醇'], desc: '宮古島を代表する泡盛蔵の老舗銘柄。宮古島の石灰岩が濾過した天然水を使用し、芳醇で奥深い風味は沖縄での晩酌には欠かせない存在。', signature: '菊之露 30度', amazonKeyword: '菊之露 泡盛 宮古', rakutenKeyword: '菊之露 泡盛' },
+  ],
+  beginnerTip: 'その他焼酎の入門には「雲海（そば）」がおすすめ。香ばしくクセが少なくどんな料理にも合わせやすい。泡盛に挑戦するなら「残波ホワイト」か「久米島の久米仙」をロックや水割りで。栗焼酎は「池の露」をぜひストレートか軽めのロックで楽しんでみてください。',
+  bottles: [
+    { rank: 1, name: '雲海 そば焼酎', region: 'そば（宮崎）', tags: ['定番', '飲みやすい'], reason: 'そば焼酎の代名詞。香ばしくクセなく食事を選ばない万能派', price: '1,200円〜（720ml）', amazonKeyword: '雲海 そば焼酎', rakutenKeyword: '雲海 そば焼酎', bottleSlug: null },
+    { rank: 2, name: '残波 ホワイト', region: '泡盛（沖縄）', tags: ['スッキリ', '入門泡盛'], reason: '沖縄を代表する泡盛。クリーンで飲みやすく泡盛デビューに最適', price: '1,500円〜（720ml）', amazonKeyword: '残波 泡盛 ホワイト', rakutenKeyword: '残波 泡盛', bottleSlug: null },
+    { rank: 3, name: '久米島の久米仙 古酒', region: '泡盛（沖縄・久米島）', tags: ['古酒', '深み'], reason: '長期熟成のクースはまろやかで複雑。泡盛の真髄を感じたい方に', price: '2,500円〜（720ml）', amazonKeyword: '久米島 久米仙 泡盛 古酒', rakutenKeyword: '久米島の久米仙 古酒', bottleSlug: null },
+    { rank: 4, name: '池の露 栗焼酎', region: '栗（熊本）', tags: ['フルーティ', '個性派'], reason: '栗のほのかな甘みとフルーティな香り。ロックで飲むと格別', price: '2,000円〜（720ml）', amazonKeyword: '池の露 栗焼酎 熊本', rakutenKeyword: '池の露 栗焼酎', bottleSlug: null },
+    { rank: 5, name: '紅乙女 ゴールド', region: 'ごま（福岡）', tags: ['香ばしい', '独自'], reason: 'ごまの香ばしさと独特のコク。お湯割りで香りが引き立つ個性派', price: '1,500円〜（720ml）', amazonKeyword: '紅乙女 ごま焼酎', rakutenKeyword: '紅乙女 焼酎', bottleSlug: null },
+    { rank: 6, name: '菊之露 30度', region: '泡盛（沖縄・宮古島）', tags: ['宮古泡盛', '芳醇'], reason: '宮古島の石灰岩水が育む芳醇な泡盛。沖縄料理と最高の相性', price: '1,800円〜（720ml）', amazonKeyword: '菊之露 泡盛 宮古', rakutenKeyword: '菊之露 泡盛', bottleSlug: null },
+  ],
+}
+
 const GUIDE_DATA: Record<string, GuideData> = {
   scotch: SCOTCH,
   bourbon: BOURBON,
@@ -939,6 +1044,8 @@ const GUIDE_DATA: Record<string, GuideData> = {
   mugi: MUGI,
   kome: KOME,
   kokuto: KOKUTO,
+  newworld: NEW_WORLD,
+  'other-shochu': OTHER_SHOCHU,
 }
 
 // ── generateStaticParams ──────────────────────────────────
