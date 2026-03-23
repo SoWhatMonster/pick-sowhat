@@ -728,7 +728,7 @@ export default function StepFlow() {
                   type="button"
                   disabled={!omikujiBirthdate}
                 >
-                  運勢を占う →
+                  今日の1本を見つける →
                 </button>
                 <button
                   className={styles.omikujiSkipBtn}
@@ -747,7 +747,7 @@ export default function StepFlow() {
                   <div className={styles.loadingRing} />
                   <div className={styles.loadingDot} />
                 </div>
-                <p className={styles.omikujiLoadingText}>おみくじを引いています…</p>
+                <p className={styles.omikujiLoadingText}>星と干支と相談中…</p>
               </div>
             )}
 
@@ -814,7 +814,7 @@ export default function StepFlow() {
                       >楽天 →</a>
                     </div>
                     <div className={styles.omikujiFooter}>
-                      <button className={styles.omikujiReroll} onClick={rerollOmikuji} type="button">もう1本引く ✦</button>
+                      <button className={styles.omikujiReroll} onClick={() => setOmikujiPhase('form')} type="button">生年月日を変える ✦</button>
                       <button className={styles.omikujiCloseBtn} onClick={() => setOmikujiPhase(null)} type="button">閉じる</button>
                     </div>
                   </>
