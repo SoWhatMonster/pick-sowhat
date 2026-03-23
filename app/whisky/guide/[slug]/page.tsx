@@ -822,7 +822,7 @@ const KOME: GuideData = {
   titleJa: '米焼酎',
   titleEn: 'Kome Shochu Guide',
   intro: '米を主原料とした本格焼酎で、日本酒に近い甘みとフルーティな香りが特徴。熊本県球磨地方が最も有名な産地で、「球磨焼酎」として地理的表示が認定されている。清酒の製造技術がベースにあるため、発酵・蒸留のコントロールが精緻で品質の高い銘柄が多い。',
-  heroImage: { src: '/distillery/kome.jpg', alt: '山を背景に野原に立つ人', credit: 'Photo by Jinomono Media on Unsplash', creditUrl: 'https://unsplash.com/photos/HQnY0twPFkc', objectPosition: 'center center' },
+  heroImage: { src: '/distillery/kome.jpg', alt: '山を背景に野原に立つ人', credit: 'Photo by Jinomono Media on Unsplash', creditUrl: 'https://unsplash.com/photos/HQnY0twPFkc', objectPosition: 'center 40%' },
   regions: [
     { name: '熊本県（球磨地方）', desc: '米焼酎の聖地。球磨川の清冽な水と地元産のヒノヒカリを使う球磨焼酎は「日本のラム」と呼ばれることも。', brands: '白岳、繊月、球磨の泉、豊永蔵', amazonKeyword: '球磨 米焼酎 熊本', rakutenKeyword: '球磨焼酎 米' },
     { name: '宮崎県', desc: '米焼酎においても宮崎は独自の個性を持つ産地。豊かな自然の恵みと独自技術が個性ある銘柄を生む。', brands: '鳥飼、宮崎 米焼酎', amazonKeyword: '鳥飼 米焼酎 宮崎', rakutenKeyword: '宮崎 米焼酎' },
@@ -883,7 +883,7 @@ const KOKUTO: GuideData = {
   titleJa: '黒糖焼酎',
   titleEn: 'Kokuto Shochu Guide',
   intro: '鹿児島県奄美群島のみで製造が認められた特産焼酎。サトウキビから作られた黒糖と米麹を使うことで、ラム酒に似た甘い香りと本格焼酎の個性を兼ね備えた唯一無二の酒が生まれる。奄美大島の温暖な気候と豊かな自然が育む、南国の恵みを感じられる焼酎。',
-  heroImage: { src: '/distillery/kokuto.jpg', alt: '黒糖焼酎の風景', objectPosition: 'center center' },
+  heroImage: { src: '/distillery/kokuto.jpg', alt: '黒糖焼酎の風景', objectPosition: 'center center', objectPositionPc: 'center 60%' },
   regions: [
     { name: '奄美大島', desc: '黒糖焼酎の中心地。島全体に多くの蔵元が点在し、各蔵が独自のこだわりを持った多様な銘柄を生産している。', brands: '里の曙、龍宮、奄美、れんと', amazonKeyword: '奄美大島 黒糖焼酎', rakutenKeyword: '奄美大島 黒糖焼酎' },
     { name: '喜界島', desc: '奄美群島の一島・喜界島で造られる黒糖焼酎。サトウキビの生産が盛んな島ならではの豊かな黒糖風味が特徴。', brands: '喜界島 焼酎、朝日', amazonKeyword: '喜界島 黒糖焼酎', rakutenKeyword: '喜界島 黒糖焼酎' },
