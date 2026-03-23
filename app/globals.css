@@ -950,6 +950,12 @@ input[type='range'] {
 
 .subHeroImg {
   object-fit: cover; /* Next.js Image fill モード用 */
+  object-position: var(--hero-obj-pos, center center);
+}
+@media (min-width: 768px) {
+  .subHeroImg {
+    object-position: var(--hero-obj-pos-pc, var(--hero-obj-pos, center center));
+  }
 }
 
 .subHeroCredit {
