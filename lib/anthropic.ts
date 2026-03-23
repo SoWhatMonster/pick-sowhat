@@ -29,6 +29,8 @@ export type RecommendRequest = {
   experience?: string  // ギフトモード時はundefined
   season: string
   month: number
+  // おすすめスタイル
+  recommendStyle?: 'classic' | 'balanced' | 'niche'
 }
 
 export type RecommendResult = {
@@ -57,6 +59,21 @@ const SYSTEM_PROMPT = `あなたはウイスキーと焼酎の専門家です。
 - 「飲み比べ」「セット」などの概念語だけをキーワードにしないでください。
 - シーンに「飲み比べをしたい」が含まれる場合は、それぞれの銘柄が産地・スタイル・フレーバーで対比的な個性を持つよう選んでください。テイスティングで違いが際立つ組み合わせが理想です。
 
+【銘柄選定のルール】
+1. 「BEST MATCH」は条件に最も合う銘柄（メジャーでもOK）
+2. 「ALSO GREAT」は知名度が中程度の銘柄を優先する
+3. 「WILD CARD」は必ずマニアックまたは意外性のある銘柄にすること
+
+グレンフィディック・マッカラン・山崎・白州・余市は「BEST MATCH」以外では選ばない。
+
+WILD CARDの具体的な方向性:
+- 小規模蒸留所の銘柄
+- ワールドウイスキー（日本・スコットランド以外）
+- 知る人ぞ知る焼酎の銘柄
+- 最近注目されている新興蒸留所
+
+ユーザーの経験値が「詳しい」の場合: 3本すべてをマニアックな銘柄にしてよい。
+
 以下のJSON構造で返してください:
 {
   "reason": "選んだ理由（1〜2文）",
@@ -79,6 +96,18 @@ const SYSTEM_PROMPT = `あなたはウイスキーと焼酎の専門家です。
 function formatMultiSelect(arr: string[] | undefined, label: string): string {
   if (!arr || arr.length === 0) return `${label}: お任せ`
   return `${label}: ${arr.join('・')}`
+}
+
+function buildRecommendStyleNote(style?: 'classic' | 'balanced' | 'niche'): string {
+  switch (style) {
+    case 'classic':
+      return '\nおすすめスタイル: 王道・定番（定番の人気銘柄から選ぶ。初心者が失敗しない選択を優先）'
+    case 'niche':
+      return '\nおすすめスタイル: マニアック（知名度よりも個性・希少性を優先。有名銘柄は選ばない）'
+    case 'balanced':
+    default:
+      return '\nおすすめスタイル: バランス（メジャーとマイナーを混ぜる）'
+  }
 }
 
 export function buildUserPrompt(req: RecommendRequest): string {
@@ -114,7 +143,7 @@ export function buildUserPrompt(req: RecommendRequest): string {
 酒の種類: ${req.spirit}
 ${spiritDetail}
 予算: ${req.budget}
-経験値: ${req.experience ?? 'たまに飲む'}
+経験値: ${req.experience ?? 'たまに飲む'}${buildRecommendStyleNote(req.recommendStyle)}
 ${nomikurabeNote}
 上記の条件でウイスキーまたは焼酎を5銘柄レコメンドしてください。`
   }
@@ -131,7 +160,7 @@ ${nomikurabeNote}
 酒の種類: ${req.spirit}
 ${spiritDetail}
 予算: ${req.budget}
-現在の季節: ${req.season}（${req.month}月）
+現在の季節: ${req.season}（${req.month}月）${buildRecommendStyleNote(req.recommendStyle)}
 ${giftNomikurabeNote}
 上記の条件でギフトに最適なウイスキーまたは焼酎を5銘柄レコメンドしてください。`
 }

@@ -25,7 +25,8 @@ function checkRateLimit(ip: string): boolean {
 }
 
 // ── 許可値ホワイトリスト ────────────────────────────────────
-const ALLOWED_MODES    = new Set(['self', 'gift'])
+const ALLOWED_MODES             = new Set(['self', 'gift'])
+const ALLOWED_RECOMMEND_STYLES  = new Set(['classic', 'balanced', 'niche'])
 const ALLOWED_SPIRITS  = new Set(['ウイスキー', '焼酎', 'どちらでも'])
 const ALLOWED_BUDGETS  = new Set(['〜2,000円', '〜5,000円', '〜10,000円', '10,000円以上', 'こだわらない'])
 const ALLOWED_EXPERIENCES = new Set(['初めてに近い', 'たまに飲む', '結構好き', '詳しい'])
@@ -150,6 +151,11 @@ export async function POST(req: NextRequest) {
       ? (raw.giftExperience as string)
       : undefined,
     giftNomikurabe: mode === 'gift' ? raw.giftNomikurabe === true : undefined,
+
+    // おすすめスタイル
+    recommendStyle: ALLOWED_RECOMMEND_STYLES.has(raw.recommendStyle as string)
+      ? (raw.recommendStyle as 'classic' | 'balanced' | 'niche')
+      : 'balanced',
 
     // ウイスキー詳細
     whiskyRegions: spirit === 'ウイスキー' ? filterWhitelist(raw.whiskyRegions, ALLOWED_WHISKY_REGIONS) : undefined,

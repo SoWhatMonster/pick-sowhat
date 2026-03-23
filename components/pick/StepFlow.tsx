@@ -115,6 +115,7 @@ export default function StepFlow() {
 
   const [budget, setBudget] = useState<string>(DEFAULT_BUDGET)
   const [experience, setExperience] = useState<string>(DEFAULT_EXPERIENCE)
+  const [recommendStyle, setRecommendStyle] = useState<'classic' | 'balanced' | 'niche'>('balanced')
 
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<RecommendResponse | null>(null)
@@ -175,6 +176,7 @@ export default function StepFlow() {
       experience: mode === 'self' ? experience : undefined,
       season,
       month,
+      recommendStyle,
     }
 
     try {
@@ -625,6 +627,22 @@ export default function StepFlow() {
               </>
             )}
 
+            <div className={styles.divider} />
+            <div className={styles.giftField}>
+              <div className={styles.giftLabel}>おすすめのタイプ</div>
+              <div className={styles.recommendStyleRow}>
+                {([
+                  { value: 'classic', label: '王道・定番' },
+                  { value: 'balanced', label: 'バランス' },
+                  { value: 'niche', label: 'マニアック' },
+                ] as const).map(({ value, label }) => (
+                  <button key={value} type="button"
+                    className={`${styles.recommendStyleBtn} ${recommendStyle === value ? styles.recommendStyleSelected : ''}`}
+                    onClick={() => setRecommendStyle(value)}>{label}</button>
+                ))}
+              </div>
+            </div>
+
             {error && <div className={styles.errorMsg}>{error}</div>}
 
             <button className={styles.nextBtn} onClick={fetchRecommendations} type="button">
@@ -796,7 +814,7 @@ export default function StepFlow() {
                         <span key={tag} className={styles.omikujiTag}>{tag}</span>
                       ))}
                     </div>
-                    <p className={styles.omikujiComment}>{omikujiResult.comment}</p>
+                    <p className={styles.omikujiComment}>{omikujiResult.fortune ?? omikujiResult.comment}</p>
                     <div className={styles.omikujiActions}>
                       <a
                         href={buildAmazonUrl(omikujiResult.amazonKeyword, amazonTag)}
@@ -813,6 +831,13 @@ export default function StepFlow() {
                         onClick={() => pushGtmEvent('omikuji_rakuten_click', { item_name: omikujiResult.name })}
                       >楽天 →</a>
                     </div>
+                    <a
+                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`今日のAIおみくじで「${omikujiResult.name}」が出た🥃\n\n${omikujiResult.fortune ?? omikujiResult.comment ?? ''}\n\n#SOWHAT #ウイスキーおみくじ #AIチョイス`)}&url=${encodeURIComponent('https://pick.sowhat.monster/whisky')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.omikujiShareX}
+                      onClick={() => pushGtmEvent('omikuji_share_x', { item_name: omikujiResult.name })}
+                    >Xでシェアする</a>
                     <div className={styles.omikujiFooter}>
                       <button className={styles.omikujiReroll} onClick={() => setOmikujiPhase('form')} type="button">生年月日を変える ✦</button>
                       <button className={styles.omikujiCloseBtn} onClick={() => setOmikujiPhase(null)} type="button">閉じる</button>

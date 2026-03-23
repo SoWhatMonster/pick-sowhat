@@ -6,13 +6,15 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
+import { buildTodayFortuneContext, getEtoSign, getZodiacSign } from '@/lib/fortune'
 
 const client = new Anthropic()
 
 export type OmikujiResult = {
   name: string
   tags: string[]
-  comment: string
+  comment?: string
+  fortune: string
   amazonKeyword: string
   rakutenKeyword: string
   bottleSlug: string | null
@@ -28,27 +30,7 @@ function hashString(s: string): number {
   return Math.abs(h)
 }
 
-// ── 干支 ──
-const ETO = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
-function getEto(year: number): string {
-  return ETO[((year - 4) % 12 + 12) % 12]
-}
-
-// ── 西洋星座 ──
-function getSeiza(month: number, day: number): string {
-  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return '牡羊座'
-  if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return '牡牛座'
-  if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return '双子座'
-  if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) return '蟹座'
-  if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return '獅子座'
-  if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return '乙女座'
-  if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return '天秤座'
-  if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return '蠍座'
-  if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return '射手座'
-  if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return '山羊座'
-  if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return '水瓶座'
-  return '魚座'
-}
+// ── 干支・星座は lib/fortune.ts のものを使用 ──
 
 // ── フレーバープロファイル（生年月日ハッシュで決定） ──
 const FLAVOR_PROFILES = [
@@ -109,9 +91,14 @@ const BOTTLE_CATALOG_TEXT = BOTTLE_CATALOG
   .join('\n')
 
 const SYSTEM_PROMPT = `あなたはウイスキーと焼酎の専門家です。
-依頼に従って今日のおみくじとして1本レコメンドしてください。
+おみくじとして1本レコメンドしてください。
+以下の情報を使って、少しユーモアのある「こじつけ理由」（fortuneフィールド）を生成してください。
 
-必ずJSON形式のみで返してください。説明文は不要です。
+fortuneのルール:
+- こじつけは楽しく・やさしく。占いのような軽いトーンで
+- 銘柄の特徴（産地・フレーバー）と星座・干支を無理やり結びつける
+- 1〜2文。断言口調（「〜はずです」「〜でしょう」）
+- ネガティブな表現は使わない
 
 以下の銘柄はボトル画像があります。これらをレコメンドする場合は "bottleSlug" フィールドにスラッグを設定してください。それ以外は null にしてください:
 ${BOTTLE_CATALOG_TEXT}
@@ -119,11 +106,13 @@ ${BOTTLE_CATALOG_TEXT}
 categoryは以下から1つ選んでください:
   scotch / bourbon / japanese / irish / newworld / imo / mugi / kome / kokuto / other
 
+必ずJSON形式のみで返してください。説明文は不要です。
+
 JSONフォーマット:
 {
   "name": "銘柄名（正式名称）",
   "tags": ["産地またはカテゴリ", "フレーバー特徴", "価格帯"],
-  "comment": "今日この1本を引いたあなたへの一言（1〜2文、占い的なトーンで）",
+  "fortune": "こじつけユーモア（星座・干支・銘柄の特徴を絡めた1〜2文）",
   "amazonKeyword": "Amazon検索用キーワード",
   "rakutenKeyword": "楽天検索用キーワード",
   "bottleSlug": "スラッグ または null",
@@ -140,7 +129,7 @@ export async function POST(req: NextRequest) {
     }
 
     let flavorInstruction = '好みの1本をランダムに選んでください。'
-    let fortuneContext = ''
+    let birthdateFortuneContext = ''
 
     if (birthdate) {
       // 1. 生年月日ハッシュ → フレーバープロファイルを決定（同じ誕生日は常に同じプロファイル）
@@ -148,22 +137,26 @@ export async function POST(req: NextRequest) {
       const profile = FLAVOR_PROFILES[profileIndex]
       flavorInstruction = profile.instruction
 
-      // 2. 干支・星座をコメント用に算出
+      // 2. 生年月日から干支・星座を算出（fortuneのこじつけに使う）
       const d = new Date(birthdate)
-      const year = d.getFullYear()
-      const month = d.getMonth() + 1
-      const day = d.getDate()
-      const eto = getEto(year)
-      const seiza = getSeiza(month, day)
-      fortuneContext = `\n依頼者: ${birthdate}生まれ（${eto}年・${seiza}）。commentには干支か星座を自然に絡めてください。`
+      const bdYear  = d.getFullYear()
+      const bdMonth = d.getMonth() + 1
+      const bdDay   = d.getDate()
+      const bdEto   = getEtoSign(bdYear)
+      const bdSeiza = getZodiacSign(bdMonth, bdDay)
+      birthdateFortuneContext = `\n依頼者: ${birthdate}生まれ（${bdEto}年・${bdSeiza}）。fortuneには生年月日の干支か星座も自然に絡めてください。`
     }
 
-    // 3. 日付を加味して当日のバリエーションを作る
+    // 3. 今日の日付コンテキスト（干支・星座）を生成
+    const todayDate = new Date(date)
+    const todayFortuneCtx = buildTodayFortuneContext(isNaN(todayDate.getTime()) ? new Date() : todayDate)
+
+    // 4. バリエーション番号
     const dailyVariant = seed
       ? ` 今回のバリエーション番号: ${seed}`
-      : ` 今日の日付: ${date}`
+      : ''
 
-    const userPrompt = `${flavorInstruction}${fortuneContext}${dailyVariant}`
+    const userPrompt = `${flavorInstruction}${birthdateFortuneContext}\n${todayFortuneCtx}${dailyVariant}`
 
     const message = await client.messages.create({
       model: 'claude-haiku-4-5-20251001',

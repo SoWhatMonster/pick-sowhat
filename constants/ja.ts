@@ -23,7 +23,7 @@ export const TEXT = {
     label: '今日、運命の1本を見つける',
     tagline: 'Find Your Perfect Bottle.',
     spirits: ['WHISKY', 'SHOCHU'] as const,
-    sub: 'ウイスキーと焼酎から、シーン・気分・フレーバーをもとにAIがあなただけの1本を提案。',
+    sub: 'AIがウイスキー・焼酎をレコメンド。シーン・気分・フレーバーを入力するだけ。',
     howSteps: [
       { step: 'STEP 1', icon: '🎯', text: 'シーンを\n選ぶ' },
       { step: 'STEP 2', icon: '🎨', text: '好みを\n入力する' },

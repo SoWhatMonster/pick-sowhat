@@ -6,47 +6,46 @@ import DailyPicks from './DailyPicks'
 import SceneCarousel from './SceneCarousel'
 
 export const metadata: Metadata = {
-  title: 'SO WHAT Pick — Whisky & Shochu | 今日、運命の1本を見つける',
+  title: 'ウイスキー・焼酎AIレコメンド | AIが選ぶあなただけの1本 | SO WHAT Pick',
   description:
-    'シーン・気分・フレーバーから、あなたにぴったりのウイスキー・焼酎を3本AIがレコメンド。ギフト選びにも対応。アイラ・ジャパニーズ・バーボン・芋焼酎など幅広く対応。Amazon・楽天でそのまま購入できます。',
+    'ウイスキー・焼酎をAIが診断してレコメンド。シーン・気分・フレーバーを入力するだけで、AIがあなたにぴったりの銘柄を3本提案。ギフト選びにも対応。Amazon・楽天でそのまま購入できます。',
   keywords: [
-    'ウイスキー おすすめ',
-    'ウイスキー 選び方',
+    'ウイスキー AI おすすめ',
+    '焼酎 AI 診断',
     'ウイスキー 診断',
+    'ウイスキー おすすめ 初心者',
+    'AIチョイス ウイスキー',
+    'ウイスキー ギフト AI',
+    '焼酎 銘柄 おすすめ',
+    'ウイスキー 選び方',
     'ウイスキー ギフト',
-    '焼酎 おすすめ',
-    '焼酎 選び方',
-    '焼酎 ギフト',
-    'ウイスキー AI',
-    'ウイスキー 初心者',
     'ジャパニーズウイスキー 選び方',
   ],
   alternates: {
     canonical: 'https://pick.sowhat.monster/whisky',
-    // Phase 2: { en: 'https://pick.sowhat.monster/en/whisky' }
   },
   openGraph: {
-    title: 'SO WHAT Pick — Whisky & Shochu | 今日、運命の1本を見つける',
+    title: 'ウイスキー・焼酎AIレコメンド | SO WHAT Pick',
     description:
-      'シーン・気分・フレーバーから、あなたにぴったりのウイスキー・焼酎を3本AIがレコメンド。ギフト選びにも対応。',
+      'AIがあなたにぴったりのウイスキー・焼酎を診断。シーン・気分・フレーバーを入力するだけ。',
     url: 'https://pick.sowhat.monster/whisky',
     siteName: 'SO WHAT Pick',
     locale: 'ja_JP',
     type: 'website',
     images: [
       {
-        url: '/og-whisky.png',
+        url: 'https://pick.sowhat.monster/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'SO WHAT Pick — Whisky & Shochu | Find Your Perfect Bottle.',
+        alt: 'ウイスキー・焼酎AIレコメンド | SO WHAT Pick',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SO WHAT Pick — Whisky & Shochu',
-    description: 'シーン・気分・フレーバーから、あなたにぴったりのウイスキー・焼酎をAIがレコメンド。',
-    images: ['/og-whisky.png'],
+    title: 'ウイスキー・焼酎AIレコメンド | SO WHAT Pick',
+    description: 'AIがあなたにぴったりのウイスキー・焼酎を診断。シーン・気分・フレーバーを入力するだけ。',
+    images: ['https://pick.sowhat.monster/og-image.jpg'],
   },
 }
 
@@ -210,6 +209,12 @@ export default function WhiskyPage() {
           <p className="seoText">
             初めてウイスキーを選ぶ方には、クセが少なく飲みやすいアイリッシュウイスキーやジャパニーズウイスキーがおすすめ。ギフトには、見栄えのいいボックス入りのジャパニーズウイスキーや、バーボンの定番銘柄が人気です。
           </p>
+          <p className="seoText">
+            SO WHAT Pickは、あなたの「今」に合ったウイスキーや焼酎をAIが診断するレコメンドツールです。「ウイスキーをAIに選んでもらいたい」「焼酎のおすすめをAIに聞きたい」——そんなニーズに、シーン・フレーバー・予算の3ステップで応えます。
+          </p>
+          <p className="seoText">
+            同じ条件を入力しても、AIが季節や気分のニュアンスを読んで毎回異なる提案をします。「今日のおすすめ」は毎日更新。日替わりでAIが選んだ10本をチェックするだけでも、新しいウイスキーや焼酎との出会いがあります。
+          </p>
         </div>
       </section>
 
@@ -230,6 +235,9 @@ export default function WhiskyPage() {
               { q: '予算3,000円以内でおすすめはありますか？', a: 'はい。予算の入力欄で「〜2,000円」または「〜5,000円」を選ぶと、その範囲でAIがレコメンドします。' },
               { q: 'ハイボールに合うウイスキーを選べますか？', a: '診断のシーン選択で「食事と合わせたい」を選び、フレーバーで「軽め・ドライ」に設定するとハイボール向きの銘柄が出やすくなります。' },
               { q: '焼酎のギフトも選べますか？', a: 'はい。ギフトモードで「酒の種類：焼酎」を選ぶと、芋・麦・米焼酎の中から相手に合った1本を提案します。' },
+              { q: 'AIがウイスキーを選ぶとはどういうこと？', a: 'シーン・フレーバー・予算などの条件をAIが分析し、膨大なウイスキー・焼酎の知識から最適な銘柄を3本提案します。人の好みは十人十色ですが、AIは条件に忠実に、偏りなくおすすめを返します。' },
+              { q: 'AI診断は無料ですか？', a: 'はい、完全無料です。何度でも診断できます。' },
+              { q: 'ウイスキーのAIレコメンドはどの程度正確ですか？', a: '入力した条件（フレーバー・シーン・予算・経験値）に基づいて提案します。AIのレコメンドはあくまで参考として、最終的な判断はご自身でお願いします。' },
             ].map(({ q, a }) => (
               <div key={q} className="faqItem">
                 <dt className="faqQ">{q}</dt>

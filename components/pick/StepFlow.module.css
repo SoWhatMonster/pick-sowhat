@@ -502,6 +502,38 @@
   background: var(--accent-dim);
 }
 
+/* ── マニアック度セレクタ ── */
+.recommendStyleRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.recommendStyleBtn {
+  padding: 12px 4px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 11px;
+  font-family: var(--font-ui);
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.15s;
+}
+
+.recommendStyleBtn:hover {
+  border-color: var(--accent);
+  color: var(--text1);
+  transform: translateY(-1px);
+}
+
+.recommendStyleSelected {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
 /* ── 区切り線 ── */
 .divider {
   height: 1px;
@@ -1156,6 +1188,27 @@
   border-radius: 6px;
   text-align: center;
   text-decoration: none;
+}
+
+.omikujiShareX {
+  display: block;
+  width: 100%;
+  padding: 11px;
+  background: #000;
+  border: 0.5px solid #000;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 6px;
+  text-align: center;
+  text-decoration: none;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  transition: opacity 0.2s;
+}
+
+.omikujiShareX:hover {
+  opacity: 0.8;
 }
 
 .omikujiFooter {
