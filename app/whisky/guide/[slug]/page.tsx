@@ -558,7 +558,7 @@ const JAPANESE: GuideData = {
   titleJa: 'ジャパニーズウイスキー',
   titleEn: 'Japanese Whisky Guide',
   intro: '日本のウイスキーは1923年に山崎蒸留所が創設されてから100年の歴史を持つ。スコッチの製法を基盤にしつつ、日本独自の職人気質と繊細な感性で磨き上げられた。ミズナラ樽熟成による独特のオリエンタルな香りが世界的に高く評価され、近年は入手困難な銘柄も増えている。',
-  heroImage: { src: '/distillery/japanese.jpg', alt: '棚に並ぶ日本のウイスキーボトル', credit: 'Photo by Truong Tuyet Ly on Unsplash', creditUrl: 'https://unsplash.com/photos/OrngjB5RRTw', objectPosition: 'center center' },
+  heroImage: { src: '/distillery/japanese.jpg', alt: '棚に並ぶ日本のウイスキーボトル', credit: 'Photo by Truong Tuyet Ly on Unsplash', creditUrl: 'https://unsplash.com/photos/OrngjB5RRTw', objectPosition: 'center 70%' },
   regions: [
     { name: '山崎蒸留所（大阪）', desc: '日本最古のモルトウイスキー蒸留所。霧深い山崎の地でミズナラ樽熟成による優美な香りを生む。', brands: '山崎12年・18年・25年', amazonKeyword: '山崎 サントリー ウイスキー', rakutenKeyword: '山崎 ウイスキー' },
     { name: '白州蒸留所（山梨）', desc: '南アルプスの森に囲まれた高原の蒸留所。爽やかなグリーンノートと清涼感が特徴。', brands: '白州12年・18年・ノンエイジ', amazonKeyword: '白州 サントリー ウイスキー', rakutenKeyword: '白州 ウイスキー' },
