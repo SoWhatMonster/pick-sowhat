@@ -15,8 +15,8 @@ import CTABanner from '@/components/subpage/CTABanner'
 import SubpageFooter from '@/components/subpage/SubpageFooter'
 import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
 
-const AMAZON_TAG = process.env.AMAZON_ASSOCIATE_TAG ?? ''
-const RAKUTEN_ID = process.env.RAKUTEN_AFFILIATE_ID ?? ''
+const AMAZON_TAG = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG ?? ''
+const RAKUTEN_ID = process.env.NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID ?? ''
 
 // ── ナビゲーションデータ ──────────────────────────────────
 

@@ -21,8 +21,8 @@ type Props = {
   bottle: BottleData
 }
 
-const AMAZON_TAG = process.env.AMAZON_ASSOCIATE_TAG ?? ''
-const RAKUTEN_ID = process.env.RAKUTEN_AFFILIATE_ID ?? ''
+const AMAZON_TAG = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG ?? ''
+const RAKUTEN_ID = process.env.NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID ?? ''
 
 export default function BottleCard({ bottle }: Props) {
   const amazonUrl = buildAmazonUrl(bottle.amazonKeyword, AMAZON_TAG)
