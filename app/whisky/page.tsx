@@ -126,13 +126,13 @@ const STYLE_CARDS = [
 
 const SCENE_CARDS = [
   { icon: '🔰', name: '初めてウイスキーを飲む',    catch: 'やさしくて飲みやすい入門',       styles: 'アイリッシュ、ハイランド',          scenePath: '/whisky/scene/beginner' },
-  { icon: '🌙', name: '夜、ひとりで静かに',         catch: 'スモーキーで落ち着く1本を',      styles: 'アイラスコッチ、芋焼酎',            scenePath: null },
-  { icon: '😮‍💨', name: '仕事終わりの一杯',         catch: 'さっと飲める、軽めのやつ',       styles: '米焼酎、グレーンウイスキー',         scenePath: null },
+  { icon: '🌙', name: '夜、ひとりで静かに',         catch: 'スモーキーで落ち着く1本を',      styles: 'アイラスコッチ、芋焼酎',            scenePath: '/whisky/scene/solo-night' },
+  { icon: '😮‍💨', name: '仕事終わりの一杯',         catch: 'さっと飲める、軽めのやつ',       styles: '米焼酎、グレーンウイスキー',         scenePath: '/whisky/scene/after-work' },
   { icon: '🍽️', name: '食事に合わせたい',          catch: '料理を邪魔しない1本',            styles: 'アイリッシュ、麦焼酎',             scenePath: '/whisky/scene/food-pairing' },
-  { icon: '🫧', name: 'ハイボールにおすすめ',       catch: '炭酸で映える、さっぱり系を',     styles: 'グレーン、バーボン、麦焼酎',         scenePath: null },
+  { icon: '🫧', name: 'ハイボールにおすすめ',       catch: '炭酸で映える、さっぱり系を',     styles: 'グレーン、バーボン、麦焼酎',         scenePath: '/whisky/scene/highball' },
   { icon: '🔥', name: 'BBQ・アウトドア',            catch: '外飲みで盛り上がる1本',          styles: 'バーボン、グレーン',               scenePath: '/whisky/scene/outdoor' },
   { icon: '♨️', name: '冬にホットで飲む',           catch: '温かく体に染みる1本',            styles: 'アイリッシュ、ジャパニーズ',         scenePath: '/whisky/scene/winter-night' },
-  { icon: '🌸', name: '女性が自分用に選ぶ',         catch: '甘くて華やか、自分へのご褒美に',  styles: 'フルーティスコッチ、ジャパニーズ',   scenePath: null },
+  { icon: '🌸', name: '女性が自分用に選ぶ',         catch: '甘くて華やか、自分へのご褒美に',  styles: 'フルーティスコッチ、ジャパニーズ',   scenePath: '/whisky/scene/womens-pick' },
   { icon: '🎁', name: '手土産・ちょっとしたギフト', catch: '見栄えよく、予算5,000円以内',     styles: 'バーボン、ジャパニーズ',            scenePath: '/whisky/scene/gift' },
   { icon: '👔', name: '父の日・敬老の日',            catch: '贈って外さない定番を',           styles: 'ジャパニーズ、スコッチ',            scenePath: '/whisky/scene/fathers-day' },
   { icon: '🥂', name: '記念日・特別な夜',            catch: '少し奮発するならこれ',           styles: '山崎・白州・マッカラン',             scenePath: '/whisky/scene/special' },

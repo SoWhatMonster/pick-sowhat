@@ -10,6 +10,7 @@ const GUIDE_SLUGS = [
 const SCENE_SLUGS = [
   'beginner', 'gift', 'winter-night', 'fathers-day',
   'food-pairing', 'outdoor', 'special',
+  'solo-night', 'after-work', 'highball', 'womens-pick',
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {

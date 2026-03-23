@@ -157,6 +157,10 @@ const SCENE_NAV_ITEMS: (SubpageNavItem & { desc: string })[] = [
   { slug: 'food-pairing', label: '食事に合わせたい',   emoji: '🍽️', desc: '料理に合うウイスキー・焼酎' },
   { slug: 'outdoor',      label: 'BBQ・アウトドア',    emoji: '🔥', desc: '外で飲む爽快な1本' },
   { slug: 'special',      label: '記念日・特別な夜',   emoji: '✨', desc: 'とっておきの特別な1本' },
+  { slug: 'solo-night',   label: '夜、ひとりで静かに', emoji: '🌙', desc: 'ひとり飲みの静かな夜に' },
+  { slug: 'after-work',   label: '仕事終わりの一杯',   emoji: '😮‍💨', desc: 'お疲れ様の軽い一杯に' },
+  { slug: 'highball',     label: 'ハイボールで飲む',   emoji: '🫧', desc: '炭酸で映える爽快な銘柄' },
+  { slug: 'womens-pick',  label: '女性が自分用に',     emoji: '🌸', desc: '甘くて飲みやすい自分へのご褒美' },
 ]
 
 // ── シーンデータマップ ────────────────────────────────────
@@ -356,6 +360,193 @@ const SPECIAL: SceneData = {
   ],
 }
 
+// ── 夜、ひとりで静かにデータ ──────────────────────────────
+
+const SOLO_NIGHT: SceneData = {
+  slug: 'solo-night',
+  titleTag: '夜ひとりで飲むウイスキー・焼酎おすすめ6選｜静かな夜のおとも | SO WHAT Pick',
+  descriptionTag:
+    '夜ひとりで静かに飲むのにぴったりなウイスキー・焼酎を厳選。スモーキーなアイラ系から芋焼酎まで、自分だけの時間を豊かにする6本をAmazon・楽天で購入できます。',
+  titleJa: '夜、ひとりで静かに',
+  titleEn: 'A Night For Yourself',
+  intro:
+    'ひとりの夜には、誰かに遠慮せず自分の好みを最優先できます。スモーキーで個性的なアイラモルトも、ゆっくり味わう高年数シングルモルトも——ひとり飲みだからこそ楽しめる、こだわりの1本を選んでみましょう。',
+  drinkingStyles: [
+    {
+      imageSrc: '/drinks/straight.jpg',
+      name: 'ストレート',
+      desc: '常温で少量ずつ。ウイスキー本来の香りと味わいをダイレクトに感じられる最も純粋な飲み方。静かな夜に向いている。',
+    },
+    {
+      imageSrc: '/drinks/rock.jpg',
+      name: 'ロック',
+      desc: '大きな氷1〜2個で冷やしながらゆっくり楽しむ。氷が溶けるにつれて味わいが変化し、時間をかけて飲む夜に最適。',
+    },
+    {
+      imageSrc: '/drinks/mizuwari.jpg',
+      name: '水割り・トワイスアップ',
+      desc: '同量の水で割るトワイスアップは香りが開いて飲みやすい。長い夜にじっくり付き合う飲み方。',
+    },
+  ],
+  criteria: [
+    'ひとりで向き合える個性・複雑さがある',
+    'スモーキーまたはリッチな香り',
+    'ゆっくり飲んでも楽しめる',
+    '自分へのご褒美として納得できる価格',
+  ],
+  bottles: [
+    { rank: 1, name: 'アードベッグ 10年', region: 'スコッチ（アイラ）', tags: ['スモーキー', '個性派'], reason: '圧倒的なピート香とスモーク。「ひとりの夜」のために存在するようなアイラモルト', price: '5,500円〜', amazonKeyword: 'アードベッグ 10年 アイラ', rakutenKeyword: 'アードベッグ 10年', bottleSlug: null },
+    { rank: 2, name: 'グレンドロナック 12年', region: 'スコッチ（ハイランド）', tags: ['シェリー樽', '深み'], reason: 'シェリー樽100%のドライフルーツとチョコレート。夜に飲む贅沢なシングルモルト', price: '7,000円〜', amazonKeyword: 'グレンドロナック 12年', rakutenKeyword: 'グレンドロナック 12年', bottleSlug: null },
+    { rank: 3, name: 'ニッカ フロム ザ バレル', region: 'ジャパニーズ', tags: ['濃厚', '高度数'], reason: '51.4度の力強さを少量ずつ。小さなグラスで向き合うコスパ最強の夜のウイスキー', price: '3,000円〜', amazonKeyword: 'ニッカ フロムザバレル', rakutenKeyword: 'ニッカ フロムザバレル', bottleSlug: 'from-the-barrel' },
+    { rank: 4, name: '伊佐美', region: '芋焼酎', tags: ['芋', 'どっしり'], reason: '鹿児島の老舗・甲斐商店の芋焼酎。どっしりした芋の風味がひとり飲みの夜にしみる', price: '3,500円〜', amazonKeyword: '伊佐美 芋焼酎', rakutenKeyword: '伊佐美 芋焼酎', bottleSlug: null },
+    { rank: 5, name: 'タリスカー 10年', region: 'スコッチ（アイランズ）', tags: ['スパイシー', '海塩'], reason: '海の塩気とコショウのようなスパイス感。スコットランドの島の孤独な夜を想わせる1本', price: '6,000円〜', amazonKeyword: 'タリスカー 10年 スコッチ', rakutenKeyword: 'タリスカー 10年', bottleSlug: null },
+    { rank: 6, name: '村尾', region: '芋焼酎', tags: ['幻', 'プレミアム'], reason: '入手困難な幻の芋焼酎。手に入ったその夜にひとりで飲みたい特別な1本', price: '5,000円〜', amazonKeyword: '村尾 芋焼酎', rakutenKeyword: '村尾 芋焼酎', bottleSlug: null },
+  ],
+  faqItems: [
+    { q: 'ひとり飲みに量の目安は？', a: 'ウイスキーのシングルは30ml。一般的なグラス1杯は30〜45mlが目安です。ゆっくり飲むなら1〜2杯で十分に楽しめます。' },
+    { q: 'ひとりで飲む時のグラスのおすすめは？', a: 'シングルモルトにはグレンケアン型のテイスティンググラスがおすすめ。香りが集まりやすく、少量でも豊かに楽しめます。' },
+  ],
+}
+
+// ── 仕事終わりデータ ──────────────────────────────────────
+
+const AFTER_WORK: SceneData = {
+  slug: 'after-work',
+  titleTag: '仕事終わりの一杯におすすめのウイスキー・焼酎6選 | SO WHAT Pick',
+  descriptionTag:
+    '仕事終わりのリセットに最適なウイスキー・焼酎を厳選。さっと飲める軽やかなグレーンウイスキーから米焼酎まで、お疲れ様の一杯に選びたい6本をAmazon・楽天で購入できます。',
+  titleJa: '仕事終わりの一杯',
+  titleEn: 'After Work Dram',
+  intro:
+    '一日の終わりのリセットの一杯は、重すぎず・軽すぎず。食事とも合わせやすく、ハイボールでサクッと飲める軽快な銘柄が向いています。頑張った自分へのご褒美として少しだけ奮発するのもあり。',
+  drinkingStyles: [
+    {
+      imageSrc: '/drinks/highball.jpg',
+      name: 'ハイボール',
+      desc: 'ウイスキー1:ソーダ3〜4。仕事終わりに最も手軽でさっぱりした飲み方。ビール感覚で楽しめる。',
+    },
+    {
+      imageSrc: '/drinks/mizuwari.jpg',
+      name: '水割り',
+      desc: 'アルコール度数を下げてリラックス。食事と合わせながらゆっくり飲むのに向いている。',
+    },
+    {
+      imageSrc: '/drinks/rock.jpg',
+      name: 'ロック',
+      desc: '少しだけ贅沢に飲みたい夜に。1杯だけじっくり向き合う仕事終わりのご褒美スタイル。',
+    },
+  ],
+  criteria: [
+    '軽やかでさっぱりとした口当たり',
+    '食事と邪魔しないクセのなさ',
+    'ハイボールにしても美味しい',
+    '価格が手頃で日常使いできる',
+  ],
+  bottles: [
+    { rank: 1, name: '知多', region: 'ジャパニーズ', tags: ['軽やか', 'ハイボール向き'], reason: 'サントリーのグレーンウイスキー。軽くてクセなし、ハイボールにすると飛び抜けて美味しい', price: '3,000円〜', amazonKeyword: '知多 サントリー ウイスキー', rakutenKeyword: '知多 サントリー ウイスキー', bottleSlug: 'chita' },
+    { rank: 2, name: 'デュワーズ 12年', region: 'スコッチ', tags: ['ブレンデッド', '軽快'], reason: '仕事終わりのハイボールに最適なブレンデッドスコッチ。爽やかなハチミツ・フルーツのニュアンス', price: '3,500円〜', amazonKeyword: 'デュワーズ 12年', rakutenKeyword: 'デュワーズ 12年', bottleSlug: 'dewars12' },
+    { rank: 3, name: 'ジェムソン', region: 'アイリッシュ', tags: ['なめらか', '万能'], reason: 'なめらかで飲みやすいアイリッシュ。どんな気分の日でもさらっと飲める仕事終わりの定番', price: '2,500円〜', amazonKeyword: 'ジェムソン ウイスキー', rakutenKeyword: 'ジェムソン ウイスキー', bottleSlug: null },
+    { rank: 4, name: '繊月', region: '米焼酎', tags: ['米', '軽やか'], reason: '熊本・球磨の米焼酎。すっきりとした米の甘みでリフレッシュ。料理にも合わせやすい', price: '2,000円〜', amazonKeyword: '繊月 米焼酎', rakutenKeyword: '繊月 米焼酎', bottleSlug: null },
+    { rank: 5, name: 'バーボン バッファロートレース', region: 'バーボン', tags: ['バニラ', 'コスパ優秀'], reason: 'バニラと甘さのバランスが良くコスパ優秀。気軽に飲める仕事終わりのバーボンの定番', price: '3,000円〜', amazonKeyword: 'バッファロートレース バーボン', rakutenKeyword: 'バッファロートレース', bottleSlug: null },
+    { rank: 6, name: 'いいちこ 日田全麹', region: '麦焼酎', tags: ['麦', '上品'], reason: '普通のいいちこより一段上の全麹造り。上品な麦の風味が仕事終わりの疲れた体に染み渡る', price: '2,000円〜', amazonKeyword: 'いいちこ 日田全麹 麦焼酎', rakutenKeyword: 'いいちこ 日田全麹', bottleSlug: null },
+  ],
+  faqItems: [
+    { q: '仕事終わりにウイスキーを毎日飲んでも大丈夫？', a: '厚生労働省の指針では「純アルコール量20g/日」が適量。ウイスキー（40度）のシングル30mlで約10g。飲みすぎに注意しながら、週に何日かは休肝日を設けましょう。' },
+    { q: 'ハイボールを美味しく作るコツは？', a: '大きめの氷を使い、ウイスキーを先に入れてよく冷やしてから炭酸を注ぎます。炭酸は混ぜすぎず、縦にスプーンで1回転させるだけがポイント。' },
+  ],
+}
+
+// ── ハイボールデータ ──────────────────────────────────────
+
+const HIGHBALL: SceneData = {
+  slug: 'highball',
+  titleTag: 'ハイボールに合うウイスキーおすすめ6選｜さっぱり爽快な銘柄を厳選 | SO WHAT Pick',
+  descriptionTag:
+    'ハイボールにおすすめのウイスキーを厳選。軽やかなグレーンから爽快なスコッチまで、炭酸で映える銘柄6本をAmazon・楽天でそのまま購入できます。',
+  titleJa: 'ハイボールで飲む',
+  titleEn: 'Perfect for Highball',
+  intro:
+    'ハイボールはウイスキーを最も手軽に楽しむ飲み方。炭酸で割ることで香りが開き、フレーバーが引き立ちます。すべてのウイスキーがハイボール向きなわけではなく、軽やか・クリーン・フルーティな銘柄が特に合います。',
+  drinkingStyles: [
+    {
+      imageSrc: '/drinks/highball.jpg',
+      name: 'ハイボール（基本）',
+      desc: 'ウイスキー1:炭酸4が目安。大きな氷を入れたグラスにウイスキーを注ぎ、よく冷えたら炭酸を静かに加える。混ぜすぎない。',
+    },
+    {
+      imageSrc: '/drinks/mizuwari.jpg',
+      name: 'レモンハイボール',
+      desc: '基本のハイボールにレモンを絞るだけ。フレッシュな酸味がウイスキーの甘みを引き立て、さらに飲みやすくなる。',
+    },
+  ],
+  criteria: [
+    '軽やかでクリーンな口当たり',
+    '炭酸で割っても風味が飛ばない',
+    'フルーティまたはドライなフレーバー',
+    'スモーキーすぎない（ハイボール向き）',
+  ],
+  bottles: [
+    { rank: 1, name: '知多', region: 'ジャパニーズ', tags: ['軽やか', 'グレーン'], reason: 'ハイボール専用設計と言っても過言ではないサントリーのグレーンウイスキー。爽快感が抜群', price: '3,000円〜', amazonKeyword: '知多 サントリー ウイスキー', rakutenKeyword: '知多 サントリー', bottleSlug: 'chita' },
+    { rank: 2, name: 'デュワーズ ホワイトラベル', region: 'スコッチ', tags: ['ブレンデッド', 'コスパ'], reason: '世界で最も飲まれているハイボール用ブレンデッドのひとつ。軽くて甘くコスパも優秀', price: '2,000円〜', amazonKeyword: 'デュワーズ ホワイトラベル スコッチ', rakutenKeyword: 'デュワーズ ホワイトラベル', bottleSlug: 'dewars' },
+    { rank: 3, name: 'グレンフィディック 12年', region: 'スコッチ', tags: ['フルーティ', '爽やか'], reason: 'フレッシュなフルーツ香がハイボールで一層際立つ。少し贅沢なハイボールを楽しみたい時に', price: '3,500円〜', amazonKeyword: 'グレンフィディック 12年 スコッチ', rakutenKeyword: 'グレンフィディック 12年', bottleSlug: 'glenfiddich12' },
+    { rank: 4, name: 'ジム ビーム', region: 'バーボン', tags: ['バニラ', '飲みやすい'], reason: 'バーボンハイボールの定番。バニラと甘みが炭酸と絡んで飲みやすい。コーラ割りにも最適', price: '1,800円〜', amazonKeyword: 'ジムビーム バーボン', rakutenKeyword: 'ジムビーム バーボン', bottleSlug: null },
+    { rank: 5, name: 'ジェムソン', region: 'アイリッシュ', tags: ['なめらか', '万能'], reason: 'クセのなさとなめらかさがハイボールで際立つ。ジンジャーエール割りにも合う万能選手', price: '2,500円〜', amazonKeyword: 'ジェムソン アイリッシュウイスキー', rakutenKeyword: 'ジェムソン', bottleSlug: null },
+    { rank: 6, name: '二階堂', region: '麦焼酎', tags: ['麦', '軽快'], reason: '麦焼酎のハイボールも爽快。クセが少なく食事中のドリンクとして使いやすい庶民の味方', price: '1,200円〜', amazonKeyword: '二階堂 麦焼酎', rakutenKeyword: '二階堂 麦焼酎', bottleSlug: null },
+  ],
+  faqItems: [
+    { q: 'ハイボールに向かないウイスキーはありますか？', a: 'スモーキーさが強いアイラ系（ラフロイグ・アードベッグ等）は炭酸で煙臭さが際立つため、好みが分かれます。ただし「スモーキーハイボールが好き」という方も多く、絶対的な正解はありません。' },
+    { q: 'ハイボール用のウイスキーに高価なものは必要ですか？', a: '炭酸で割るため、高価な年数モノのシングルモルトはもったいない場合も。2,000〜3,500円程度のブレンデッドやグレーンウイスキーで十分に美味しいハイボールが作れます。' },
+  ],
+}
+
+// ── 女性向けデータ ────────────────────────────────────────
+
+const WOMENS_PICK: SceneData = {
+  slug: 'womens-pick',
+  titleTag: '女性におすすめのウイスキー・焼酎6選｜甘くて飲みやすい銘柄を厳選 | SO WHAT Pick',
+  descriptionTag:
+    '女性が自分用に選ぶウイスキー・焼酎を厳選。甘くてフルーティ、飲みやすい銘柄から少し個性的な1本まで、自分へのご褒美にぴったりな6本をAmazon・楽天で購入できます。',
+  titleJa: '女性が自分用に選ぶ1本',
+  titleEn: "A Dram For Yourself",
+  intro:
+    'ウイスキーや焼酎は「男性のお酒」というイメージがまだありますが、甘くてフルーティな銘柄や、華やかな香りのジャパニーズは女性にも大人気。自分へのご褒美として少し奮発してみるのも、ウイスキーの楽しみ方のひとつです。',
+  drinkingStyles: [
+    {
+      imageSrc: '/drinks/highball.jpg',
+      name: 'ハイボール（ソーダ割り）',
+      desc: '甘い銘柄をソーダで割ると、フルーティな香りが一層際立ちます。レモンを添えるとさらに爽やかに。',
+    },
+    {
+      imageSrc: '/drinks/rock.jpg',
+      name: 'ロック',
+      desc: '大きな氷1個で冷やしながらゆっくり楽しむ。甘くてリッチな銘柄はロックで香りを楽しむのがおすすめ。',
+    },
+    {
+      imageSrc: '/drinks/mizuwari.jpg',
+      name: 'トワイスアップ（常温水割り）',
+      desc: '同量の常温水で割ることで香りが最も開きます。フルーティな銘柄の真価を味わうならこの飲み方。',
+    },
+  ],
+  criteria: [
+    '甘くてフルーティなフレーバー',
+    '口当たりがなめらかで飲みやすい',
+    'スモーキーすぎない',
+    'ボトルデザインが美しく自分へのご褒美感がある',
+  ],
+  bottles: [
+    { rank: 1, name: 'グレンフィディック 12年', region: 'スコッチ', tags: ['フルーティ', '定番'], reason: '洋梨・リンゴの爽やかな甘さ。スコッチ入門として女性にも最も人気の高い1本', price: '3,500円〜', amazonKeyword: 'グレンフィディック 12年 スコッチ', rakutenKeyword: 'グレンフィディック 12年', bottleSlug: 'glenfiddich12' },
+    { rank: 2, name: 'マッカラン 12年 ダブルカスク', region: 'スコッチ', tags: ['バニラ', '甘口'], reason: 'バニラ・ドライフルーツの甘くリッチな香り。少し贅沢な自分へのご褒美に最適', price: '7,000円〜', amazonKeyword: 'マッカラン 12年 ダブルカスク', rakutenKeyword: 'マッカラン 12年 ダブルカスク', bottleSlug: 'macallan12dc' },
+    { rank: 3, name: 'バルヴェニー 12年 ダブルウッド', region: 'スコッチ', tags: ['蜂蜜', '上品'], reason: '蜂蜜・バニラの甘みとスパイスのバランスが絶妙。フルーティ好きの女性に特におすすめ', price: '8,000円〜', amazonKeyword: 'バルヴェニー 12年 ダブルウッド', rakutenKeyword: 'バルヴェニー 12年', bottleSlug: null },
+    { rank: 4, name: 'カバラン クラシック', region: 'ワールド（台湾）', tags: ['トロピカル', '個性的'], reason: '台湾の亜熱帯気候が生む、トロピカルフルーツとバニラの個性的な甘さ。特別な夜の1本', price: '6,000円〜', amazonKeyword: 'カバラン クラシック ウイスキー', rakutenKeyword: 'カバラン クラシック', bottleSlug: null },
+    { rank: 5, name: '赤霧島', region: '芋焼酎', tags: ['フルーティ', '甘め'], reason: 'フルーティで甘い芋焼酎の代表格。「芋臭さ」が苦手な方でも飲みやすい女性人気No.1焼酎', price: '1,700円〜', amazonKeyword: '赤霧島 芋焼酎', rakutenKeyword: '赤霧島 芋焼酎', bottleSlug: null },
+    { rank: 6, name: '白岳しろ', region: '米焼酎', tags: ['すっきり', '米'], reason: '熊本・球磨の米焼酎。クセが少なく、甘みとすっきりさで女性でも飲みやすいと評判', price: '1,500円〜', amazonKeyword: '白岳しろ 米焼酎', rakutenKeyword: '白岳しろ 米焼酎', bottleSlug: null },
+  ],
+  faqItems: [
+    { q: 'ウイスキーが苦手な女性でも飲めるものはありますか？', a: 'ハイボールやソーダ割りにすることでアルコールの刺激が和らぎます。銘柄としてはフルーティなグレンフィディックや、甘い赤霧島（芋焼酎）などから試してみるのがおすすめです。' },
+    { q: '女性へのウイスキーギフトで外れないのは？', a: '見た目も美しいマッカランのシリーズは男女問わず喜ばれます。甘くてリッチなフレーバーは初心者でも楽しめます。予算は5,000〜8,000円程度が目安です。' },
+  ],
+}
+
 const SCENE_DATA: Record<string, SceneData> = {
   beginner: BEGINNER,
   gift: GIFT,
@@ -364,6 +555,10 @@ const SCENE_DATA: Record<string, SceneData> = {
   'food-pairing': FOOD_PAIRING,
   outdoor: OUTDOOR,
   special: SPECIAL,
+  'solo-night': SOLO_NIGHT,
+  'after-work': AFTER_WORK,
+  highball: HIGHBALL,
+  'womens-pick': WOMENS_PICK,
 }
 
 // ── generateStaticParams ──────────────────────────────────
