@@ -21,17 +21,17 @@ const RAKUTEN_ID = process.env.RAKUTEN_AFFILIATE_ID ?? ''
 // ── ナビゲーションデータ ──────────────────────────────────
 
 const GUIDE_NAV_ITEMS: (SubpageNavItem & { desc: string })[] = [
-  { slug: 'scotch',   label: 'スコッチ',       emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', desc: '主要産地・銘柄を徹底解説' },
-  { slug: 'bourbon',  label: 'バーボン',       emoji: '🇺🇸', desc: '甘くリッチなアメリカンウイスキー' },
-  { slug: 'japanese', label: 'ジャパニーズ',   emoji: '🇯🇵', desc: '山崎・白州など国産ウイスキーを解説' },
-  { slug: 'irish',    label: 'アイリッシュ',   emoji: '🇮🇪', desc: '3回蒸留のなめらかな味わい' },
-  { slug: 'imo',      label: '芋焼酎',         emoji: '🍠', desc: '鹿児島・宮崎の本格芋焼酎' },
-  { slug: 'mugi',     label: '麦焼酎',         emoji: '🌾', desc: '大分・長崎発のクリーンな麦焼酎' },
-  { slug: 'kome',     label: '米焼酎',         emoji: '🍚', desc: '熊本・球磨の米焼酎' },
-  { slug: 'kokuto',      label: '黒糖焼酎',         emoji: '🏝️', desc: '奄美大島限定の特産焼酎' },
-  { slug: 'canadian',     label: 'カナディアン',     emoji: '🇨🇦', desc: '軽やかでなめらか、北米の隠れた名酒' },
-  { slug: 'newworld',    label: 'ニューワールド',   emoji: '🌍', desc: '台湾・インド・欧州の新世代ウイスキー' },
-  { slug: 'other-shochu', label: 'その他の焼酎',    emoji: '🌿', desc: 'そば・栗・泡盛、個性派ぞろい' },
+  { slug: 'scotch',        label: 'スコッチ',       emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', desc: '主要産地・銘柄を徹底解説' },
+  { slug: 'irish',         label: 'アイリッシュ',   emoji: '🇮🇪', desc: '3回蒸留のなめらかな味わい' },
+  { slug: 'japanese',      label: 'ジャパニーズ',   emoji: '🇯🇵', desc: '山崎・白州など国産ウイスキーを解説' },
+  { slug: 'bourbon',       label: 'バーボン',       emoji: '🇺🇸', desc: '甘くリッチなアメリカンウイスキー' },
+  { slug: 'canadian',      label: 'カナディアン',   emoji: '🇨🇦', desc: '軽やかでなめらか、北米の隠れた名酒' },
+  { slug: 'newworld',      label: 'ニューワールド', emoji: '🌍', desc: '台湾・インド・欧州の新世代ウイスキー' },
+  { slug: 'imo',           label: '芋焼酎',         emoji: '🍠', desc: '鹿児島・宮崎の本格芋焼酎' },
+  { slug: 'mugi',          label: '麦焼酎',         emoji: '🌾', desc: '大分・長崎発のクリーンな麦焼酎' },
+  { slug: 'kome',          label: '米焼酎',         emoji: '🍚', desc: '熊本・球磨の米焼酎' },
+  { slug: 'kokuto',        label: '黒糖焼酎',       emoji: '🏝️', desc: '奄美大島限定の特産焼酎' },
+  { slug: 'other-shochu',  label: 'その他の焼酎',   emoji: '🌿', desc: 'そば・栗・泡盛、個性派ぞろい' },
 ]
 
 // ── 型定義 ────────────────────────────────────────────────
