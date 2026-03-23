@@ -21,7 +21,7 @@ const RAKUTEN_ID = process.env.RAKUTEN_AFFILIATE_ID ?? ''
 // ── ナビゲーションデータ ──────────────────────────────────
 
 const GUIDE_NAV_ITEMS: (SubpageNavItem & { desc: string })[] = [
-  { slug: 'scotch',   label: 'スコッチ',       emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', desc: '5大産地・20ブランドを徹底解説' },
+  { slug: 'scotch',   label: 'スコッチ',       emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', desc: '主要産地・銘柄を徹底解説' },
   { slug: 'bourbon',  label: 'バーボン',       emoji: '🇺🇸', desc: '甘くリッチなアメリカンウイスキー' },
   { slug: 'japanese', label: 'ジャパニーズ',   emoji: '🇯🇵', desc: '山崎・白州など国産ウイスキーを解説' },
   { slug: 'irish',    label: 'アイリッシュ',   emoji: '🇮🇪', desc: '3回蒸留のなめらかな味わい' },
@@ -94,7 +94,7 @@ const SCOTCH: GuideData = {
   slug: 'scotch',
   flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
   introTitle: 'スコッチとは',
-  regionsTitle: '5大産地',
+  regionsTitle: '主要産地',
   compareTitle: 'シングルモルトとグレーンの違い',
   titleTag: 'スコッチウイスキーとは？産地・種類・おすすめ銘柄を解説 | SO WHAT Pick',
   descriptionTag:
@@ -128,6 +128,13 @@ const SCOTCH: GuideData = {
       brands: 'ダルモア、グレンモーレンジィ、オーバン',
       amazonKeyword: 'ハイランド シングルモルト ウイスキー',
       rakutenKeyword: 'ハイランド シングルモルト',
+    },
+    {
+      name: 'アイランズ',
+      desc: '海風・塩気・スモークがほんのり。スカイ島・オークニー・マル島など各島に個性ある蒸留所が点在。アイラほど重くなく、ハイランドより個性的。',
+      brands: 'タリスカー、ハイランドパーク、スキャパ',
+      amazonKeyword: 'タリスカー ウイスキー アイランズ',
+      rakutenKeyword: 'タリスカー ウイスキー',
     },
     {
       name: 'アイラ',
