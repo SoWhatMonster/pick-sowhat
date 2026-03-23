@@ -929,7 +929,7 @@
   }
 
   .omikujiCtaBr {
-    display: inline;
+    display: block;
   }
 
   /* ── おみくじモーダル ── */
@@ -1005,9 +1005,16 @@
   white-space: nowrap;
 }
 
-/* PC では改行しない */
+/* PC では非表示（改行しない） */
 .omikujiCtaBr {
   display: none;
+}
+
+/* モバイルでは block にして改行させる */
+@media (max-width: 640px) {
+  .omikujiCtaBr {
+    display: block;
+  }
 }
 
 /* ── おみくじモーダル ── */

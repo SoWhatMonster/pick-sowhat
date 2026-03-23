@@ -342,7 +342,7 @@ export default function StepFlow() {
               <div className={styles.ctaBlock}>
                 <div className={styles.ctaBlockLabel}>✦ AIに全部まかせる</div>
                 <button className={styles.omikujiCta} onClick={openOmikuji} type="button">
-                  <span className={styles.omikujiCtaTitle}>今日の運勢で<br className={styles.omikujiCtaBr} />一発回答</span>
+                  <span className={styles.omikujiCtaTitle}>今日の運勢で<span className={styles.omikujiCtaBr} />一発回答</span>
                   <span className={styles.omikujiCtaSub}>条件なし。今すぐ1本出てくる。</span>
                 </button>
               </div>
