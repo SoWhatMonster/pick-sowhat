@@ -897,6 +897,7 @@ input[type='range'] {
 .subpageWrap {
   background: var(--bg);
   min-height: 100dvh;
+  overflow-x: clip; /* sticky を壊さず横はみ出しをカット */
 }
 
 /* ── コンテンツ共通インナー ── */
@@ -999,6 +1000,7 @@ input[type='range'] {
   padding: 20px 18px;
   display: flex;
   flex-direction: column;
+  min-width: 0; /* grid blowout 防止 */
 }
 
 .subRegionName {
@@ -1013,6 +1015,7 @@ input[type='range'] {
   color: var(--text2);
   line-height: 1.6;
   margin-bottom: 8px;
+  overflow-wrap: break-word;
 }
 
 .subRegionBrands {
@@ -1043,6 +1046,7 @@ input[type='range'] {
   padding: 20px 18px;
   display: flex;
   flex-direction: column;
+  min-width: 0; /* grid blowout 防止 */
 }
 
 .subCompareColTitle {
@@ -1579,6 +1583,7 @@ input[type='range'] {
   position: sticky;
   top: 52px; /* SubpageTopbarの高さ分 */
   z-index: 90;
+  width: 100%; /* sticky が親の幅を超えないよう固定 */
 }
 
 .subpageNavScroll {
