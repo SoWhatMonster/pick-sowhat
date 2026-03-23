@@ -49,10 +49,11 @@ type CompareCol = {
 }
 
 type HeroImage = {
-  /** /public/ 以下のパス。実際の蒸留所写真に差し替え可 */
   src: string
   alt: string
-  credit?: string
+  credit?: string       // 例: 'Photo by John Doe on Unsplash'
+  creditUrl?: string    // クレジットリンク先URL
+  objectPosition?: string  // object-position（省略時: 'center center'）
 }
 
 type Brand = {
@@ -100,7 +101,7 @@ const SCOTCH: GuideData = {
   descriptionTag:
     'スコッチウイスキーの産地・スタイル・味わいの特徴をわかりやすく解説。初心者から上級者まで、産地別おすすめ銘柄をAmazon・楽天でそのまま購入できます。',
   titleJa: 'スコッチウイスキー',
-  titleEn: 'Scotch Whisky Guide',
+  titleEn: 'Scotland',
   intro:
     'スコットランドで製造・熟成されたウイスキー。麦芽（モルト）またはグレーン穀物を原料とし、オーク樽で最低3年以上熟成させることが法律で定められている。世界のウイスキー市場の約60%を占め、複雑な香りと深みのある味わいが特徴。',
   heroImage: {
@@ -112,7 +113,9 @@ const SCOTCH: GuideData = {
     // ──────────────────────────────────────────────────────
     src: '/distillery/scotch.jpg',
     alt: 'スコットランドの蒸留所',
-    credit: '※ 実際の蒸留所写真に差し替えてください',
+    objectPosition: 'center center',
+    // credit: 'Photo by [名前] on Unsplash',
+    // creditUrl: 'https://unsplash.com/photos/...',
   },
   regions: [
     {
@@ -1020,13 +1023,25 @@ export default async function GuidePage({
             <Image
               src={data.heroImage.src}
               alt={data.heroImage.alt}
-              width={1200}
-              height={500}
+              fill
+              sizes="100vw"
               className="subHeroImg"
+              style={{ objectPosition: data.heroImage.objectPosition ?? 'center center' }}
               priority
             />
             {data.heroImage.credit && (
-              <p className="subHeroCredit">{data.heroImage.credit}</p>
+              data.heroImage.creditUrl ? (
+                <a
+                  href={data.heroImage.creditUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="subHeroCredit"
+                >
+                  {data.heroImage.credit}
+                </a>
+              ) : (
+                <p className="subHeroCredit">{data.heroImage.credit}</p>
+              )
             )}
           </div>
         )}

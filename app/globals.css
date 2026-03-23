@@ -943,16 +943,13 @@ input[type='range'] {
 .subHeroImage {
   position: relative;
   width: 100%;
-  max-height: 500px;
+  height: 460px; /* 明示的な高さで fill + object-fit: cover が正しく機能する */
   overflow: hidden;
   background: var(--surface2);
 }
 
 .subHeroImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  object-fit: cover; /* Next.js Image fill モード用 */
 }
 
 .subHeroCredit {
@@ -960,8 +957,13 @@ input[type='range'] {
   bottom: 10px;
   right: 14px;
   font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.45);
-  pointer-events: none;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a.subHeroCredit:hover {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 /* ── セクション共通 ── */
@@ -1517,6 +1519,10 @@ input[type='range'] {
 
   .subPageHeader {
     padding: 36px 0 28px;
+  }
+
+  .subHeroImage {
+    height: 220px;
   }
 
   .subPageTitle {
