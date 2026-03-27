@@ -602,6 +602,14 @@ input[type='range'] {
   line-height: 1.6;
 }
 
+.bottleColumnWriting {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  color: var(--text3);
+  margin: 0 0 1rem;
+  letter-spacing: 0.04em;
+}
+
 .bottleColumnLoading {
   margin: 2rem 0 3rem;
   display: flex;

@@ -44,6 +44,7 @@ export default function BottleColumn({ slug, name, tags }: Props) {
   if (loading) {
     return (
       <div className="bottleColumn bottleColumnLoading">
+        <p className="bottleColumnWriting">AIが執筆中...</p>
         <div className="bottleColumnSkeleton bottleColumnSkeleton--short" style={{ width: '40%', marginBottom: '1rem' }} />
         <div className="bottleColumnSkeleton bottleColumnSkeleton--title" />
         <div className="bottleColumnSkeleton" />

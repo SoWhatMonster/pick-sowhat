@@ -58,7 +58,7 @@ export default function DailyFeatured() {
     <section className="staticSection dailyFeaturedSection" aria-label="今日の1本">
       <div className="staticInner">
         <div className="sectionHead">
-          <h2 className="sectionTitle">今日の1本</h2>
+          <h2 className="sectionTitle">コラム — 今日の1本</h2>
           <p className="sectionSub">Today&apos;s bottle.</p>
         </div>
         <div className="dailyFeaturedLoading" />
@@ -73,7 +73,7 @@ export default function DailyFeatured() {
     <section className="staticSection dailyFeaturedSection" aria-label="今日の1本">
       <div className="staticInner">
         <div className="sectionHead">
-          <h2 className="sectionTitle">今日の1本</h2>
+          <h2 className="sectionTitle">コラム — 今日の1本</h2>
           <p className="sectionSub">Today&apos;s bottle.</p>
         </div>
 
