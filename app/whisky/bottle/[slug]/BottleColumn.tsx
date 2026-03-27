@@ -56,8 +56,8 @@ export default function BottleColumn({ slug, name, tags }: Props) {
   // 生成失敗：非表示
   if (!column) return null
 
-  // 段落に分割して表示
-  const paragraphs = column.split('\n\n')
+  // 改行（\n）ごとに1段落として分割、空行はスキップ
+  const lines = column.split('\n').filter((l) => l.trim() !== '')
 
   return (
     <div className="bottleColumn">
@@ -68,14 +68,8 @@ export default function BottleColumn({ slug, name, tags }: Props) {
         <h2 className="bottleColumnTitle">{title}</h2>
       )}
       <div className="bottleColumnBody">
-        {paragraphs.map((para, i) => (
-          <p key={i} className="bottleColumnPara">
-            {para.split('\n').map((line, j, arr) => (
-              j < arr.length - 1
-                ? <span key={j}>{line}<br /></span>
-                : <span key={j}>{line}</span>
-            ))}
-          </p>
+        {lines.map((line, i) => (
+          <p key={i} className="bottleColumnPara">{line}</p>
         ))}
       </div>
     </div>
