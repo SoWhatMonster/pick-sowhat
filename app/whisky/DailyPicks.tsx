@@ -13,6 +13,7 @@ export type DailyPick = {
   rank: number
   name: string
   tags: string[]
+  copy?: string
   amazonKeyword: string
   rakutenKeyword: string
   bottleSlug: string | null
@@ -93,6 +94,7 @@ ${BOTTLE_CATALOG_TEXT}
       "rank": 1,
       "name": "銘柄名（正式名称）",
       "tags": ["産地", "フレーバー特徴", "価格帯"],
+      "copy": "1〜2文の短いコピー。断言口調。「おすすめ」「ぴったり」禁止。感嘆符禁止。ユーモアは描写に紛れ込ませる。例:「外れくじを引く確率が低い。世界で一番売れている理由がある。」",
       "amazonKeyword": "Amazon検索用キーワード",
       "rakutenKeyword": "楽天検索用キーワード",
       "bottleSlug": "スラッグ または null"
@@ -157,6 +159,7 @@ export default async function DailyPicks() {
                     <span key={tag} className="dailyPickTag">{tag}</span>
                   ))}
                 </div>
+                {pick.copy && <p className="dailyPickCopy">{pick.copy}</p>}
                 <div className="dailyPickBtns">
                   <a
                     href={buildAmazonUrl(pick.amazonKeyword, amazonTag)}

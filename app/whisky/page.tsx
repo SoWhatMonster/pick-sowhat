@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import Link from 'next/link'
 import StepFlow from '@/components/pick/StepFlow'
+import DailyFeatured from './DailyFeatured'
 import DailyPicks from './DailyPicks'
 import SceneCarousel from './SceneCarousel'
 
@@ -150,6 +151,9 @@ export default function WhiskyPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <StepFlow />
+
+      {/* ── 今日の1本 ── */}
+      <DailyFeatured />
 
       {/* ── Phase 3：今日のおすすめ10本 ── */}
       <Suspense fallback={null}>
