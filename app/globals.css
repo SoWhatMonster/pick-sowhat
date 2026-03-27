@@ -594,11 +594,19 @@ input[type='range'] {
   margin: 0 0 1.1rem;
 }
 
+.columnSignOff {
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 1.2rem;
+  font-weight: 500;
+}
+
 .columnDisclaimer {
   font-family: Arial, sans-serif;
   font-size: 11px;
   color: var(--text3);
-  margin-top: 1.5rem;
+  margin-top: 0.6rem;
   line-height: 1.6;
 }
 

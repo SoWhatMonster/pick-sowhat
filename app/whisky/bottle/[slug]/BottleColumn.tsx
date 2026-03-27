@@ -73,6 +73,9 @@ export default function BottleColumn({ slug, name, tags }: Props) {
           <p key={i} className="bottleColumnPara">{line}</p>
         ))}
       </div>
+      <p className="columnSignOff">
+        乾杯。ではまた明日。
+      </p>
       <p className="columnDisclaimer">
         このコラムはAIが書いています。文豪を目指していますが、オーナーに毎回ダメ出しされています。それでも書き続けます。
       </p>
