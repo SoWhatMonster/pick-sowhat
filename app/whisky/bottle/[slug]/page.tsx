@@ -6,7 +6,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { sql } from '@/lib/db'
 import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
 import type { BottleDetail } from '@/app/api/bottle-detail/route'
 
@@ -14,23 +13,31 @@ type Props = {
   params: { slug: string }
 }
 
-// ── DB or オンデマンド生成 ──
+// ── 詳細データ取得（DB → API fallback） ──
 async function getBottleDetail(slug: string): Promise<BottleDetail | null> {
   if (!/^[a-z0-9-]+$/.test(slug)) return null
 
+  // DBが使える場合は直接参照
+  if (process.env.POSTGRES_URL) {
+    try {
+      const { sql } = await import('@/lib/db')
+      const cached = await sql<BottleDetail>`SELECT * FROM bottle_details WHERE slug = ${slug}`
+      if (cached.rows.length > 0) return cached.rows[0]
+    } catch {
+      // DBエラーはスキップしてAPI経由にフォールバック
+    }
+  }
+
+  // API経由で取得（AI生成 + DB保存も内包）
   try {
-    const cached = await sql<BottleDetail>`SELECT * FROM bottle_details WHERE slug = ${slug}`
-    if (cached.rows.length > 0) return cached.rows[0]
-
-    // daily_featuredに存在するslugかチェック（存在しないslugは404）
-    const inFeatured = await sql`SELECT slug FROM daily_featured WHERE slug = ${slug} LIMIT 1`
-    if (inFeatured.rows.length === 0) return null
-
-    // オンデマンド生成: /api/bottle-detail を内部呼び出しする代わりに直接生成
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://pick.sowhat.monster'
-    const res = await fetch(`${baseUrl}/api/bottle-detail?slug=${slug}`, { cache: 'no-store' })
+    const res = await fetch(`${baseUrl}/api/bottle-detail?slug=${slug}`, {
+      cache: 'no-store',
+    })
     if (!res.ok) return null
-    return res.json()
+    const data: BottleDetail = await res.json()
+    if ('error' in (data as unknown as Record<string, unknown>)) return null
+    return data
   } catch {
     return null
   }
@@ -43,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${detail.name} テイスティングノート | SO WHAT Pick`,
-    description: `${detail.tasting_nose ?? ''} ${detail.distillery_bg ?? ''}`.slice(0, 140),
+    description: `${detail.tasting_nose ?? ''}`.slice(0, 140),
     alternates: {
       canonical: `https://pick.sowhat.monster/whisky/bottle/${params.slug}`,
     },

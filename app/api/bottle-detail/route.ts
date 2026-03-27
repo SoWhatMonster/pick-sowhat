@@ -1,18 +1,18 @@
 // ============================================================
 // SO WHAT Pick — 銘柄詳細 API
 // app/api/bottle-detail/route.ts
+// DB（Vercel Postgres）はオプション。未設定でもAI生成で動作する。
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
-import { sql } from '@/lib/db'
 
 const client = new Anthropic()
 
 export type BottleDetail = {
   slug: string
   name: string
-  generated_at: string
+  generated_at?: string
   tasting_nose: string
   tasting_palate: string
   tasting_finish: string
@@ -24,7 +24,53 @@ export type BottleDetail = {
   tags: string[]
 }
 
-async function generateAndSaveDetail(slug: string, nameHint?: string): Promise<BottleDetail> {
+// ── DBキャッシュ確認（Postgres任意） ──
+async function tryDbRead(slug: string): Promise<BottleDetail | null> {
+  if (!process.env.POSTGRES_URL) return null
+  try {
+    const { sql } = await import('@/lib/db')
+    const result = await sql<BottleDetail>`SELECT * FROM bottle_details WHERE slug = ${slug}`
+    return result.rows[0] ?? null
+  } catch {
+    return null
+  }
+}
+
+// ── DB書き込み（Postgres任意） ──
+async function tryDbWrite(slug: string, detail: BottleDetail): Promise<void> {
+  if (!process.env.POSTGRES_URL) return
+  try {
+    const { sql } = await import('@/lib/db')
+    await sql`
+      INSERT INTO bottle_details (slug, name, tasting_nose, tasting_palate, tasting_finish,
+        distillery_bg, how_to_drink, pairing, amazon_keyword, rakuten_keyword, tags)
+      VALUES (
+        ${slug}, ${detail.name},
+        ${detail.tasting_nose}, ${detail.tasting_palate}, ${detail.tasting_finish},
+        ${detail.distillery_bg}, ${detail.how_to_drink}, ${detail.pairing},
+        ${detail.amazon_keyword}, ${detail.rakuten_keyword},
+        ${detail.tags as unknown as string}
+      )
+      ON CONFLICT (slug) DO UPDATE SET
+        name = EXCLUDED.name,
+        tasting_nose = EXCLUDED.tasting_nose,
+        tasting_palate = EXCLUDED.tasting_palate,
+        tasting_finish = EXCLUDED.tasting_finish,
+        distillery_bg = EXCLUDED.distillery_bg,
+        how_to_drink = EXCLUDED.how_to_drink,
+        pairing = EXCLUDED.pairing,
+        amazon_keyword = EXCLUDED.amazon_keyword,
+        rakuten_keyword = EXCLUDED.rakuten_keyword,
+        tags = EXCLUDED.tags,
+        generated_at = NOW()
+    `
+  } catch (e) {
+    console.warn('[bottle-detail] DB書き込み失敗（スキップ）:', e)
+  }
+}
+
+// ── AI生成 ──
+async function generateDetail(slug: string, nameHint?: string): Promise<BottleDetail> {
   const name = nameHint ?? slug
 
   const systemPrompt = `あなたはウイスキー・焼酎の専門家であり、言葉で酒を描く作家でもあります。
@@ -61,34 +107,21 @@ async function generateAndSaveDetail(slug: string, nameHint?: string): Promise<B
   const text = message.content[0].type === 'text' ? message.content[0].text : ''
   const jsonMatch = text.match(/\{[\s\S]*\}/)
   if (!jsonMatch) throw new Error('レスポンス形式が不正です')
-  const detail = JSON.parse(jsonMatch[0])
+  const parsed = JSON.parse(jsonMatch[0])
 
-  await sql`
-    INSERT INTO bottle_details (slug, name, tasting_nose, tasting_palate, tasting_finish,
-      distillery_bg, how_to_drink, pairing, amazon_keyword, rakuten_keyword, tags)
-    VALUES (
-      ${slug}, ${detail.name ?? name},
-      ${detail.tasting_nose}, ${detail.tasting_palate}, ${detail.tasting_finish},
-      ${detail.distillery_bg}, ${detail.how_to_drink}, ${detail.pairing},
-      ${detail.amazon_keyword}, ${detail.rakuten_keyword},
-      ${detail.tags}
-    )
-    ON CONFLICT (slug) DO UPDATE SET
-      name = EXCLUDED.name,
-      tasting_nose = EXCLUDED.tasting_nose,
-      tasting_palate = EXCLUDED.tasting_palate,
-      tasting_finish = EXCLUDED.tasting_finish,
-      distillery_bg = EXCLUDED.distillery_bg,
-      how_to_drink = EXCLUDED.how_to_drink,
-      pairing = EXCLUDED.pairing,
-      amazon_keyword = EXCLUDED.amazon_keyword,
-      rakuten_keyword = EXCLUDED.rakuten_keyword,
-      tags = EXCLUDED.tags,
-      generated_at = NOW()
-  `
-
-  const saved = await sql<BottleDetail>`SELECT * FROM bottle_details WHERE slug = ${slug}`
-  return saved.rows[0]
+  return {
+    slug,
+    name: parsed.name ?? name,
+    tasting_nose: parsed.tasting_nose,
+    tasting_palate: parsed.tasting_palate,
+    tasting_finish: parsed.tasting_finish,
+    distillery_bg: parsed.distillery_bg,
+    how_to_drink: parsed.how_to_drink,
+    pairing: parsed.pairing,
+    amazon_keyword: parsed.amazon_keyword,
+    rakuten_keyword: parsed.rakuten_keyword,
+    tags: parsed.tags ?? [],
+  }
 }
 
 export async function GET(req: NextRequest) {
@@ -101,14 +134,16 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // キャッシュ確認
-    const cached = await sql<BottleDetail>`SELECT * FROM bottle_details WHERE slug = ${slug}`
-    if (cached.rows.length > 0) {
-      return NextResponse.json(cached.rows[0])
-    }
+    // DBキャッシュ確認
+    const cached = await tryDbRead(slug)
+    if (cached) return NextResponse.json(cached)
 
-    // オンデマンド生成
-    const detail = await generateAndSaveDetail(slug, name)
+    // AI生成
+    const detail = await generateDetail(slug, name)
+
+    // DB保存（失敗してもレスポンスは返す）
+    await tryDbWrite(slug, detail)
+
     return NextResponse.json(detail)
   } catch (err) {
     console.error('[bottle-detail]', err)

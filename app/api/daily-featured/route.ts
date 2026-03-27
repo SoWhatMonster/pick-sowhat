@@ -57,7 +57,7 @@ async function tryDbWrite(
           ${detail.tasting_finish as string}, ${detail.distillery_bg as string},
           ${detail.how_to_drink as string}, ${detail.pairing as string},
           ${featured.amazon_keyword}, ${featured.rakuten_keyword},
-          ${featured.tags}
+          ${featured.tags as unknown as string}
         )
         ON CONFLICT (slug) DO NOTHING
       `
