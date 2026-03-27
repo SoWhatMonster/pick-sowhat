@@ -6,8 +6,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
+import { getTagImage, getTagIcon } from '@/lib/bottleHelper'
 
 type FeaturedData = {
   date: string
@@ -20,22 +22,19 @@ type FeaturedData = {
 }
 
 export default function DailyFeatured() {
-  const [data, setData] = useState<FeaturedData | null>(null)
+  const [data, setData]       = useState<FeaturedData | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [error, setError]     = useState(false)
 
-  const amazonTag = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG ?? ''
-  const rakutenAfId = process.env.NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID ?? ''
+  const amazonTag   = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG  ?? ''
+  const rakutenAfId = process.env.NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID  ?? ''
 
   useEffect(() => {
     fetch('/api/daily-featured')
       .then((r) => r.json())
       .then((d) => {
-        if (d.error) {
-          setError(true)
-        } else {
-          setData(d)
-        }
+        if (d.error) setError(true)
+        else setData(d)
         setLoading(false)
       })
       .catch(() => {
@@ -44,7 +43,6 @@ export default function DailyFeatured() {
       })
   }, [])
 
-  // エラー or 完全非表示
   if (error) return null
 
   if (loading || !data) return (
@@ -59,6 +57,9 @@ export default function DailyFeatured() {
     </section>
   )
 
+  const heroImage    = getTagImage(data.tags)
+  const categoryIcon = getTagIcon(data.tags)
+
   return (
     <section className="staticSection dailyFeaturedSection" aria-label="今日の1本">
       <div className="staticInner">
@@ -68,25 +69,39 @@ export default function DailyFeatured() {
         </div>
 
         <div className="dailyFeaturedCard">
+          {/* ── カテゴリ画像 ── */}
+          <div className="dailyFeaturedImgWrap">
+            <Image
+              src={heroImage}
+              alt={data.name}
+              fill
+              className="dailyFeaturedImg"
+              sizes="(max-width: 640px) 100vw, 420px"
+            />
+            <div className="dailyFeaturedImgOverlay" />
+          </div>
+
+          {/* ── コンテンツ ── */}
           <div className="dailyFeaturedBody">
-            <div className="dailyFeaturedTags">
-              {data.tags.map((tag) => (
-                <span key={tag} className="dailyPickTag">{tag}</span>
-              ))}
+            <div className="dailyFeaturedMeta">
+              <span className="dailyFeaturedIcon">{categoryIcon}</span>
+              <div className="dailyFeaturedTags">
+                {data.tags.map((tag) => (
+                  <span key={tag} className="dailyPickTag">{tag}</span>
+                ))}
+              </div>
             </div>
             <p className="dailyFeaturedName">{data.name}</p>
             <p className="dailyFeaturedComment">{data.ai_comment}</p>
             <div className="dailyFeaturedActions">
               <a
                 href={buildAmazonUrl(data.amazon_keyword, amazonTag)}
-                target="_blank"
-                rel="noopener noreferrer"
+                target="_blank" rel="noopener noreferrer"
                 className="dailyPickAmazon"
               >Amazon</a>
               <a
                 href={buildRakutenUrl(data.rakuten_keyword, rakutenAfId)}
-                target="_blank"
-                rel="noopener noreferrer"
+                target="_blank" rel="noopener noreferrer"
                 className="dailyPickRakuten"
               >楽天</a>
               <Link href={`/whisky/bottle/${data.slug}`} className="dailyFeaturedReadMore">
@@ -95,6 +110,7 @@ export default function DailyFeatured() {
             </div>
           </div>
         </div>
+
       </div>
     </section>
   )

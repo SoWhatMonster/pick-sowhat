@@ -249,24 +249,80 @@ input[type='range'] {
   background: var(--bg);
 }
 
+/* ── 今日の1本カード（画像＋テキスト横並び） ── */
 .dailyFeaturedCard {
-  background: var(--surface2);
+  display: grid;
+  grid-template-columns: 220px 1fr;
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 28px 32px;
-  max-width: 680px;
+  overflow: hidden;
+  max-width: 720px;
+  background: var(--surface2);
+}
+
+@media (max-width: 640px) {
+  .dailyFeaturedCard {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dailyFeaturedImgWrap {
+  position: relative;
+  min-height: 200px;
+}
+
+@media (max-width: 640px) {
+  .dailyFeaturedImgWrap {
+    min-height: 160px;
+  }
+}
+
+.dailyFeaturedImg {
+  object-fit: cover;
+  object-position: center center;
+}
+
+.dailyFeaturedImgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.15), transparent);
+}
+
+@media (max-width: 640px) {
+  .dailyFeaturedImgOverlay {
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.2));
+  }
 }
 
 .dailyFeaturedBody {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  padding: 24px 28px;
+}
+
+@media (max-width: 640px) {
+  .dailyFeaturedBody {
+    padding: 20px;
+  }
+}
+
+.dailyFeaturedMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dailyFeaturedIcon {
+  font-size: 1.125rem;
+  line-height: 1;
 }
 
 .dailyFeaturedTags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 5px;
 }
 
 .dailyFeaturedName {
@@ -303,10 +359,10 @@ input[type='range'] {
 }
 
 .dailyFeaturedLoading {
-  height: 180px;
+  height: 200px;
   background: var(--surface2);
   border-radius: 12px;
-  max-width: 680px;
+  max-width: 720px;
   animation: shimmer 1.6s ease-in-out infinite;
 }
 
@@ -322,14 +378,72 @@ input[type='range'] {
 
 .bottleDetailPage,
 .bottleBacknumberPage {
-  padding: 48px 0 80px;
+  padding: 0 0 80px;
   min-height: 80dvh;
+}
+
+/* ── ヒーロー画像 ── */
+.bottleDetailHero {
+  position: relative;
+  height: 280px;
+  margin-bottom: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .bottleDetailHero {
+    height: 200px;
+  }
+}
+
+.bottleDetailHeroImg {
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.bottleDetailHeroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 60%);
+}
+
+.bottleDetailHeroContent {
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  padding: 0 24px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.bottleDetailCategoryIcon {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* .bottleDetailName は hero内でも白文字 */
+.bottleDetailHeroContent .bottleDetailName {
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  margin-top: 8px;
+}
+
+.bottleDetailHeroContent .bottleDetailTags {
+  margin-bottom: 4px;
+}
+
+/* ── ページ内余白（ヒーロー後） ── */
+.bottleDetailPage .staticInner {
+  padding-top: 0;
 }
 
 .bottleDetailBack {
   display: flex;
   gap: 20px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+  padding-top: 32px;
 }
 
 .bottleDetailBackLink {
@@ -506,6 +620,14 @@ input[type='range'] {
   font-weight: 700;
   color: var(--text1);
   transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bottleBacknumberIcon {
+  font-size: 1rem;
+  flex-shrink: 0;
 }
 
 .bottleBacknumberTags {

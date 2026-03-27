@@ -4,59 +4,30 @@
 // ============================================================
 
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { getBottleDetail } from '@/lib/getBottleDetail'
+import { getTagImage, getTagIcon } from '@/lib/bottleHelper'
 import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
-import type { BottleDetail } from '@/app/api/bottle-detail/route'
 
 type Props = {
   params: { slug: string }
 }
 
-// ── 詳細データ取得（DB → API fallback） ──
-async function getBottleDetail(slug: string): Promise<BottleDetail | null> {
-  if (!/^[a-z0-9-]+$/.test(slug)) return null
-
-  // DBが使える場合は直接参照
-  if (process.env.POSTGRES_URL) {
-    try {
-      const { sql } = await import('@/lib/db')
-      const cached = await sql<BottleDetail>`SELECT * FROM bottle_details WHERE slug = ${slug}`
-      if (cached.rows.length > 0) return cached.rows[0]
-    } catch {
-      // DBエラーはスキップしてAPI経由にフォールバック
-    }
-  }
-
-  // API経由で取得（AI生成 + DB保存も内包）
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://pick.sowhat.monster'
-    const res = await fetch(`${baseUrl}/api/bottle-detail?slug=${slug}`, {
-      cache: 'no-store',
-    })
-    if (!res.ok) return null
-    const data: BottleDetail = await res.json()
-    if ('error' in (data as unknown as Record<string, unknown>)) return null
-    return data
-  } catch {
-    return null
-  }
-}
-
-// ── Metadata ──
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const detail = await getBottleDetail(params.slug)
   if (!detail) return { title: '銘柄が見つかりません | SO WHAT Pick' }
 
   return {
     title: `${detail.name} テイスティングノート | SO WHAT Pick`,
-    description: `${detail.tasting_nose ?? ''}`.slice(0, 140),
+    description: `${detail.tasting_nose}`.slice(0, 140),
     alternates: {
       canonical: `https://pick.sowhat.monster/whisky/bottle/${params.slug}`,
     },
     openGraph: {
       title: `${detail.name} | SO WHAT Pick`,
-      description: `${detail.tasting_nose ?? ''}`.slice(0, 120),
+      description: `${detail.tasting_nose}`.slice(0, 120),
       url: `https://pick.sowhat.monster/whisky/bottle/${params.slug}`,
       siteName: 'SO WHAT Pick',
       locale: 'ja_JP',
@@ -65,13 +36,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-// ── Page ──
 export default async function BottleDetailPage({ params }: Props) {
   const detail = await getBottleDetail(params.slug)
   if (!detail) notFound()
 
-  const amazonTag = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG ?? ''
-  const rakutenAfId = process.env.NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID ?? ''
+  const amazonTag    = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG  ?? ''
+  const rakutenAfId  = process.env.NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID  ?? ''
+  const heroImage    = getTagImage(detail.tags)
+  const categoryIcon = getTagIcon(detail.tags)
 
   return (
     <main className="bottleDetailPage">
@@ -80,33 +52,42 @@ export default async function BottleDetailPage({ params }: Props) {
         {/* ── 戻るリンク ── */}
         <div className="bottleDetailBack">
           <Link href="/whisky/bottle" className="bottleDetailBackLink">← バックナンバー</Link>
-          <Link href="/whisky" className="bottleDetailBackLink">← トップ</Link>
+          <Link href="/whisky"        className="bottleDetailBackLink">← トップ</Link>
         </div>
 
-        {/* ── ヘッダー ── */}
-        <header className="bottleDetailHeader">
-          {detail.tags && detail.tags.length > 0 && (
-            <div className="bottleDetailTags">
-              {detail.tags.map((tag) => (
-                <span key={tag} className="dailyPickTag">{tag}</span>
-              ))}
-            </div>
-          )}
-          <h1 className="bottleDetailName">{detail.name}</h1>
-        </header>
+        {/* ── ヒーロー画像 ── */}
+        <div className="bottleDetailHero">
+          <Image
+            src={heroImage}
+            alt={detail.name}
+            fill
+            className="bottleDetailHeroImg"
+            priority
+          />
+          <div className="bottleDetailHeroOverlay" />
+          <div className="bottleDetailHeroContent">
+            <span className="bottleDetailCategoryIcon">{categoryIcon}</span>
+            {detail.tags && detail.tags.length > 0 && (
+              <div className="bottleDetailTags">
+                {detail.tags.map((tag) => (
+                  <span key={tag} className="dailyPickTag">{tag}</span>
+                ))}
+              </div>
+            )}
+            <h1 className="bottleDetailName">{detail.name}</h1>
+          </div>
+        </div>
 
         {/* ── 購入ボタン ── */}
         <div className="bottleDetailBuyActions">
           <a
             href={buildAmazonUrl(detail.amazon_keyword, amazonTag)}
-            target="_blank"
-            rel="noopener noreferrer"
+            target="_blank" rel="noopener noreferrer"
             className="dailyPickAmazon bottleDetailBuyBtn"
           >Amazon で探す</a>
           <a
             href={buildRakutenUrl(detail.rakuten_keyword, rakutenAfId)}
-            target="_blank"
-            rel="noopener noreferrer"
+            target="_blank" rel="noopener noreferrer"
             className="dailyPickRakuten bottleDetailBuyBtn"
           >楽天で探す</a>
         </div>
@@ -136,7 +117,6 @@ export default async function BottleDetailPage({ params }: Props) {
           </dl>
         </section>
 
-        {/* ── 蒸留所・産地 ── */}
         {detail.distillery_bg && (
           <section className="bottleDetailSection" aria-label="産地・蒸留所">
             <h2 className="bottleDetailSectionTitle">産地・蒸留所について</h2>
@@ -144,7 +124,6 @@ export default async function BottleDetailPage({ params }: Props) {
           </section>
         )}
 
-        {/* ── 飲み方 ── */}
         {detail.how_to_drink && (
           <section className="bottleDetailSection" aria-label="飲み方">
             <h2 className="bottleDetailSectionTitle">飲み方</h2>
@@ -152,7 +131,6 @@ export default async function BottleDetailPage({ params }: Props) {
           </section>
         )}
 
-        {/* ── ペアリング ── */}
         {detail.pairing && (
           <section className="bottleDetailSection" aria-label="ペアリング">
             <h2 className="bottleDetailSectionTitle">ペアリング</h2>
@@ -164,19 +142,16 @@ export default async function BottleDetailPage({ params }: Props) {
         <div className="bottleDetailBuyActions bottleDetailBuyActionsBottom">
           <a
             href={buildAmazonUrl(detail.amazon_keyword, amazonTag)}
-            target="_blank"
-            rel="noopener noreferrer"
+            target="_blank" rel="noopener noreferrer"
             className="dailyPickAmazon bottleDetailBuyBtn"
           >Amazon で探す</a>
           <a
             href={buildRakutenUrl(detail.rakuten_keyword, rakutenAfId)}
-            target="_blank"
-            rel="noopener noreferrer"
+            target="_blank" rel="noopener noreferrer"
             className="dailyPickRakuten bottleDetailBuyBtn"
           >楽天で探す</a>
         </div>
 
-        {/* ── フッターナビ ── */}
         <div className="bottleDetailFooterNav">
           <Link href="/whisky/bottle" className="bottleDetailBackLink">← バックナンバー一覧へ</Link>
         </div>

@@ -5,7 +5,9 @@
 
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { sql } from '@/lib/db'
+import { getTagIcon } from '@/lib/bottleHelper'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'バックナンバー | 今日の1本 | SO WHAT Pick',
@@ -24,33 +26,71 @@ type BacknumberRow = {
 }
 
 async function getBacknumber(): Promise<BacknumberRow[]> {
-  try {
-    const result = await sql<BacknumberRow>`
-      SELECT
-        df.date::text AS date,
-        df.slug,
-        df.ai_comment,
-        bd.name,
-        bd.tags
-      FROM daily_featured df
-      JOIN bottle_details bd ON df.slug = bd.slug
-      ORDER BY df.date DESC
-      LIMIT 90
-    `
-    return result.rows
-  } catch {
-    return []
+  const today = new Date().toISOString().split('T')[0]
+  let rows: BacknumberRow[] = []
+
+  // DB（Postgres設定済みの場合）
+  if (process.env.POSTGRES_URL) {
+    try {
+      const { sql } = await import('@/lib/db')
+      const result = await sql<BacknumberRow>`
+        SELECT
+          df.date::text AS date,
+          df.slug,
+          df.ai_comment,
+          bd.name,
+          bd.tags
+        FROM daily_featured df
+        JOIN bottle_details bd ON df.slug = bd.slug
+        ORDER BY df.date DESC
+        LIMIT 90
+      `
+      rows = result.rows
+    } catch {
+      rows = []
+    }
   }
+
+  // 今日のエントリーがなければAPIから取得して先頭に追加
+  const hasToday = rows.some((r) => r.date === today)
+  if (!hasToday) {
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://pick.sowhat.monster'
+      const res = await fetch(`${baseUrl}/api/daily-featured`, { cache: 'no-store' })
+      if (res.ok) {
+        const data = await res.json()
+        if (!data.error && data.slug) {
+          rows = [
+            {
+              date:       today,
+              slug:       data.slug,
+              ai_comment: data.ai_comment ?? '',
+              name:       data.name,
+              tags:       data.tags ?? [],
+            },
+            ...rows,
+          ]
+        }
+      }
+    } catch {
+      // フェッチ失敗はスキップ
+    }
+  }
+
+  return rows
 }
 
 function formatDate(dateStr: string): string {
-  const d = new Date(dateStr)
+  // YYYY-MM-DD をローカル日付として解釈
+  const [y, m, d] = dateStr.split('-').map(Number)
+  const date = new Date(y, m - 1, d)
   const weekdays = ['日', '月', '火', '水', '木', '金', '土']
-  return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日（${weekdays[d.getDay()]}）`
+  return `${y}年${m}月${d}日（${weekdays[date.getDay()]}）`
 }
 
 export default async function BottleBacknumberPage() {
   const rows = await getBacknumber()
+  const today = new Date().toISOString().split('T')[0]
 
   return (
     <main className="bottleBacknumberPage">
@@ -72,9 +112,14 @@ export default async function BottleBacknumberPage() {
             {rows.map((row) => (
               <li key={row.date} className="bottleBacknumberItem">
                 <Link href={`/whisky/bottle/${row.slug}`} className="bottleBacknumberLink">
-                  <span className="bottleBacknumberDate">{formatDate(row.date)}</span>
+                  <span className="bottleBacknumberDate">
+                    {row.date === today ? '今日' : formatDate(row.date)}
+                  </span>
                   <div className="bottleBacknumberBody">
-                    <p className="bottleBacknumberName">{row.name}</p>
+                    <p className="bottleBacknumberName">
+                      <span className="bottleBacknumberIcon">{getTagIcon(row.tags)}</span>
+                      {row.name}
+                    </p>
                     {row.tags && row.tags.length > 0 && (
                       <div className="bottleBacknumberTags">
                         {row.tags.slice(0, 3).map((tag) => (
