@@ -556,6 +556,52 @@ input[type='range'] {
   line-height: 1.8;
 }
 
+/* ── コラム ── */
+.bottleColumn {
+  margin: 2rem 0 3rem;
+}
+
+.bottleColumnDate {
+  font-size: 11px;
+  color: var(--text3, #888);
+  font-family: Arial, sans-serif;
+  text-align: right;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+
+.bottleColumnBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.bottleColumnPara {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--text2);
+  margin: 0 0 1rem;
+}
+
+.bottleColumnLoading {
+  margin: 2rem 0 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bottleColumnSkeleton {
+  height: 14px;
+  border-radius: 4px;
+  background: var(--surface2);
+  animation: shimmer 1.6s ease-in-out infinite;
+  width: 100%;
+}
+
+.bottleColumnSkeleton--short {
+  width: 68%;
+}
+
 .bottleDetailFooterNav {
   border-top: 1px solid var(--border);
   padding-top: 24px;

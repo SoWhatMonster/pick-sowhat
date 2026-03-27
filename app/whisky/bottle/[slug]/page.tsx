@@ -10,6 +10,7 @@ import { notFound } from 'next/navigation'
 import { getBottleDetail } from '@/lib/getBottleDetail'
 import { getTagIcon } from '@/lib/bottleHelper'
 import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
+import BottleColumn from './BottleColumn'
 
 type Props = {
   params: { slug: string }
@@ -112,6 +113,9 @@ export default async function BottleDetailPage({ params }: Props) {
             className="dailyPickRakuten bottleDetailBuyBtn"
           >楽天で探す</a>
         </div>
+
+        {/* ── コラム ── */}
+        <BottleColumn slug={params.slug} name={detail.name} tags={detail.tags} />
 
         {/* ── テイスティングノート ── */}
         <section className="bottleDetailSection" aria-label="テイスティングノート">

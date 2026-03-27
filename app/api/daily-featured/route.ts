@@ -112,7 +112,7 @@ async function generateDailyFeatured(date: string): Promise<{
 
 必ずJSON形式のみで返してください:
 {
-  "name": "銘柄名（正式名称・日本語）",
+  "name": "銘柄名は必ず日本語カタカナ表記で。例: グレンフィディック 12年、グレンモーレンジィ オリジナル 10年",
   "slug": "slugified-name（半角英数字・ハイフン区切り。例: glenfiddich-12, kurokirishima-imo）",
   "ai_comment": "なぜ今日この1本なのか（1〜2文）",
   "tags": ["産地またはカテゴリ", "フレーバー特徴", "価格帯"],

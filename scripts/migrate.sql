@@ -20,6 +20,15 @@ CREATE TABLE IF NOT EXISTS bottle_details (
 -- すでにテーブルが存在する場合のカラム追加
 ALTER TABLE bottle_details ADD COLUMN IF NOT EXISTS image_url TEXT;
 
+CREATE TABLE IF NOT EXISTS bottle_columns (
+  id           SERIAL PRIMARY KEY,
+  slug         TEXT NOT NULL,
+  date         DATE NOT NULL,
+  column_text  TEXT NOT NULL,
+  created_at   TIMESTAMP DEFAULT NOW(),
+  UNIQUE(slug, date)
+);
+
 CREATE TABLE IF NOT EXISTS daily_featured (
   date        DATE PRIMARY KEY,
   slug        TEXT REFERENCES bottle_details(slug),
