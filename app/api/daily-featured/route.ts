@@ -1,11 +1,11 @@
 // ============================================================
 // SO WHAT Pick — 今日の1本 API
 // app/api/daily-featured/route.ts
+// DB（Vercel Postgres）はオプション。未設定でもAI生成で動作する。
 // ============================================================
 
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
-import { sql } from '@/lib/db'
 
 const client = new Anthropic()
 
@@ -17,6 +17,60 @@ export type DailyFeaturedResult = {
   tags: string[]
   amazon_keyword: string
   rakuten_keyword: string
+}
+
+// ── DB操作（Postgres未設定時はnullを返す） ──
+async function tryDbRead(today: string): Promise<DailyFeaturedResult | null> {
+  if (!process.env.POSTGRES_URL) return null
+  try {
+    const { sql } = await import('@/lib/db')
+    const existing = await sql<DailyFeaturedResult>`
+      SELECT df.date::text AS date, df.slug, df.ai_comment, bd.name, bd.tags,
+             bd.amazon_keyword, bd.rakuten_keyword
+      FROM daily_featured df
+      JOIN bottle_details bd ON df.slug = bd.slug
+      WHERE df.date = ${today}
+    `
+    return existing.rows[0] ?? null
+  } catch {
+    return null
+  }
+}
+
+async function tryDbWrite(
+  today: string,
+  featured: Omit<DailyFeaturedResult, 'date'>,
+  detail: Record<string, unknown> | null,
+) {
+  if (!process.env.POSTGRES_URL) return
+  try {
+    const { sql } = await import('@/lib/db')
+
+    // bottle_detailsに詳細がなければ保存
+    if (detail) {
+      await sql`
+        INSERT INTO bottle_details (slug, name, tasting_nose, tasting_palate, tasting_finish,
+          distillery_bg, how_to_drink, pairing, amazon_keyword, rakuten_keyword, tags)
+        VALUES (
+          ${featured.slug}, ${featured.name},
+          ${detail.tasting_nose as string}, ${detail.tasting_palate as string},
+          ${detail.tasting_finish as string}, ${detail.distillery_bg as string},
+          ${detail.how_to_drink as string}, ${detail.pairing as string},
+          ${featured.amazon_keyword}, ${featured.rakuten_keyword},
+          ${featured.tags}
+        )
+        ON CONFLICT (slug) DO NOTHING
+      `
+    }
+
+    await sql`
+      INSERT INTO daily_featured (date, slug, ai_comment)
+      VALUES (${today}, ${featured.slug}, ${featured.ai_comment})
+      ON CONFLICT (date) DO NOTHING
+    `
+  } catch (e) {
+    console.warn('[daily-featured] DB書き込み失敗（スキップ）:', e)
+  }
 }
 
 // ── 今日の1本をAIで選出 ──
@@ -80,12 +134,16 @@ async function generateDailyFeatured(date: string): Promise<{
   return JSON.parse(jsonMatch[0])
 }
 
-// ── bottle_detailsにslugが存在しなければ詳細も生成 ──
-async function ensureBottleDetail(slug: string, name: string) {
-  const existing = await sql`SELECT slug FROM bottle_details WHERE slug = ${slug}`
-  if (existing.rows.length > 0) return
+// ── 詳細コンテンツ生成（DBある場合のみ保存） ──
+async function generateBottleDetail(slug: string, name: string): Promise<Record<string, unknown> | null> {
+  if (!process.env.POSTGRES_URL) return null  // DBなしの場合は詳細生成しない
 
-  const systemPrompt = `あなたはウイスキー・焼酎の専門家であり、言葉で酒を描く作家でもあります。
+  try {
+    const { sql } = await import('@/lib/db')
+    const existing = await sql`SELECT slug FROM bottle_details WHERE slug = ${slug}`
+    if (existing.rows.length > 0) return null  // すでに存在する
+
+    const systemPrompt = `あなたはウイスキー・焼酎の専門家であり、言葉で酒を描く作家でもあります。
 指定された銘柄について、詳細なコンテンツを生成してください。
 
 文体ルール:
@@ -109,59 +167,38 @@ async function ensureBottleDetail(slug: string, name: string) {
   "rakuten_keyword": "楽天検索用キーワード"
 }`
 
-  const message = await client.messages.create({
-    model: 'claude-sonnet-4-6',
-    max_tokens: 1200,
-    system: systemPrompt,
-    messages: [{ role: 'user', content: `銘柄: ${name}\n上記の銘柄について詳細コンテンツを生成してください。` }],
-  })
+    const message = await client.messages.create({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1200,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: `銘柄: ${name}\n上記の銘柄について詳細コンテンツを生成してください。` }],
+    })
 
-  const text = message.content[0].type === 'text' ? message.content[0].text : ''
-  const jsonMatch = text.match(/\{[\s\S]*\}/)
-  if (!jsonMatch) return
-  const detail = JSON.parse(jsonMatch[0])
-
-  await sql`
-    INSERT INTO bottle_details (slug, name, tasting_nose, tasting_palate, tasting_finish,
-      distillery_bg, how_to_drink, pairing, amazon_keyword, rakuten_keyword, tags)
-    VALUES (
-      ${slug}, ${detail.name ?? name},
-      ${detail.tasting_nose}, ${detail.tasting_palate}, ${detail.tasting_finish},
-      ${detail.distillery_bg}, ${detail.how_to_drink}, ${detail.pairing},
-      ${detail.amazon_keyword}, ${detail.rakuten_keyword},
-      ${detail.tags}
-    )
-    ON CONFLICT (slug) DO NOTHING
-  `
+    const text = message.content[0].type === 'text' ? message.content[0].text : ''
+    const jsonMatch = text.match(/\{[\s\S]*\}/)
+    if (!jsonMatch) return null
+    return JSON.parse(jsonMatch[0])
+  } catch {
+    return null
+  }
 }
 
 export async function GET() {
   try {
     const today = new Date().toISOString().split('T')[0]
 
-    // 今日分がすでにあればそれを返す
-    const existing = await sql`
-      SELECT df.date, df.slug, df.ai_comment, bd.name, bd.tags, bd.amazon_keyword, bd.rakuten_keyword
-      FROM daily_featured df
-      JOIN bottle_details bd ON df.slug = bd.slug
-      WHERE df.date = ${today}
-    `
-    if (existing.rows.length > 0) {
-      return NextResponse.json(existing.rows[0] as DailyFeaturedResult)
-    }
+    // DBキャッシュ確認
+    const cached = await tryDbRead(today)
+    if (cached) return NextResponse.json(cached)
 
     // AIで今日の1本を選出
     const featured = await generateDailyFeatured(today)
 
-    // bottle_detailsに詳細がなければ生成・保存
-    await ensureBottleDetail(featured.slug, featured.name)
+    // 詳細生成（DBある場合のみ）
+    const detail = await generateBottleDetail(featured.slug, featured.name)
 
-    // daily_featuredに保存
-    await sql`
-      INSERT INTO daily_featured (date, slug, ai_comment)
-      VALUES (${today}, ${featured.slug}, ${featured.ai_comment})
-      ON CONFLICT (date) DO NOTHING
-    `
+    // DB保存（失敗してもレスポンスは返す）
+    await tryDbWrite(today, featured, detail)
 
     return NextResponse.json({
       date: today,

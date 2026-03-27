@@ -21,6 +21,7 @@ type FeaturedData = {
 
 export default function DailyFeatured() {
   const [data, setData] = useState<FeaturedData | null>(null)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
   const amazonTag = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG ?? ''
@@ -30,14 +31,23 @@ export default function DailyFeatured() {
     fetch('/api/daily-featured')
       .then((r) => r.json())
       .then((d) => {
-        if (d.error) setError(true)
-        else setData(d)
+        if (d.error) {
+          setError(true)
+        } else {
+          setData(d)
+        }
+        setLoading(false)
       })
-      .catch(() => setError(true))
+      .catch(() => {
+        setError(true)
+        setLoading(false)
+      })
   }, [])
 
-  if (error || (!data && typeof window !== 'undefined')) return null
-  if (!data) return (
+  // エラー or 完全非表示
+  if (error) return null
+
+  if (loading) return (
     <section className="staticSection dailyFeaturedSection" aria-label="今日の1本">
       <div className="staticInner">
         <div className="sectionHead">
