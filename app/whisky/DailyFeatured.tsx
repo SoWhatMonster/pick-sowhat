@@ -47,7 +47,7 @@ export default function DailyFeatured() {
   // エラー or 完全非表示
   if (error) return null
 
-  if (loading) return (
+  if (loading || !data) return (
     <section className="staticSection dailyFeaturedSection" aria-label="今日の1本">
       <div className="staticInner">
         <div className="sectionHead">
