@@ -718,6 +718,37 @@ input[type='range'] {
   justify-self: end;
 }
 
+/* ── バックナンバー ページネーション ── */
+.backnumberPagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 40px 0 16px;
+}
+
+.backnumberPageBtn {
+  display: inline-block;
+  padding: 8px 20px;
+  border: 1px solid var(--border, #e0e0e0);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: var(--text1);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.backnumberPageBtn:hover {
+  background: var(--surface2, #f5f5f5);
+}
+
+.backnumberPageInfo {
+  font-size: 0.875rem;
+  color: var(--text2);
+  min-width: 48px;
+  text-align: center;
+}
+
 /* ============================================================
    Static Sections — Phase 1 (Style Guide, Scenes, SEO, FAQ, Feedback)
    ============================================================ */

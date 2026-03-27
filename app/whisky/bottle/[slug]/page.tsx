@@ -10,6 +10,8 @@ import { notFound } from 'next/navigation'
 import { getBottleDetail } from '@/lib/getBottleDetail'
 import { getTagIcon } from '@/lib/bottleHelper'
 import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
+import SubpageTopbar from '@/components/subpage/SubpageTopbar'
+import SubpageFooter from '@/components/subpage/SubpageFooter'
 import BottleColumn from './BottleColumn'
 
 type Props = {
@@ -49,6 +51,8 @@ export default async function BottleDetailPage({ params }: Props) {
 
   return (
     <main className="bottleDetailPage">
+
+      <SubpageTopbar />
 
       {/* ── ヒーロー（商品画像あり） ── */}
       {hasImage ? (
@@ -181,6 +185,9 @@ export default async function BottleDetailPage({ params }: Props) {
         </div>
 
       </div>
+
+      <SubpageFooter />
+
     </main>
   )
 }
