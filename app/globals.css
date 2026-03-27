@@ -274,7 +274,7 @@ input[type='range'] {
 .dailyFeaturedImgWrap {
   position: relative;
   min-height: 220px;
-  background: var(--surface3);
+  background: #fff;
 }
 
 @media (max-width: 640px) {
