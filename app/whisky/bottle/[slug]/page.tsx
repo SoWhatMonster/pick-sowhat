@@ -8,7 +8,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getBottleDetail } from '@/lib/getBottleDetail'
-import { getTagImage, getTagIcon } from '@/lib/bottleHelper'
+import { getTagIcon } from '@/lib/bottleHelper'
 import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
 
 type Props = {
@@ -21,17 +21,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${detail.name} テイスティングノート | SO WHAT Pick`,
-    description: `${detail.tasting_nose}`.slice(0, 140),
+    description: detail.tasting_nose.slice(0, 140),
     alternates: {
       canonical: `https://pick.sowhat.monster/whisky/bottle/${params.slug}`,
     },
     openGraph: {
       title: `${detail.name} | SO WHAT Pick`,
-      description: `${detail.tasting_nose}`.slice(0, 120),
+      description: detail.tasting_nose.slice(0, 120),
       url: `https://pick.sowhat.monster/whisky/bottle/${params.slug}`,
       siteName: 'SO WHAT Pick',
       locale: 'ja_JP',
       type: 'article',
+      ...(detail.image_url ? { images: [{ url: detail.image_url }] } : {}),
     },
   }
 }
@@ -40,34 +41,46 @@ export default async function BottleDetailPage({ params }: Props) {
   const detail = await getBottleDetail(params.slug)
   if (!detail) notFound()
 
-  const amazonTag    = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG  ?? ''
-  const rakutenAfId  = process.env.NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID  ?? ''
-  const heroImage    = getTagImage(detail.tags)
+  const amazonTag    = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG ?? ''
+  const rakutenAfId  = process.env.NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID ?? ''
   const categoryIcon = getTagIcon(detail.tags)
+  const hasImage     = !!detail.image_url
 
   return (
     <main className="bottleDetailPage">
-      <div className="staticInner">
 
-        {/* ── 戻るリンク ── */}
-        <div className="bottleDetailBack">
-          <Link href="/whisky/bottle" className="bottleDetailBackLink">← バックナンバー</Link>
-          <Link href="/whisky"        className="bottleDetailBackLink">← トップ</Link>
-        </div>
-
-        {/* ── ヒーロー画像 ── */}
+      {/* ── ヒーロー（商品画像あり） ── */}
+      {hasImage ? (
         <div className="bottleDetailHero">
           <Image
-            src={heroImage}
+            src={detail.image_url!}
             alt={detail.name}
             fill
             className="bottleDetailHeroImg"
             priority
+            sizes="100vw"
           />
           <div className="bottleDetailHeroOverlay" />
           <div className="bottleDetailHeroContent">
+            <div className="staticInner">
+              <span className="bottleDetailCategoryIcon">{categoryIcon}</span>
+              {detail.tags.length > 0 && (
+                <div className="bottleDetailTags">
+                  {detail.tags.map((tag) => (
+                    <span key={tag} className="dailyPickTag">{tag}</span>
+                  ))}
+                </div>
+              )}
+              <h1 className="bottleDetailHeroName">{detail.name}</h1>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* ── ヒーローなし：シンプルヘッダー ── */
+        <div className="bottleDetailSimpleHeader">
+          <div className="staticInner">
             <span className="bottleDetailCategoryIcon">{categoryIcon}</span>
-            {detail.tags && detail.tags.length > 0 && (
+            {detail.tags.length > 0 && (
               <div className="bottleDetailTags">
                 {detail.tags.map((tag) => (
                   <span key={tag} className="dailyPickTag">{tag}</span>
@@ -76,6 +89,14 @@ export default async function BottleDetailPage({ params }: Props) {
             )}
             <h1 className="bottleDetailName">{detail.name}</h1>
           </div>
+        </div>
+      )}
+
+      <div className="staticInner">
+
+        <div className="bottleDetailBack">
+          <Link href="/whisky/bottle" className="bottleDetailBackLink">← バックナンバー</Link>
+          <Link href="/whisky"        className="bottleDetailBackLink">← トップ</Link>
         </div>
 
         {/* ── 購入ボタン ── */}
@@ -138,7 +159,6 @@ export default async function BottleDetailPage({ params }: Props) {
           </section>
         )}
 
-        {/* ── 購入ボタン（下） ── */}
         <div className="bottleDetailBuyActions bottleDetailBuyActionsBottom">
           <a
             href={buildAmazonUrl(detail.amazon_keyword, amazonTag)}

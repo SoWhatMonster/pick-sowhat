@@ -249,15 +249,20 @@ input[type='range'] {
   background: var(--bg);
 }
 
-/* ── 今日の1本カード（画像＋テキスト横並び） ── */
+/* ── 今日の1本カード（商品画像＋テキスト横並び） ── */
 .dailyFeaturedCard {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 180px 1fr;
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
   max-width: 720px;
   background: var(--surface2);
+}
+
+/* 画像なし：1カラムフル幅 */
+.dailyFeaturedCard--noimg {
+  grid-template-columns: 1fr;
 }
 
 @media (max-width: 640px) {
@@ -268,30 +273,21 @@ input[type='range'] {
 
 .dailyFeaturedImgWrap {
   position: relative;
-  min-height: 200px;
+  min-height: 220px;
+  background: var(--surface3);
 }
 
 @media (max-width: 640px) {
   .dailyFeaturedImgWrap {
-    min-height: 160px;
+    min-height: 200px;
   }
 }
 
+/* 商品画像：contain でボトル全体を表示 */
 .dailyFeaturedImg {
-  object-fit: cover;
+  object-fit: contain;
   object-position: center center;
-}
-
-.dailyFeaturedImgOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, rgba(0,0,0,0.15), transparent);
-}
-
-@media (max-width: 640px) {
-  .dailyFeaturedImgOverlay {
-    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.2));
-  }
+  padding: 12px;
 }
 
 .dailyFeaturedBody {
@@ -423,15 +419,29 @@ input[type='range'] {
   margin-bottom: 8px;
 }
 
-/* .bottleDetailName は hero内でも白文字 */
-.bottleDetailHeroContent .bottleDetailName {
+/* ヒーロー内のタイトル（白文字） */
+.bottleDetailHeroName {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 700;
   color: #fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
   margin-top: 8px;
 }
 
 .bottleDetailHeroContent .bottleDetailTags {
   margin-bottom: 4px;
+}
+
+/* ── 画像なし：シンプルヘッダー ── */
+.bottleDetailSimpleHeader {
+  padding: 40px 0 0;
+  background: var(--bg);
+}
+
+.bottleDetailSimpleHeader .bottleDetailName {
+  margin-top: 8px;
 }
 
 /* ── ページ内余白（ヒーロー後） ── */

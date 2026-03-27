@@ -9,16 +9,17 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
-import { getTagImage, getTagIcon } from '@/lib/bottleHelper'
+import { getTagIcon } from '@/lib/bottleHelper'
 
 type FeaturedData = {
-  date: string
-  slug: string
-  name: string
-  ai_comment: string
-  tags: string[]
-  amazon_keyword: string
+  date:            string
+  slug:            string
+  name:            string
+  ai_comment:      string
+  tags:            string[]
+  amazon_keyword:  string
   rakuten_keyword: string
+  image_url?:      string | null
 }
 
 export default function DailyFeatured() {
@@ -32,9 +33,17 @@ export default function DailyFeatured() {
   useEffect(() => {
     fetch('/api/daily-featured')
       .then((r) => r.json())
-      .then((d) => {
-        if (d.error) setError(true)
-        else setData(d)
+      .then((d: FeaturedData & { error?: string }) => {
+        if (d.error) {
+          setError(true)
+        } else {
+          setData(d)
+          // 詳細ページをバックグラウンドでウォームアップ（クリック時の速度改善）
+          if (d.slug) {
+            fetch(`/api/bottle-detail?slug=${d.slug}&name=${encodeURIComponent(d.name)}`)
+              .catch(() => {})
+          }
+        }
         setLoading(false)
       })
       .catch(() => {
@@ -57,8 +66,8 @@ export default function DailyFeatured() {
     </section>
   )
 
-  const heroImage    = getTagImage(data.tags)
   const categoryIcon = getTagIcon(data.tags)
+  const hasImage     = !!data.image_url
 
   return (
     <section className="staticSection dailyFeaturedSection" aria-label="今日の1本">
@@ -68,18 +77,19 @@ export default function DailyFeatured() {
           <p className="sectionSub">Today&apos;s bottle.</p>
         </div>
 
-        <div className="dailyFeaturedCard">
-          {/* ── カテゴリ画像 ── */}
-          <div className="dailyFeaturedImgWrap">
-            <Image
-              src={heroImage}
-              alt={data.name}
-              fill
-              className="dailyFeaturedImg"
-              sizes="(max-width: 640px) 100vw, 420px"
-            />
-            <div className="dailyFeaturedImgOverlay" />
-          </div>
+        <div className={`dailyFeaturedCard${hasImage ? '' : ' dailyFeaturedCard--noimg'}`}>
+          {/* ── 商品画像（Amazon PA-API） ── */}
+          {hasImage && (
+            <div className="dailyFeaturedImgWrap">
+              <Image
+                src={data.image_url!}
+                alt={data.name}
+                fill
+                className="dailyFeaturedImg"
+                sizes="(max-width: 640px) 100vw, 200px"
+              />
+            </div>
+          )}
 
           {/* ── コンテンツ ── */}
           <div className="dailyFeaturedBody">

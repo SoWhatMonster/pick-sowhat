@@ -13,8 +13,12 @@ CREATE TABLE IF NOT EXISTS bottle_details (
   pairing         TEXT,
   amazon_keyword  TEXT,
   rakuten_keyword TEXT,
-  tags            TEXT[]
+  tags            TEXT[],
+  image_url       TEXT
 );
+
+-- すでにテーブルが存在する場合のカラム追加
+ALTER TABLE bottle_details ADD COLUMN IF NOT EXISTS image_url TEXT;
 
 CREATE TABLE IF NOT EXISTS daily_featured (
   date        DATE PRIMARY KEY,
