@@ -1,5 +1,5 @@
 // ============================================================
-// SO WHAT Pick — 銘柄コラム（Client Component）
+// SO WHAT Pick — 銘柄コラム（Client Component）v2
 // app/whisky/bottle/[slug]/BottleColumn.tsx
 // ============================================================
 
@@ -19,21 +19,19 @@ function formatDisplayDate(dateStr: string): string {
 }
 
 export default function BottleColumn({ slug, name, tags }: Props) {
+  const [title, setTitle]     = useState<string | null>(null)
   const [column, setColumn]   = useState<string | null>(null)
   const [date, setDate]       = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const params = new URLSearchParams({
-      slug,
-      name,
-      tags: tags.join(','),
-    })
+    const params = new URLSearchParams({ slug, name, tags: tags.join(',') })
 
     fetch(`/api/bottle-column?${params}`)
       .then((r) => r.json())
       .then((d) => {
         if (!d.error && d.column) {
+          setTitle(d.title ?? null)
           setColumn(d.column)
           setDate(d.date)
         }
@@ -46,6 +44,8 @@ export default function BottleColumn({ slug, name, tags }: Props) {
   if (loading) {
     return (
       <div className="bottleColumn bottleColumnLoading">
+        <div className="bottleColumnSkeleton bottleColumnSkeleton--short" style={{ width: '40%', marginBottom: '1rem' }} />
+        <div className="bottleColumnSkeleton bottleColumnSkeleton--title" />
         <div className="bottleColumnSkeleton" />
         <div className="bottleColumnSkeleton bottleColumnSkeleton--short" />
         <div className="bottleColumnSkeleton" />
@@ -63,6 +63,9 @@ export default function BottleColumn({ slug, name, tags }: Props) {
     <div className="bottleColumn">
       {date && (
         <p className="bottleColumnDate">{formatDisplayDate(date)}</p>
+      )}
+      {title && (
+        <h2 className="bottleColumnTitle">{title}</h2>
       )}
       <div className="bottleColumnBody">
         {paragraphs.map((para, i) => (

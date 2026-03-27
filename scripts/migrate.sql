@@ -26,8 +26,12 @@ CREATE TABLE IF NOT EXISTS bottle_columns (
   date         DATE NOT NULL,
   column_text  TEXT NOT NULL,
   created_at   TIMESTAMP DEFAULT NOW(),
+  title        TEXT,
   UNIQUE(slug, date)
 );
+
+-- すでにテーブルが存在する場合のカラム追加
+ALTER TABLE bottle_columns ADD COLUMN IF NOT EXISTS title TEXT;
 
 CREATE TABLE IF NOT EXISTS daily_featured (
   date        DATE PRIMARY KEY,
