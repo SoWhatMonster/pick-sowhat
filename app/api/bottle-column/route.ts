@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { selectContextType, buildColumnPrompt, shouldAddJoke, selectJokeType } from '@/lib/columnContext'
 import { fetchTodayNews } from '@/lib/fetchNews'
+import { checkRateLimit } from '@/lib/rateLimit'
 
 export const maxDuration = 30
 
@@ -72,7 +73,17 @@ async function tryDbWrite(slug: string, date: string, title: string, columnText:
   }
 }
 
+// 1IPあたり 5回/分（コラム生成はコストが高いので厳しめ）
+const LIMIT  = 5
+const WINDOW = 60 * 1000
+
 export async function GET(req: NextRequest) {
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+  const { allowed } = checkRateLimit(ip, LIMIT, WINDOW)
+  if (!allowed) {
+    return NextResponse.json({ error: 'リクエストが多すぎます' }, { status: 429 })
+  }
+
   const { searchParams } = new URL(req.url)
   const slug    = searchParams.get('slug')
   const name    = searchParams.get('name')
@@ -84,9 +95,14 @@ export async function GET(req: NextRequest) {
   if (!name) {
     return NextResponse.json({ error: 'nameが必要です' }, { status: 400 })
   }
+  if (name.length > 200) {
+    return NextResponse.json({ error: 'nameが長すぎます' }, { status: 400 })
+  }
 
   const today = new Date().toISOString().split('T')[0]
-  const tags  = tagsRaw ? tagsRaw.split(',') : []
+  const tags  = tagsRaw
+    ? tagsRaw.split(',').slice(0, 10).map((t) => t.slice(0, 50))
+    : []
 
   try {
     // DBキャッシュ確認
