@@ -115,7 +115,7 @@ export default function DailyFeatured() {
                 className="dailyPickRakuten"
               >楽天</a>
               <Link href={`/whisky/bottle/${data.slug}`} className="dailyFeaturedReadMore">
-                詳しく読む →
+                今日のコラムを読む →
               </Link>
             </div>
           </div>
