@@ -4,6 +4,25 @@
 // ============================================================
 
 export type ContextType = 'news' | 'weather' | 'place' | 'culture' | 'observation'
+export type JokeType   = 'excuse' | 'dadJoke'
+
+/**
+ * 日付をシードに、4〜5本に1本ジョークを入れるか判定（約20%）。
+ * コンテキスト判定と干渉しないよう別の桁を使う。
+ */
+export function shouldAddJoke(date: string): boolean {
+  const seed = date.replace(/-/g, '')
+  return parseInt(seed.slice(-6, -4), 10) % 5 === 0
+}
+
+/**
+ * ジョークの種類を日付ハッシュで決定。
+ * 80%: 飲み手の言い訳・自己弁護系 / 20%: 親父ギャグ
+ */
+export function selectJokeType(date: string): JokeType {
+  const seed = date.replace(/-/g, '')
+  return parseInt(seed.slice(-8, -6), 10) % 5 === 0 ? 'dadJoke' : 'excuse'
+}
 
 /**
  * 日付をシードにしてコンテキストタイプを決定（同じ日は同じタイプ）。
@@ -28,6 +47,7 @@ export function buildColumnPrompt(params: {
   season:      string
   contextType: ContextType
   news?:       string[]
+  jokeType?:   JokeType
 }): string {
   const base =
     `銘柄: ${params.name}\n` +
@@ -59,5 +79,29 @@ export function buildColumnPrompt(params: {
       `馬鹿馬鹿しくてよい。でも観察眼を忘れない。`,
   }
 
-  return base + contextInstructions[params.contextType]
+  let jokeInstruction = ''
+  if (params.jokeType === 'excuse') {
+    jokeInstruction = `
+
+【ジョーク指示（必須）】
+本文の最後の一文（締めの直前）に、飲み手の言い訳・自己弁護系のジョークを1文だけ入れること。
+例: 「二杯目は、一杯目のせいにできる。」
+例: 「『もう一杯だけ』は、人類が発明した最も信頼性の低い言葉だ。」
+例: 「グラスが空なのは、グラスが小さすぎるのだと思っている。」
+これらは参考例。同じものを使わず、この銘柄・今日のコンテキストに合わせて新しく作ること。
+滑っても構わない。むしろ滑った方がいい。`
+  } else if (params.jokeType === 'dadJoke') {
+    jokeInstruction = `
+
+【ジョーク指示（必須）】
+本文の最後の一文（締めの直前）に、以下の要素を使った親父ギャグを1文だけ入れること。
+対象: この銘柄名「${params.name}」・産地・国名・地名・蒸留所名・酒の種類
+例（スコッチ）: 「スコッちだけください、と言えたら苦労しない。」
+例（アイラ）: 「アイラ島に行きたい。愛らしいから。」
+例（アイリッシュ）: 「アイリッシュだけに、アイがとまらない。」
+これらは参考例。同じものを使わず、この銘柄に合わせて新しく作ること。
+無理やり引っかければ引っかけるほどいい。滑ることを恐れない。`
+  }
+
+  return base + contextInstructions[params.contextType] + jokeInstruction
 }

@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
-import { selectContextType, buildColumnPrompt } from '@/lib/columnContext'
+import { selectContextType, buildColumnPrompt, shouldAddJoke, selectJokeType } from '@/lib/columnContext'
 import { fetchTodayNews } from '@/lib/fetchNews'
 
 export const maxDuration = 30
@@ -127,9 +127,12 @@ export async function GET(req: NextRequest) {
     }
     const season = seasons[month] ?? '冬'
 
+    // ジョーク判定
+    const jokeType = shouldAddJoke(today) ? selectJokeType(today) : undefined
+
     // プロンプト生成
     const userPrompt = buildColumnPrompt({
-      name, tags, date: today, weekday, season, contextType, news,
+      name, tags, date: today, weekday, season, contextType, news, jokeType,
     })
 
     // AI生成
