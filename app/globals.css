@@ -596,26 +596,28 @@ input[type='range'] {
 
 .columnSignOff {
   font-family: Arial, sans-serif;
-  font-size: 13px;
-  color: var(--text2);
+  font-size: 14px;
+  color: var(--text1);
   margin-top: 1.2rem;
-  font-weight: 500;
+  font-weight: 400;
+  line-height: 1.9;
 }
 
 .columnDisclaimer {
   font-family: Arial, sans-serif;
   font-size: 11px;
   color: var(--text3);
-  margin-top: 0.6rem;
+  margin-top: 2rem;
   line-height: 1.6;
 }
 
 .bottleColumnWriting {
   font-family: Arial, sans-serif;
-  font-size: 12px;
-  color: var(--text3);
+  font-size: 13px;
+  color: var(--text1);
+  font-weight: 600;
   margin: 0 0 1rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
 }
 
 .bottleColumnLoading {
