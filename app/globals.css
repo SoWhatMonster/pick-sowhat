@@ -594,6 +594,14 @@ input[type='range'] {
   margin: 0 0 1.1rem;
 }
 
+.columnDisclaimer {
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 1.5rem;
+  line-height: 1.6;
+}
+
 .bottleColumnLoading {
   margin: 2rem 0 3rem;
   display: flex;
