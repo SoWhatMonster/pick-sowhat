@@ -241,8 +241,14 @@ export async function GET() {
     // 直近の使用済み銘柄を取得（重複防止）
     const recentNames = await getRecentNames(7)
 
-    // AIで今日の1本を選出
-    const featured = await generateDailyFeatured(today, recentNames)
+    // AIで今日の1本を選出（重複時は最大3回リトライ）
+    let featured = await generateDailyFeatured(today, recentNames)
+    let retries = 0
+    while (recentNames.includes(featured.name) && retries < 3) {
+      console.warn(`[daily-featured] 重複検出 (${featured.name})、リトライ ${retries + 1}/3`)
+      featured = await generateDailyFeatured(today, recentNames)
+      retries++
+    }
 
     // 詳細生成（DBある場合のみ）
     const detail = await generateBottleDetail(featured.slug, featured.name)
