@@ -4,7 +4,8 @@
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getRecommendations, RecommendRequest } from '@/lib/anthropic'
+import crypto from 'crypto'
+import { getRecommendations, RecommendRequest, RecommendResponse } from '@/lib/anthropic'
 
 // ── レート制限（IPベース、インメモリ） ─────────────────────────
 // Vercel の無料プランはシングルインスタンス想定で十分機能する
@@ -77,6 +78,61 @@ function validateFlavors(arr: unknown): { name: string; value: number }[] {
     )
     .map((f) => ({ name: f.name, value: Math.min(10, Math.max(0, Math.round(f.value))) }))
     .slice(0, 10)
+}
+
+// ── レコメンドDBキャッシュ（TTL: 24h） ──────────────────────────
+function generateCacheKey(req: RecommendRequest): string {
+  const key = {
+    mode:               req.mode,
+    spirit:             req.spirit,
+    budget:             req.budget,
+    season:             req.season,
+    flavors:            [...req.flavors].sort((a, b) => a.name.localeCompare(b.name)).map(f => `${f.name}:${f.value}`),
+    experience:         req.experience,
+    scenes:             req.scenes ? [...req.scenes].sort() : undefined,
+    recommendStyle:     req.recommendStyle ?? 'balanced',
+    whiskyRegions:      req.whiskyRegions ? [...req.whiskyRegions].sort() : undefined,
+    whiskyStyles:       req.whiskyStyles  ? [...req.whiskyStyles].sort()  : undefined,
+    whiskyCasks:        req.whiskyCasks   ? [...req.whiskyCasks].sort()   : undefined,
+    whiskyAge:          req.whiskyAge,
+    shochuRegions:      req.shochuRegions      ? [...req.shochuRegions].sort()      : undefined,
+    shochuIngredients:  req.shochuIngredients  ? [...req.shochuIngredients].sort()  : undefined,
+    shochuAging:        req.shochuAging,
+    giftRelation:       req.giftRelation ? [...req.giftRelation].sort() : undefined,
+    giftAge:            req.giftAge,
+    giftExperience:     req.giftExperience,
+    giftNomikurabe:     req.giftNomikurabe,
+  }
+  return crypto.createHash('sha256').update(JSON.stringify(key)).digest('hex')
+}
+
+async function getCachedRecommendation(cacheKey: string): Promise<RecommendResponse | null> {
+  if (!process.env.POSTGRES_URL) return null
+  try {
+    const { sql } = await import('@/lib/db')
+    const result = await sql<{ result: RecommendResponse }>`
+      SELECT result FROM recommendation_cache
+      WHERE cache_key = ${cacheKey} AND expires_at > NOW()
+    `
+    return result.rows[0]?.result ?? null
+  } catch {
+    return null
+  }
+}
+
+async function setCachedRecommendation(cacheKey: string, result: RecommendResponse): Promise<void> {
+  if (!process.env.POSTGRES_URL) return
+  try {
+    const { sql } = await import('@/lib/db')
+    await sql`
+      INSERT INTO recommendation_cache (cache_key, result, expires_at)
+      VALUES (${cacheKey}, ${JSON.stringify(result)}, NOW() + INTERVAL '24 hours')
+      ON CONFLICT (cache_key) DO UPDATE
+      SET result = EXCLUDED.result, expires_at = EXCLUDED.expires_at
+    `
+  } catch (e) {
+    console.warn('[recommend] DB書き込み失敗（スキップ）:', e)
+  }
 }
 
 // ── メインハンドラ ────────────────────────────────────────────
@@ -174,7 +230,20 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const cacheKey = generateCacheKey(body)
+
+    // DBキャッシュ確認
+    const cached = await getCachedRecommendation(cacheKey)
+    if (cached) {
+      return NextResponse.json(cached)
+    }
+
+    // キャッシュMISS → AI生成
     const result = await getRecommendations(body)
+
+    // DB保存（非同期、失敗しても返す）
+    setCachedRecommendation(cacheKey, result).catch(() => {})
+
     return NextResponse.json(result)
   } catch (err) {
     console.error('[recommend] Error:', err)

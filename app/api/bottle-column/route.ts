@@ -145,11 +145,11 @@ export async function GET(req: NextRequest) {
       name, tags, date: today, weekday, season, contextType, news, jokeType,
     })
 
-    // AI生成
+    // AI生成（システムプロンプトキャッシュ有効）
     const message = await client.messages.create({
       model:      'claude-sonnet-4-6',
       max_tokens: 1000,
-      system:     SYSTEM_PROMPT,
+      system:     [{ type: 'text', text: SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
       messages:   [{ role: 'user', content: userPrompt }],
     })
 
