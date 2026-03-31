@@ -73,28 +73,25 @@ async function tryDbWrite(
   }
 }
 
-// ── 直近の使用済み銘柄名を取得 ──
-async function getRecentNames(days = 7): Promise<string[]> {
+// ── 直近の使用済みslugを取得（名前比較より確実）──
+async function getRecentSlugs(days = 7): Promise<string[]> {
   if (!process.env.POSTGRES_URL) return []
   try {
     const { sql } = await import('@/lib/db')
-    // JS側で日付を計算してパラメーター渡し
     const cutoff = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-    const result = await sql<{ name: string }>`
-      SELECT bd.name
-      FROM daily_featured df
-      JOIN bottle_details bd ON df.slug = bd.slug
-      WHERE df.date >= ${cutoff}
-      ORDER BY df.date DESC
+    const result = await sql<{ slug: string }>`
+      SELECT slug FROM daily_featured
+      WHERE date >= ${cutoff}
+      ORDER BY date DESC
     `
-    return result.rows.map((r) => r.name)
+    return result.rows.map((r) => r.slug)
   } catch {
     return []
   }
 }
 
 // ── 今日の1本をAIで選出 ──
-async function generateDailyFeatured(date: string, recentNames: string[] = []): Promise<{
+async function generateDailyFeatured(date: string, recentSlugs: string[] = []): Promise<{
   name: string
   slug: string
   ai_comment: string
@@ -142,7 +139,7 @@ async function generateDailyFeatured(date: string, recentNames: string[] = []): 
 球磨焼酎 繊月, 米焼酎 白岳,
 里の曙, 龍宮, にしの誉
 
-${recentNames.length > 0 ? `【絶対に選ばないこと】以下は直近で使用済みのため除外:\n${recentNames.map((n) => `- ${n}`).join('\n')}\n` : ''}選出条件:
+${recentSlugs.length > 0 ? `【絶対に選ばないこと】以下のslugの銘柄は直近で使用済みのため除外:\n${recentSlugs.map((s) => `- ${s}`).join('\n')}\n` : ''}選出条件:
 - 季節・曜日にゆるく関連した銘柄
 - マニアックすぎず、かつ定番すぎない
 - 直近で選ばれた銘柄は絶対に選ばない（重複禁止）
@@ -238,15 +235,15 @@ export async function GET() {
     const cached = await tryDbRead(today)
     if (cached) return NextResponse.json(cached)
 
-    // 直近の使用済み銘柄を取得（重複防止）
-    const recentNames = await getRecentNames(7)
+    // 直近の使用済みslugを取得（slug比較は名前表記ゆれに影響されない）
+    const recentSlugs = await getRecentSlugs(7)
 
     // AIで今日の1本を選出（重複時は最大3回リトライ）
-    let featured = await generateDailyFeatured(today, recentNames)
+    let featured = await generateDailyFeatured(today, recentSlugs)
     let retries = 0
-    while (recentNames.includes(featured.name) && retries < 3) {
-      console.warn(`[daily-featured] 重複検出 (${featured.name})、リトライ ${retries + 1}/3`)
-      featured = await generateDailyFeatured(today, recentNames)
+    while (recentSlugs.includes(featured.slug) && retries < 3) {
+      console.warn(`[daily-featured] 重複検出 slug=${featured.slug}、リトライ ${retries + 1}/3`)
+      featured = await generateDailyFeatured(today, recentSlugs)
       retries++
     }
 
