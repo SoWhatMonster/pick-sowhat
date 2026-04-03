@@ -113,33 +113,66 @@ async function generateDailyFeatured(date: string, recentSlugs: string[] = []): 
   const systemPrompt = `あなたはウイスキーと焼酎の専門家であり、言葉で酒を描く作家でもあります。
 今日（${date}・${weekday}・${season}）の「今日の1本」を選んでください。
 
-【重要】必ず以下のリストから選ぶこと。リスト外の銘柄・架空の銘柄・産地名・カテゴリ名は絶対に使わない。
+【重要】必ず以下の「銘柄名 → slug」リストから選ぶこと。slugは必ずリスト記載の値をそのまま使うこと。
 
-ウイスキー候補:
-グレンフィディック 12年, グレンフィディック 15年, グレンフィディック 18年,
-マッカラン 12年 シェリーオーク, マッカラン 12年 ダブルカスク, マッカラン 18年,
-グレンモーレンジィ オリジナル 10年, グレンモーレンジィ ラサンタ,
-ボウモア 12年, ラフロイグ 10年, アードベッグ 10年, ラガヴーリン 16年,
-タリスカー 10年, オーバン 14年,
-グレンリベット 12年, グレンリベット 15年,
-ダルモア 12年, ダルウィニー 15年,
-ジェムソン, ジェムソン ブラックバレル, ブッシュミルズ オリジナル,
-山崎 12年, 白州 12年, 余市, 宮城峡,
-竹鶴 ピュアモルト, 知多,
-メーカーズマーク, バッファロートレース, ウッドフォードリザーブ,
-エヴァン・ウィリアムス ブラックラベル, ワイルドターキー 8年,
-ジャックダニエル No.7, ジムビーム,
-クラウンローヤル, カナディアンクラブ,
-カバラン クラシック, アムルット フュージョン,
+ウイスキー候補（銘柄名 → slug）:
+グレンフィディック 12年 → glenfiddich-12
+グレンフィディック 15年 → glenfiddich-15
+グレンフィディック 18年 → glenfiddich-18
+マッカラン 12年 シェリーオーク → macallan-12-sherry
+マッカラン 12年 ダブルカスク → macallan-12-dc
+マッカラン 18年 → macallan-18
+グレンモーレンジィ オリジナル 10年 → glenmorangie-original-10
+グレンモーレンジィ ラサンタ → glenmorangie-lasanta
+ボウモア 12年 → bowmore-12
+ラフロイグ 10年 → laphroaig-10
+アードベッグ 10年 → ardbeg-10
+ラガヴーリン 16年 → lagavulin-16
+タリスカー 10年 → talisker-10
+オーバン 14年 → oban-14
+グレンリベット 12年 → glenlivet-12
+グレンリベット 15年 → glenlivet-15
+ダルモア 12年 → dalmore-12
+ダルウィニー 15年 → dalwhinnie-15
+ジェムソン → jameson
+ジェムソン ブラックバレル → jameson-black-barrel
+ブッシュミルズ オリジナル → bushmills-original
+山崎 12年 → yamazaki-12
+白州 12年 → hakushu-12
+余市 → yoichi
+宮城峡 → miyagikyo
+竹鶴 ピュアモルト → taketsuru-pure-malt
+知多 → chita
+メーカーズマーク → makers-mark
+バッファロートレース → buffalo-trace
+ウッドフォードリザーブ → woodford-reserve
+エヴァン・ウィリアムス ブラックラベル → evan-williams-black
+ワイルドターキー 8年 → wild-turkey-8
+ジャックダニエル No.7 → jack-daniels-no7
+ジムビーム → jim-beam
+クラウンローヤル → crown-royal
+カナディアンクラブ → canadian-club
+カバラン クラシック → kavalan-classic
+アムルット フュージョン → amrut-fusion
 
-焼酎候補:
-森伊蔵, 魔王, 伊佐美, 佐藤 黒, 村尾,
-八幡 白石酒造, 海 （むかしながらの海）,
-二階堂, いいちこ スペシャル, 麦焼酎 西の星,
-球磨焼酎 繊月, 米焼酎 白岳,
-里の曙, 龍宮, にしの誉
+焼酎候補（銘柄名 → slug）:
+森伊蔵 → moriizo
+魔王 → mao
+伊佐美 → isami
+佐藤 黒 → sato-kuro
+村尾 → murao
+八幡 白石酒造 → yahata
+海 → umi
+二階堂 → nikaido
+いいちこ スペシャル → iichiko-special
+麦焼酎 西の星 → nishi-no-hoshi
+球磨焼酎 繊月 → sengetsu
+米焼酎 白岳 → hakutake
+里の曙 → sato-no-akebono
+龍宮 → ryugyu
+にしの誉 → nishino-homare
 
-${recentSlugs.length > 0 ? `【絶対に選ばないこと】以下のslugの銘柄は直近で使用済みのため除外:\n${recentSlugs.map((s) => `- ${s}`).join('\n')}\n` : ''}選出条件:
+${recentSlugs.length > 0 ? `【絶対に選ばないこと】以下のslugは直近で使用済みのため除外:\n${recentSlugs.map((s) => `- ${s}`).join('\n')}\n` : ''}選出条件:
 - 季節・曜日にゆるく関連した銘柄
 - マニアックすぎず、かつ定番すぎない
 - 直近で選ばれた銘柄は絶対に選ばない（重複禁止）
@@ -156,8 +189,8 @@ ${recentSlugs.length > 0 ? `【絶対に選ばないこと】以下のslugの銘
 
 必ずJSON形式のみで返してください:
 {
-  "name": "上記リストから選んだ実在の銘柄名（日本語カタカナ表記）。例: グレンフィディック 12年",
-  "slug": "slugified-name（半角英数字・ハイフン区切り。例: glenfiddich-12, bowmore-12）",
+  "name": "上記リストの銘柄名（そのまま）",
+  "slug": "上記リストのslug（そのまま・変更禁止）",
   "ai_comment": "なぜ今日この1本なのか（1〜2文）",
   "tags": ["産地またはカテゴリ", "フレーバー特徴", "価格帯"],
   "amazon_keyword": "Amazon検索用キーワード（銘柄名＋容量等）",
