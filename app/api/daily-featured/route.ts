@@ -110,6 +110,18 @@ async function generateDailyFeatured(date: string, recentSlugs: string[] = []): 
   }
   const season = seasons[month] ?? '冬'
 
+  // 曜日ベースのカテゴリローテーション（0=日〜6=土）
+  const categoryRotation: Record<number, string> = {
+    0: '焼酎（芋・麦・米・黒糖いずれか）',
+    1: 'ジャパニーズウイスキー（余市・宮城峡・山崎・白州・竹鶴・知多のいずれか）',
+    2: 'スコッチ（アイラまたはアイランズ：ボウモア・ラフロイグ・アードベッグ・ラガヴーリン・タリスカーのいずれか）',
+    3: 'バーボン・アイリッシュ・カナディアン・ワールドウイスキーのいずれか',
+    4: '焼酎（芋・麦・米・黒糖いずれか）',
+    5: 'スコッチ（ハイランド・スペイサイド・ローランド：アイラ以外）',
+    6: 'ジャパニーズウイスキーまたはワールドウイスキー（カバラン・アムルット等）',
+  }
+  const todayCategory = categoryRotation[d.getDay()]
+
   const systemPrompt = `あなたはウイスキーと焼酎の専門家であり、言葉で酒を描く作家でもあります。
 今日（${date}・${weekday}・${season}）の「今日の1本」を選んでください。
 
@@ -172,9 +184,12 @@ async function generateDailyFeatured(date: string, recentSlugs: string[] = []): 
 龍宮 → ryugyu
 にしの誉 → nishino-homare
 
+【今日のカテゴリ指定（厳守）】
+${todayCategory}から選ぶこと。上記リストにない銘柄は選ばない。
+
 ${recentSlugs.length > 0 ? `【絶対に選ばないこと】以下のslugは直近で使用済みのため除外:\n${recentSlugs.map((s) => `- ${s}`).join('\n')}\n` : ''}選出条件:
+- 今日のカテゴリ指定を最優先する
 - 季節・曜日にゆるく関連した銘柄
-- マニアックすぎず、かつ定番すぎない
 - 直近で選ばれた銘柄は絶対に選ばない（重複禁止）
 - 「なぜ今日この1本なのか」のAIコメントを必ず付ける
 
@@ -202,7 +217,7 @@ ${recentSlugs.length > 0 ? `【絶対に選ばないこと】以下のslugは直
     max_tokens: 600,
     temperature: 1,
     system: systemPrompt,
-    messages: [{ role: 'user', content: `今日の日付: ${date}（${weekday}・${season}）\n今日の1本を選んでください。` }],
+    messages: [{ role: 'user', content: `今日の日付: ${date}（${weekday}・${season}）\n今日のカテゴリ: ${todayCategory}\n今日の1本を選んでください。` }],
   })
 
   const text = message.content[0].type === 'text' ? message.content[0].text : ''
