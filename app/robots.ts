@@ -3,6 +3,9 @@ import { MetadataRoute } from 'next'
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: '*', allow: '/' },
-    sitemap: 'https://pick.sowhat.monster/sitemap.xml',
+    sitemap: [
+      'https://pick.sowhat.monster/sitemap.xml',
+      'https://pick.sowhat.monster/whisky/sitemap.xml',
+    ],
   }
 }
