@@ -2290,3 +2290,286 @@ a.subHeroCredit:hover {
     font-size: 0.8125rem;
   }
 }
+
+/* ============================================================
+   Journal
+   ============================================================ */
+
+/* ── SubpageTopbar ナビ ── */
+.subTopbarNav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.subTopbarNavLink {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.subTopbarNavLink:hover {
+  color: var(--accent);
+}
+
+/* ── トップページ Journal セクション ── */
+.journalTopSection {
+  background: var(--bg);
+}
+
+.journalTopCard {
+  display: block;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 32px;
+  max-width: 720px;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.journalTopCard:hover {
+  border-color: rgba(200, 254, 8, 0.4);
+  background: var(--surface3);
+}
+
+.journalTopCardTitle {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 700;
+  color: var(--text1);
+  line-height: 1.5;
+  margin: 10px 0 12px;
+  letter-spacing: 0.01em;
+}
+
+.journalTopMore {
+  margin-top: 20px;
+}
+
+.journalTopMoreLink {
+  font-size: 0.8125rem;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.journalTopMoreLink:hover {
+  color: var(--accent);
+}
+
+/* ── 共通カードパーツ ── */
+.journalCardMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.journalCardCategory {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.journalCardDate {
+  font-size: 0.75rem;
+  color: var(--text2);
+}
+
+.journalCardDesc {
+  font-size: 0.875rem;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-top: 8px;
+}
+
+.journalCardArrow {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 0.8125rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ── Journal トップページ ── */
+.journalPage .staticInner {
+  padding-top: 32px;
+  padding-bottom: 80px;
+}
+
+.journalPageHeader {
+  margin-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 32px;
+}
+
+.journalPageLabel {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.journalPageTitle {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 700;
+  color: var(--text1);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+}
+
+.journalPageDesc {
+  font-size: 0.9375rem;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+.journalEmpty {
+  color: var(--text2);
+  font-size: 0.9375rem;
+}
+
+.journalList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.journalListItem {
+  border-bottom: 1px solid var(--border);
+}
+
+.journalCardLink {
+  display: block;
+  padding: 28px 0;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.journalCardLink:hover .journalCardTitle {
+  color: var(--accent);
+}
+
+.journalCardTitle {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 700;
+  color: var(--text1);
+  line-height: 1.5;
+  margin: 10px 0 10px;
+  letter-spacing: 0.01em;
+  transition: color 0.2s;
+}
+
+/* ── Journal 記事ページ ── */
+.journalArticlePage {
+  min-height: 100dvh;
+}
+
+.journalArticleInner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+.journalArticleHeader {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.journalArticleHeaderMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-top: 16px;
+}
+
+.journalArticleTitle {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  color: var(--text1);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  margin-bottom: 16px;
+}
+
+.journalArticleLead {
+  font-size: 1rem;
+  color: var(--text2);
+  line-height: 1.7;
+  border-left: 2px solid var(--accent);
+  padding-left: 16px;
+}
+
+/* ── 記事本文 ── */
+.journalArticleBody {
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--text1);
+}
+
+.journalBodyH2 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text1);
+  letter-spacing: 0.01em;
+  margin: 40px 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.journalBodyP {
+  margin-bottom: 1.4em;
+  color: var(--text1);
+  line-height: 1.9;
+}
+
+.journalArticleBody strong {
+  color: var(--text1);
+  font-weight: 700;
+}
+
+.journalHr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 40px 0;
+}
+
+/* ── レスポンシブ ── */
+@media (max-width: 640px) {
+  .subTopbarNav {
+    gap: 14px;
+  }
+
+  .subTopbarNavLink {
+    font-size: 0.6875rem;
+  }
+
+  .journalTopCard {
+    padding: 20px 20px;
+  }
+
+  .journalArticleInner {
+    padding: 0 16px 64px;
+  }
+
+  .journalBodyH2 {
+    font-size: 1rem;
+    margin: 32px 0 12px;
+  }
+
+  .journalArticleTitle {
+    font-size: 1.375rem;
+  }
+}
+}

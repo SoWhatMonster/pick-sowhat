@@ -11,6 +11,10 @@ export default function SubpageTopbar() {
         ✦ SO WHAT Pick
         <span className="subWordmarkSub"> — Whisky &amp; Shochu</span>
       </Link>
+      <nav className="subTopbarNav">
+        <Link href="/whisky/journal" className="subTopbarNavLink">Journal</Link>
+        <Link href="/whisky/bottle"  className="subTopbarNavLink">バックナンバー</Link>
+      </nav>
     </header>
   )
 }

@@ -5,6 +5,7 @@ import StepFlow from '@/components/pick/StepFlow'
 import DailyFeatured from './DailyFeatured'
 import DailyPicks from './DailyPicks'
 import SceneCarousel from './SceneCarousel'
+import { getLatestArticle, formatJournalDate } from '@/lib/journal'
 
 export const metadata: Metadata = {
   title: 'ウイスキー・焼酎AIレコメンド | AIが選ぶあなただけの1本 | SO WHAT Pick',
@@ -140,6 +141,8 @@ const SCENE_CARDS = [
 ]
 
 export default function WhiskyPage() {
+  const latestArticle = getLatestArticle()
+
   return (
     <>
       <script
@@ -154,6 +157,30 @@ export default function WhiskyPage() {
 
       {/* ── 今日の1本 ── */}
       <DailyFeatured />
+
+      {/* ── Journal ── */}
+      {latestArticle && (
+        <section className="staticSection journalTopSection" aria-label="Journal">
+          <div className="staticInner">
+            <div className="sectionHead">
+              <h2 className="sectionTitle">Journal</h2>
+              <p className="sectionSub">考察・分析・読みもの</p>
+            </div>
+            <Link href={`/whisky/journal/${latestArticle.slug}`} className="journalTopCard">
+              <div className="journalCardMeta">
+                <span className="journalCardCategory">{latestArticle.category}</span>
+                <span className="journalCardDate">{formatJournalDate(latestArticle.date)}</span>
+              </div>
+              <h3 className="journalTopCardTitle">{latestArticle.title}</h3>
+              <p className="journalCardDesc">{latestArticle.description}</p>
+              <span className="journalCardArrow">読む →</span>
+            </Link>
+            <div className="journalTopMore">
+              <Link href="/whisky/journal" className="journalTopMoreLink">Journal一覧を見る →</Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── Phase 3：今日のおすすめ10本 ── */}
       <Suspense fallback={null}>
