@@ -21,6 +21,13 @@ export const metadata: Metadata = {
 
 const PAGE_SIZE = 20
 
+// JST(UTC+9)で今日の日付を取得
+function getTodayJST(): string {
+  const now = new Date()
+  const jstOffset = 9 * 60 * 60 * 1000
+  return new Date(now.getTime() + jstOffset).toISOString().split('T')[0]
+}
+
 type BacknumberRow = {
   date: string
   slug: string
@@ -30,7 +37,7 @@ type BacknumberRow = {
 }
 
 async function getBacknumber(): Promise<BacknumberRow[]> {
-  const today = new Date().toISOString().split('T')[0]
+  const today = getTodayJST()
   let rows: BacknumberRow[] = []
 
   // DB（Postgres設定済みの場合）

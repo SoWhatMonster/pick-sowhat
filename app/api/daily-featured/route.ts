@@ -19,6 +19,13 @@ export type DailyFeaturedResult = {
   rakuten_keyword: string
 }
 
+// ── JST(UTC+9)で今日の日付を取得 ──
+function getTodayJST(): string {
+  const now = new Date()
+  const jstOffset = 9 * 60 * 60 * 1000 // +9時間
+  return new Date(now.getTime() + jstOffset).toISOString().split('T')[0]
+}
+
 // ── DB操作（Postgres未設定時はnullを返す） ──
 async function tryDbRead(today: string): Promise<DailyFeaturedResult | null> {
   if (!process.env.POSTGRES_URL) return null
@@ -277,7 +284,7 @@ async function generateBottleDetail(slug: string, name: string): Promise<Record<
 
 export async function GET() {
   try {
-    const today = new Date().toISOString().split('T')[0]
+    const today = getTodayJST()
 
     // DBキャッシュ確認
     const cached = await tryDbRead(today)
@@ -286,12 +293,14 @@ export async function GET() {
     // 直近の使用済みslugを取得（slug比較は名前表記ゆれに影響されない）
     const recentSlugs = await getRecentSlugs(7)
 
-    // AIで今日の1本を選出（重複時は最大3回リトライ）
-    let featured = await generateDailyFeatured(today, recentSlugs)
+    // AIで今日の1本を選出（重複時は最大5回リトライ・除外リストに追加しながら）
+    let excludeSlugs = [...recentSlugs]
+    let featured = await generateDailyFeatured(today, excludeSlugs)
     let retries = 0
-    while (recentSlugs.includes(featured.slug) && retries < 3) {
-      console.warn(`[daily-featured] 重複検出 slug=${featured.slug}、リトライ ${retries + 1}/3`)
-      featured = await generateDailyFeatured(today, recentSlugs)
+    while (recentSlugs.includes(featured.slug) && retries < 5) {
+      console.warn(`[daily-featured] 重複検出 slug=${featured.slug}、リトライ ${retries + 1}/5`)
+      if (!excludeSlugs.includes(featured.slug)) excludeSlugs = [...excludeSlugs, featured.slug]
+      featured = await generateDailyFeatured(today, excludeSlugs)
       retries++
     }
 
