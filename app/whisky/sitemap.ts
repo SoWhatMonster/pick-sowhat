@@ -1,7 +1,5 @@
 import { MetadataRoute } from 'next'
 
-export const dynamic = 'force-dynamic'
-
 const BASE = 'https://pick.sowhat.monster'
 
 const GUIDE_SLUGS = [
