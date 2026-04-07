@@ -70,7 +70,7 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     title:       '円安時代のウィスキー購入ガイド：カテゴリー別戦略と今動くべき理由',
     date:        '2026-04-07',
     description: '円安・値上げ・在庫逼迫が同時進行する今、何をどう買えばいいのか。カテゴリー別の戦略と、円安時代に強い銘柄の選び方を整理する。',
-    thumbnail:   'https://images.unsplash.com/photo-1763819527304?w=800&h=450&fit=crop&q=80&auto=format',
+    thumbnail:   'https://images.unsplash.com/photo-1763819527304-ba0912ed4175?w=800&h=450&fit=crop&q=80&auto=format',
     category:    'all',
     body: `## はじめに：「いつか買おう」が通用しなくなった
 

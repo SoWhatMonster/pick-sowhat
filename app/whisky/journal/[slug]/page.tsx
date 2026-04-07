@@ -36,7 +36,7 @@ const OG_IMAGES: Record<string, string> = {
   'iran-war-whisky-price':
     'https://images.unsplash.com/photo-1576373718969-1c6620e2ed49?w=1200&h=630&fit=crop&q=80&auto=format',
   'weak-yen-whisky-buying-guide':
-    'https://images.unsplash.com/photo-1763819527304?w=1200&h=630&fit=crop&q=80&auto=format',
+    'https://images.unsplash.com/photo-1763819527304-ba0912ed4175?w=1200&h=630&fit=crop&q=80&auto=format',
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -85,10 +85,10 @@ const PHOTOS = {
   categories: 'photo-1716720882232-9fa4912f142d', // ウィスキーボトル棚
   premium:    'photo-1737478580339-b6def2f84087', // ウィスキーボトル＆グラス
   // ── 第2記事: 円安購入ガイド ──
-  weakYenHero:       'photo-1763819527304',       // バーカウンターの酒瓶
-  weakYenYen:        'photo-1639572655008',       // 日本の紙幣
-  weakYenCategories: 'photo-1760464022264',       // マッカランテイスティング3杯
-  weakYenBuying:     'photo-1693913109537',       // 酒のボトルが並ぶ棚
+  weakYenHero:       'photo-1763819527304-ba0912ed4175', // バーカウンターの酒瓶
+  weakYenYen:        'photo-1639572655008-7dfbc3b64d30', // 日本の紙幣
+  weakYenCategories: 'photo-1760464022264-228143a04792', // マッカランテイスティング3杯
+  weakYenBuying:     'photo-1693913109537-9eb36b9eda25', // 酒のボトルが並ぶ棚
 }
 
 // ── 記事スラッグ別ビジュアル定義 ─────────────────────────────
