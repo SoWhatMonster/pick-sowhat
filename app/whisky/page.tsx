@@ -5,7 +5,7 @@ import StepFlow from '@/components/pick/StepFlow'
 import DailyFeatured from './DailyFeatured'
 import DailyPicks from './DailyPicks'
 import SceneCarousel from './SceneCarousel'
-import { getAllArticles, formatJournalDate } from '@/lib/journal'
+import { getAllArticles, formatJournalDate, JOURNAL_CATEGORY_LABELS } from '@/lib/journal'
 
 export const metadata: Metadata = {
   title: 'ウイスキー・焼酎AIレコメンド | AIが選ぶあなただけの1本 | SO WHAT Pick',
@@ -184,7 +184,7 @@ export default function WhiskyPage() {
                   </div>
                   <div className="journalThumbBody">
                     <div className="journalThumbMeta">
-                      <span className="journalCardCategory">{article.category}</span>
+                      <span className="journalCardCategory">{JOURNAL_CATEGORY_LABELS[article.category] ?? article.category}</span>
                       <span className="journalCardDate">{formatJournalDate(article.date)}</span>
                     </div>
                     <h3 className="journalThumbTitle">{article.title}</h3>

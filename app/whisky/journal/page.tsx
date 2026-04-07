@@ -7,7 +7,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import SubpageTopbar from '@/components/subpage/SubpageTopbar'
 import SubpageFooter from '@/components/subpage/SubpageFooter'
-import { getAllArticles, formatJournalDate } from '@/lib/journal'
+import { getAllArticles, formatJournalDate, JOURNAL_CATEGORY_LABELS } from '@/lib/journal'
 
 export const metadata: Metadata = {
   title: 'Journal | SO WHAT Pick',
@@ -56,7 +56,7 @@ export default function JournalPage() {
                 </div>
                 <div className="journalThumbBody">
                   <div className="journalThumbMeta">
-                    <span className="journalCardCategory">{article.category}</span>
+                    <span className="journalCardCategory">{JOURNAL_CATEGORY_LABELS[article.category] ?? article.category}</span>
                     <span className="journalCardDate">{formatJournalDate(article.date)}</span>
                   </div>
                   <h2 className="journalThumbTitle">{article.title}</h2>

@@ -3056,3 +3056,82 @@ details.journalToc[open] .journalTocSummary::after {
     padding: 16px 18px;
   }
 }
+
+/* ============================================================
+   Journal — この記事に合わせて飲みたい（おすすめアイテム）
+   ============================================================ */
+
+.journalRecommendSection {
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+.journalRecommendTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text1);
+  margin-bottom: 20px;
+  letter-spacing: 0.01em;
+}
+
+/* スクロールラッパー（モバイル横スクロール用） */
+.journalRecommendScrollWrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.journalRecommendScrollWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* PC: 4カラムグリッド */
+.journalRecommendGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* タブレット: 3カラム */
+@media (max-width: 900px) {
+  .journalRecommendGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* モバイル: 横スクロールカルーセル */
+@media (max-width: 640px) {
+  .journalRecommendGrid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    min-width: max-content;
+  }
+}
+
+.journalRecommendCard {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s, background 0.2s;
+  min-width: 0;
+}
+
+.journalRecommendCard:hover {
+  border-color: rgba(200, 254, 8, 0.4);
+  background: var(--surface3);
+}
+
+/* モバイル: カード幅を固定 */
+@media (max-width: 640px) {
+  .journalRecommendCard {
+    width: 160px;
+    min-width: 160px;
+    flex-shrink: 0;
+  }
+}

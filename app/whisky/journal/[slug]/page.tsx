@@ -15,7 +15,9 @@ import {
   CategoryRiskChart,
   PriceTimelineChart,
 } from '@/components/journal/IranWarCharts'
-import { getArticleBySlug, getAllArticles, formatJournalDate } from '@/lib/journal'
+import { getArticleBySlug, getAllArticles, formatJournalDate, JOURNAL_CATEGORY_LABELS } from '@/lib/journal'
+import { getRecommendedBottles } from '@/lib/recommended-bottles'
+import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
 
 type Props = {
   params: { slug: string }
@@ -270,6 +272,11 @@ export default function JournalArticlePage({ params }: Props) {
   const visuals = VISUALS_BY_SLUG[article.slug] ?? {}
   const heroImage = HERO_BY_SLUG[article.slug] ?? null
 
+  // おすすめボトル（記事カテゴリー連動、決定論的ピック）
+  const amazonTag    = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG  ?? ''
+  const rakutenAfId  = process.env.NEXT_PUBLIC_RAKUTEN_AFFILIATE_ID  ?? ''
+  const recommendedBottles = getRecommendedBottles(article.category, article.slug)
+
   const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -303,7 +310,7 @@ export default function JournalArticlePage({ params }: Props) {
         {/* ── 記事ヘッダー ── */}
         <header className="journalArticleHeader">
           <div className="journalArticleHeaderMeta">
-            <span className="journalCardCategory">{article.category}</span>
+            <span className="journalCardCategory">{JOURNAL_CATEGORY_LABELS[article.category] ?? article.category}</span>
             <div className="journalDateGroup">
               <time className="journalCardDate" dateTime={article.date}>
                 {formatJournalDate(article.date)}<span className="journalDateLabel">公開</span>
@@ -375,6 +382,53 @@ export default function JournalArticlePage({ params }: Props) {
                   </div>
                 </a>
               ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── この記事に合わせて飲みたい ── */}
+        {recommendedBottles.length > 0 && (
+          <section className="journalRecommendSection">
+            <h2 className="journalRecommendTitle">🥃 この記事に合わせて飲みたい</h2>
+            <div className="journalRecommendScrollWrapper">
+              <div className="journalRecommendGrid">
+                {recommendedBottles.map((bottle, i) => (
+                  <div key={i} className="journalRecommendCard">
+                    <div className="dailyPickImgWrap">
+                      {bottle.bottleSlug ? (
+                        <img
+                          src={`/bottles/${bottle.bottleSlug}.${bottle.bottleSlug === 'chita' ? 'png' : 'jpg'}`}
+                          alt={bottle.name}
+                          className="dailyPickImg"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="dailyPickImgFallback">🥃</div>
+                      )}
+                    </div>
+                    <p className="dailyPickName">{bottle.name}</p>
+                    <div className="dailyPickTags">
+                      {bottle.tags.map((tag) => (
+                        <span key={tag} className="dailyPickTag">{tag}</span>
+                      ))}
+                    </div>
+                    <div className="dailyPickBtns">
+                      <a
+                        href={buildAmazonUrl(bottle.amazonKeyword, amazonTag)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="dailyPickAmazon"
+                      >Amazon</a>
+                      <a
+                        href={buildRakutenUrl(bottle.rakutenKeyword, rakutenAfId)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="dailyPickRakuten"
+                      >楽天</a>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
         )}

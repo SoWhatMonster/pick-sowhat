@@ -10,7 +10,7 @@ export type JournalArticle = {
   updatedDate?: string        // YYYY-MM-DD 最終更新日（省略可）
   description:  string        // リード文（サムネイルカードにも使用）
   thumbnail:    string        // サムネイル画像URL（OGP画像を流用推奨）
-  category:     string        // 現在は "Journal" 固定
+  category:     string        // ボトルカテゴリー（scotch/bourbon等）おすすめアイテム連動に使用
   body:         string        // 本文（マークダウン拡張記法）
   // ──────────────────────────────────────────────────────────
   // 新規記事追加時のチェックリスト:
@@ -19,10 +19,49 @@ export type JournalArticle = {
   //   3. date      : YYYY-MM-DD 形式で公開日を設定
   //   4. description: 100〜150字程度のリード文（カード・OGPに使用）
   //   5. thumbnail : Unsplash CDN URL等（w=800&h=450&fit=crop 推奨）
-  //   6. body      : ## 見出し / [CHART:xxx] / [IMAGE:xxx] マーカーを使用
-  //   7. app/whisky/journal/[slug]/page.tsx の VISUALS_BY_SLUG に
+  //   6. category  : 下記ガイド参照（おすすめボトル連動）
+  //   7. body      : ## 見出し / [CHART:xxx] / [IMAGE:xxx] マーカーを使用
+  //   8. app/whisky/journal/[slug]/page.tsx の VISUALS_BY_SLUG に
   //      チャート・画像ビジュアルを追加
   // ──────────────────────────────────────────────────────────
+}
+
+/**
+ * 記事追加時のcategory設定ガイド
+ *
+ * 使用可能なcategory値：
+ *   scotch        スコッチウィスキー
+ *   bourbon       バーボン・アメリカンウィスキー
+ *   japanese      ジャパニーズウィスキー
+ *   irish         アイリッシュウィスキー
+ *   canadian      カナディアンウィスキー
+ *   newworld      ニューワールドウィスキー
+ *   imo           芋焼酎
+ *   mugi          麦焼酎
+ *   kome          米焼酎
+ *   kokuto        黒糖焼酎
+ *   other-shochu  その他の焼酎
+ *   all           カテゴリー不問・全体からピックアップ（フォールバック）
+ *
+ * 記事テーマが複数カテゴリーにまたがる場合は
+ * 記事内で最も比重の高いカテゴリーを1つ指定する。
+ * 判断が難しい場合は"all"を設定する。
+ */
+
+/** 記事カテゴリーの日本語表示ラベル */
+export const JOURNAL_CATEGORY_LABELS: Record<string, string> = {
+  scotch:        'スコッチ',
+  bourbon:       'バーボン',
+  japanese:      'ジャパニーズ',
+  irish:         'アイリッシュ',
+  canadian:      'カナディアン',
+  newworld:      'ニューワールド',
+  imo:           '芋焼酎',
+  mugi:          '麦焼酎',
+  kome:          '米焼酎',
+  kokuto:        '黒糖焼酎',
+  'other-shochu': 'その他の焼酎',
+  all:           'Journal',
 }
 
 export const JOURNAL_ARTICLES: JournalArticle[] = [
@@ -33,7 +72,7 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     updatedDate: '2026-04-07',
     description: 'ホルムズ封鎖、原油高、円安、物流コスト——価格上昇の五つの因数を解体し、カテゴリーごとの影響を考察する。',
     thumbnail:   'https://images.unsplash.com/photo-1576373718969-1c6620e2ed49?w=800&h=450&fit=crop&q=80&auto=format',
-    category:    'Journal',
+    category:    'scotch',
     body: `## はじめに：問いを立てる
 2026年2月28日、米国とイスラエルはイランへの軍事攻撃を開始した。ホルムズ海峡は事実上の封鎖状態に陥り、原油価格は急騰し、世界の物流が変容し始めた。
 
