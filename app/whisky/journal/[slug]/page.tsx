@@ -13,6 +13,7 @@ import {
   OilPriceChart,
   HormuzChart,
   CategoryRiskChart,
+  PriceTimelineChart,
 } from '@/components/journal/IranWarCharts'
 import { getArticleBySlug, getAllArticles, formatJournalDate } from '@/lib/journal'
 
@@ -24,24 +25,41 @@ export function generateStaticParams() {
   return getAllArticles().map((a) => ({ slug: a.slug }))
 }
 
+// ── スラッグごとの OG 画像 ─────────────────────────────────────
+const OG_IMAGES: Record<string, string> = {
+  'iran-war-whisky-price':
+    'https://images.unsplash.com/photo-1576373718969-1c6620e2ed49?w=1200&h=630&fit=crop&q=80&auto=format',
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = getArticleBySlug(params.slug)
   if (!article) return { title: '記事が見つかりません | SO WHAT Pick' }
+
+  const ogImage = OG_IMAGES[article.slug]
+  const canonicalUrl = `https://pick.sowhat.monster/whisky/journal/${article.slug}`
 
   return {
     title: `${article.title} | Journal | SO WHAT Pick`,
     description: article.description,
     alternates: {
-      canonical: `https://pick.sowhat.monster/whisky/journal/${article.slug}`,
+      canonical: canonicalUrl,
     },
     openGraph: {
       title: article.title,
       description: article.description,
-      url: `https://pick.sowhat.monster/whisky/journal/${article.slug}`,
+      url: canonicalUrl,
       siteName: 'SO WHAT Pick',
       locale: 'ja_JP',
       type: 'article',
       publishedTime: article.date,
+      ...(article.updatedDate && { modifiedTime: article.updatedDate }),
+      ...(ogImage && { images: [{ url: ogImage, width: 1200, height: 630, alt: article.title }] }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.title,
+      description: article.description,
+      ...(ogImage && { images: [ogImage] }),
     },
   }
 }
@@ -68,6 +86,39 @@ const VISUALS_BY_SLUG: Record<string, VisualMap> = {
     'CHART:oil-price':  <OilPriceChart />,
     'CHART:hormuz':     <HormuzChart />,
     'CHART:categories': <CategoryRiskChart />,
+    'CHART:timeline':   <PriceTimelineChart />,
+
+    /* ── ブロッククオート ── */
+    'BLOCKQUOTE:mckay-oil': (
+      <blockquote className="journalBlockquote">
+        <p className="journalBlockquoteText">
+          「スコットランドの蒸留所は、需要減少・生産コスト上昇・主要市場での関税増加という完璧な嵐に直面している。これまで何世代にもわたって存続してきた事業が、多くの場合自業自得ではなく困難に陥っている。」
+        </p>
+        <footer className="journalBlockquoteCaption">
+          — Thomas McKay（BTGスコットランド マネージングパートナー）
+        </footer>
+      </blockquote>
+    ),
+    'BLOCKQUOTE:mckay-scotch': (
+      <blockquote className="journalBlockquote">
+        <p className="journalBlockquoteText">
+          「スコットランドの蒸留所は業界の雇用者の半数以上にあたる1万人超を直接雇用している。迅速な対応が必要だ。」
+        </p>
+        <footer className="journalBlockquoteCaption">
+          — Thomas McKay（BTGスコットランド マネージングパートナー）
+        </footer>
+      </blockquote>
+    ),
+    'BLOCKQUOTE:bowman': (
+      <blockquote className="journalBlockquote">
+        <p className="journalBlockquoteText">
+          「最上位・希少カテゴリーの需要は底堅い。コレクターや個人客は短期的な市場心理よりも、品質・産地・長期的な価値を重視している。」
+        </p>
+        <footer className="journalBlockquoteCaption">
+          — Blair Bowman（ウィスキーコンサルタント・希少カスクブローカー）
+        </footer>
+      </blockquote>
+    ),
 
     /* ── 写真 ── */
     'IMAGE:logistics': (
@@ -148,6 +199,7 @@ function renderBoldText(text: string): React.ReactNode {
 function renderBody(body: string, visuals: VisualMap = {}): React.ReactNode[] {
   const nodes: React.ReactNode[] = []
   let key = 0
+  let headingCount = 0
 
   const sections = body.split('\n---\n')
 
@@ -173,9 +225,14 @@ function renderBody(body: string, visuals: VisualMap = {}): React.ReactNode[] {
     for (const line of lines) {
       if (line.startsWith('## ')) {
         flushP()
-        nodes.push(<h2 key={key++} className="journalBodyH2">{line.slice(3)}</h2>)
-      } else if (/^\[(?:IMAGE|CHART):[^\]]+\]$/.test(line)) {
-        // ビジュアルマーカー: [IMAGE:xxx] / [CHART:xxx]
+        headingCount++
+        nodes.push(
+          <h2 key={key++} id={`h2-${headingCount}`} className="journalBodyH2">
+            {line.slice(3)}
+          </h2>
+        )
+      } else if (/^\[(?:IMAGE|CHART|BLOCKQUOTE):[^\]]+\]$/.test(line)) {
+        // ビジュアルマーカー: [IMAGE:xxx] / [CHART:xxx] / [BLOCKQUOTE:xxx]
         flushP()
         const markerKey = line.slice(1, -1) // "IMAGE:logistics" etc.
         const visual = visuals[markerKey]
@@ -192,6 +249,48 @@ function renderBody(body: string, visuals: VisualMap = {}): React.ReactNode[] {
   })
 
   return nodes
+}
+
+// ── 記事内目次定義 ────────────────────────────────────────────
+type TocEntry = { id: string; label: string }
+
+const ARTICLE_TOC: Record<string, TocEntry[]> = {
+  'iran-war-whisky-price': [
+    { id: 'h2-1', label: 'はじめに：問いを立てる' },
+    { id: 'h2-2', label: '第一の因数：原油高' },
+    { id: 'h2-3', label: '第二の因数：物流コストと輸送日数' },
+    { id: 'h2-4', label: '第三の因数：円安' },
+    { id: 'h2-5', label: '第四の因数：包装資材' },
+    { id: 'h2-6', label: '第五の因数：関税' },
+    { id: 'h2-7', label: 'カテゴリーごとの上昇幅：どれが最も上がるか' },
+    { id: 'h2-8', label: '逆説：希少・プレミアム品は「逆方向」に動く' },
+    { id: 'h2-9', label: '結論：いつ、どの程度上がるか' },
+  ],
+}
+
+// ── YouTube 動画カード定義 ────────────────────────────────────
+type VideoCard = {
+  title:   string
+  channel: string
+  url:     string
+  thumbId?: string  // YouTube video ID (for thumbnail via img.youtube.com)
+}
+
+const ARTICLE_VIDEOS: Record<string, VideoCard[]> = {
+  'iran-war-whisky-price': [
+    {
+      title:   'Strait of Hormuz crisis: Trump Ultimatums, Iran response & rising war fears explained',
+      channel: 'Al Jazeera English',
+      url:     'https://www.youtube.com/watch?v=HiaheOYucu8',
+      thumbId: 'HiaheOYucu8',
+    },
+    {
+      title:   '2025年もウイスキーは賢い投資対象か？ボトルと樽に関する厳しい真実',
+      channel: 'Mark Littler',
+      url:     'https://www.youtube.com/watch?v=-CYqxLNiTgk',
+      thumbId: '-CYqxLNiTgk',
+    },
+  ],
 }
 
 // ── ページコンポーネント ──────────────────────────────────────
@@ -237,13 +336,35 @@ export default function JournalArticlePage({ params }: Props) {
         <header className="journalArticleHeader">
           <div className="journalArticleHeaderMeta">
             <span className="journalCardCategory">{article.category}</span>
-            <time className="journalCardDate" dateTime={article.date}>
-              {formatJournalDate(article.date)}
-            </time>
+            <div className="journalDateGroup">
+              <time className="journalCardDate" dateTime={article.date}>
+                {formatJournalDate(article.date)}<span className="journalDateLabel">公開</span>
+              </time>
+              {article.updatedDate && (
+                <time className="journalCardDate" dateTime={article.updatedDate}>
+                  {formatJournalDate(article.updatedDate)}<span className="journalDateLabel">更新</span>
+                </time>
+              )}
+            </div>
           </div>
           <h1 className="journalArticleTitle">{article.title}</h1>
-          {/* ヒーロー画像：タイトル直下・リード文の上 */}
+          {/* ヒーロー画像：タイトル直下 */}
           {heroImage}
+          {/* ── 記事内目次 ── */}
+          {ARTICLE_TOC[article.slug] && (
+            <details className="journalToc" open>
+              <summary className="journalTocSummary">目次</summary>
+              <ol className="journalTocList">
+                {ARTICLE_TOC[article.slug].map((entry) => (
+                  <li key={entry.id} className="journalTocItem">
+                    <a href={`#${entry.id}`} className="journalTocLink">
+                      {entry.label}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </details>
+          )}
           <p className="journalArticleLead">{article.description}</p>
         </header>
 
@@ -251,6 +372,44 @@ export default function JournalArticlePage({ params }: Props) {
         <article className="journalArticleBody">
           {renderBody(article.body, visuals)}
         </article>
+
+        {/* ── YouTube 動画セクション ── */}
+        {ARTICLE_VIDEOS[article.slug] && ARTICLE_VIDEOS[article.slug].length > 0 && (
+          <section className="journalVideoSection">
+            <h2 className="journalVideoSectionTitle">📺 もっと深く知るための動画</h2>
+            <div className="journalVideoCards">
+              {ARTICLE_VIDEOS[article.slug].map((video, i) => (
+                <a
+                  key={i}
+                  href={video.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="journalVideoCard"
+                >
+                  <div className="journalVideoThumb">
+                    {video.thumbId ? (
+                      <img
+                        src={`https://img.youtube.com/vi/${video.thumbId}/mqdefault.jpg`}
+                        alt={video.title}
+                        className="journalVideoThumbImg"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="journalVideoThumbPlaceholder">
+                        <div className="journalVideoThumbPlayIcon" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="journalVideoMeta">
+                    <p className="journalVideoCardTitle">{video.title}</p>
+                    <p className="journalVideoCardChannel">{video.channel}</p>
+                    <span className="journalVideoCardLink">YouTubeで見る →</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* ── フッターナビ ── */}
         <div className="bottleDetailFooterNav">

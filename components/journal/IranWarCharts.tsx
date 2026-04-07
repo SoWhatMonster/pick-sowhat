@@ -331,5 +331,124 @@ export function CategoryRiskChart() {
   )
 }
 
+// ── Chart 4: 価格転嫁タイムライン（ガントチャート風）────────────
+
+export function PriceTimelineChart() {
+  const ref = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    let chart: any = null
+    loadChartJs().then(() => {
+      if (!ref.current) return
+      const prev = window.Chart.getChart(ref.current)
+      if (prev) prev.destroy()
+
+      // X軸: 0=2026Q2, 1=Q3, 2=Q4, 3=2027Q1, 4=Q2以降, 5=境界
+      // フローティングバー形式 [start, end]
+      const phases = [
+        {
+          label: ['フェーズ1', '輸送費サーチャージ'],
+          data: [1, 5],
+          bg: 'rgba(255, 120, 50, 0.82)',
+        },
+        {
+          label: ['フェーズ2', '輸入ウィスキー卸値への転嫁'],
+          data: [1.4, 5],
+          bg: `rgba(200,254,8,0.82)`,
+        },
+        {
+          label: ['フェーズ3', '小売店頭価格への転嫁'],
+          data: [2, 3.7],
+          bg: `rgba(200,254,8,0.45)`,
+        },
+        {
+          label: ['フェーズ4', '蒸留コスト起因の価格上昇'],
+          data: [3, 5],
+          bg: 'rgba(150,150,130,0.50)',
+        },
+      ]
+
+      chart = new window.Chart(ref.current, {
+        type: 'bar',
+        data: {
+          labels: phases.map((p) => p.label),
+          datasets: [
+            {
+              data: phases.map((p) => p.data),
+              backgroundColor: phases.map((p) => p.bg),
+              borderRadius: 4,
+              borderSkipped: false,
+              barThickness: 28,
+            },
+          ],
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              min: 0,
+              max: 5,
+              grid: { color: D.grid },
+              border: { color: D.border },
+              ticks: {
+                color: D.text2,
+                font: { size: 10 },
+                stepSize: 1,
+                maxRotation: 0,
+                callback: (v: number) => {
+                  const map: Record<number, string> = {
+                    0: '2026 Q2',
+                    1: 'Q3',
+                    2: 'Q4',
+                    3: '2027 Q1',
+                    4: 'Q2以降',
+                  }
+                  return map[v] ?? ''
+                },
+              },
+            },
+            y: {
+              grid: { display: false },
+              border: { display: false },
+              ticks: {
+                color: D.text1,
+                font: { size: 11 },
+              },
+            },
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              ...TOOLTIP_BASE,
+              callbacks: {
+                title: (items: any[]) => {
+                  const lbl = items[0]?.label ?? ''
+                  return Array.isArray(lbl) ? lbl.join(': ') : lbl
+                },
+                label: () => '',
+              },
+            },
+          },
+        },
+      })
+    })
+    return () => { if (chart) chart.destroy() }
+  }, [])
+
+  return (
+    <div className="journalChart">
+      <p className="journalChartTitle">価格転嫁のタイムライン（想定）</p>
+      <div className="journalChartWrap" style={{ height: '240px' }}>
+        <canvas ref={ref} />
+      </div>
+      <p className="journalChartNote">
+        ※ SO WHAT編集部作成。戦争の長期化シナリオをベースとした想定。実際の転嫁時期は情勢により前後する。
+      </p>
+    </div>
+  )
+}
+
 // default export（後方互換）
 export default CategoryRiskChart
