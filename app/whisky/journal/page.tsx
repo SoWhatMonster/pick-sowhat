@@ -39,21 +39,33 @@ export default function JournalPage() {
         {articles.length === 0 ? (
           <p className="journalEmpty">記事はまだありません。</p>
         ) : (
-          <ul className="journalList">
+          <div className="journalThumbGrid">
             {articles.map((article) => (
-              <li key={article.slug} className="journalListItem">
-                <Link href={`/whisky/journal/${article.slug}`} className="journalCardLink">
-                  <div className="journalCardMeta">
+              <Link
+                key={article.slug}
+                href={`/whisky/journal/${article.slug}`}
+                className="journalThumbCard"
+              >
+                <div className="journalThumbImgWrap journalThumbImgWrap--list">
+                  <img
+                    src={article.thumbnail}
+                    alt={article.title}
+                    className="journalThumbImg"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="journalThumbBody">
+                  <div className="journalThumbMeta">
                     <span className="journalCardCategory">{article.category}</span>
                     <span className="journalCardDate">{formatJournalDate(article.date)}</span>
                   </div>
-                  <h2 className="journalCardTitle">{article.title}</h2>
-                  <p className="journalCardDesc">{article.description}</p>
-                  <span className="journalCardArrow">読む →</span>
-                </Link>
-              </li>
+                  <h2 className="journalThumbTitle">{article.title}</h2>
+                  <p className="journalThumbDesc journalThumbDesc--3">{article.description}</p>
+                  <span className="journalThumbArrow">読む →</span>
+                </div>
+              </Link>
             ))}
-          </ul>
+          </div>
         )}
 
       </div>

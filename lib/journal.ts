@@ -4,13 +4,25 @@
 // ============================================================
 
 export type JournalArticle = {
-  slug:        string
-  title:       string
-  date:        string        // YYYY-MM-DD
-  updatedDate?: string       // YYYY-MM-DD
-  description: string
-  category:    string
-  body:        string
+  slug:         string
+  title:        string
+  date:         string        // YYYY-MM-DD 公開日
+  updatedDate?: string        // YYYY-MM-DD 最終更新日（省略可）
+  description:  string        // リード文（サムネイルカードにも使用）
+  thumbnail:    string        // サムネイル画像URL（OGP画像を流用推奨）
+  category:     string        // 現在は "Journal" 固定
+  body:         string        // 本文（マークダウン拡張記法）
+  // ──────────────────────────────────────────────────────────
+  // 新規記事追加時のチェックリスト:
+  //   1. slug      : URLスラッグ（英数字・ハイフン）を設定
+  //   2. title     : 記事タイトルを設定
+  //   3. date      : YYYY-MM-DD 形式で公開日を設定
+  //   4. description: 100〜150字程度のリード文（カード・OGPに使用）
+  //   5. thumbnail : Unsplash CDN URL等（w=800&h=450&fit=crop 推奨）
+  //   6. body      : ## 見出し / [CHART:xxx] / [IMAGE:xxx] マーカーを使用
+  //   7. app/whisky/journal/[slug]/page.tsx の VISUALS_BY_SLUG に
+  //      チャート・画像ビジュアルを追加
+  // ──────────────────────────────────────────────────────────
 }
 
 export const JOURNAL_ARTICLES: JournalArticle[] = [
@@ -20,6 +32,7 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     date:        '2026-04-05',
     updatedDate: '2026-04-07',
     description: 'ホルムズ封鎖、原油高、円安、物流コスト——価格上昇の五つの因数を解体し、カテゴリーごとの影響を考察する。',
+    thumbnail:   'https://images.unsplash.com/photo-1576373718969-1c6620e2ed49?w=800&h=450&fit=crop&q=80&auto=format',
     category:    'Journal',
     body: `## はじめに：問いを立てる
 2026年2月28日、米国とイスラエルはイランへの軍事攻撃を開始した。ホルムズ海峡は事実上の封鎖状態に陥り、原油価格は急騰し、世界の物流が変容し始めた。

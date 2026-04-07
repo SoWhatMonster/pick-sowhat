@@ -5,7 +5,7 @@ import StepFlow from '@/components/pick/StepFlow'
 import DailyFeatured from './DailyFeatured'
 import DailyPicks from './DailyPicks'
 import SceneCarousel from './SceneCarousel'
-import { getLatestArticle, formatJournalDate } from '@/lib/journal'
+import { getAllArticles, formatJournalDate } from '@/lib/journal'
 
 export const metadata: Metadata = {
   title: 'ウイスキー・焼酎AIレコメンド | AIが選ぶあなただけの1本 | SO WHAT Pick',
@@ -141,7 +141,8 @@ const SCENE_CARDS = [
 ]
 
 export default function WhiskyPage() {
-  const latestArticle = getLatestArticle()
+  const articles = getAllArticles()
+  const topArticles = articles.slice(0, 2)
 
   return (
     <>
@@ -159,22 +160,40 @@ export default function WhiskyPage() {
       <DailyFeatured />
 
       {/* ── Journal ── */}
-      {latestArticle && (
+      {topArticles.length > 0 && (
         <section className="staticSection journalTopSection" aria-label="Journal">
           <div className="staticInner">
             <div className="sectionHead">
               <h2 className="sectionTitle">Journal</h2>
               <p className="sectionSub">考察・分析・読みもの</p>
             </div>
-            <Link href={`/whisky/journal/${latestArticle.slug}`} className="journalTopCard">
-              <div className="journalCardMeta">
-                <span className="journalCardCategory">{latestArticle.category}</span>
-                <span className="journalCardDate">{formatJournalDate(latestArticle.date)}</span>
-              </div>
-              <h3 className="journalTopCardTitle">{latestArticle.title}</h3>
-              <p className="journalCardDesc">{latestArticle.description}</p>
-              <span className="journalCardArrow">読む →</span>
-            </Link>
+            <div className="journalThumbGrid">
+              {topArticles.map((article) => (
+                <Link
+                  key={article.slug}
+                  href={`/whisky/journal/${article.slug}`}
+                  className="journalThumbCard"
+                >
+                  <div className="journalThumbImgWrap journalThumbImgWrap--top">
+                    <img
+                      src={article.thumbnail}
+                      alt={article.title}
+                      className="journalThumbImg"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="journalThumbBody">
+                    <div className="journalThumbMeta">
+                      <span className="journalCardCategory">{article.category}</span>
+                      <span className="journalCardDate">{formatJournalDate(article.date)}</span>
+                    </div>
+                    <h3 className="journalThumbTitle">{article.title}</h3>
+                    <p className="journalThumbDesc journalThumbDesc--2">{article.description}</p>
+                    <span className="journalThumbArrow">読む →</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
             <div className="journalTopMore">
               <Link href="/whisky/journal" className="journalTopMoreLink">Journal一覧を見る →</Link>
             </div>

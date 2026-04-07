@@ -2321,6 +2321,7 @@ a.subHeroCredit:hover {
   background: var(--bg);
 }
 
+/* 旧テキストカード（後方互換のため残す） */
 .journalTopCard {
   display: block;
   background: var(--surface2);
@@ -2348,6 +2349,7 @@ a.subHeroCredit:hover {
 
 .journalTopMore {
   margin-top: 20px;
+  text-align: right;
 }
 
 .journalTopMoreLink {
@@ -2359,6 +2361,149 @@ a.subHeroCredit:hover {
 
 .journalTopMoreLink:hover {
   color: var(--accent);
+}
+
+/* ============================================================
+   Journal — サムネイル付きカード（トップ・バックナンバー共通）
+   ============================================================ */
+
+/* グリッド */
+.journalThumbGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 4px;
+}
+
+/* カード本体（<a>要素） */
+.journalThumbCard {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: border-color 0.22s, background 0.22s, transform 0.22s;
+}
+
+.journalThumbCard:hover {
+  border-color: rgba(200, 254, 8, 0.35);
+  background: var(--surface3);
+  transform: translateY(-2px);
+}
+
+/* サムネイルラッパー（overflow:hidden でscaleを封じ込める） */
+.journalThumbImgWrap {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* トップページ用：高さ160px */
+.journalThumbImgWrap--top {
+  height: 160px;
+}
+
+/* バックナンバーページ用：高さ200px */
+.journalThumbImgWrap--list {
+  height: 200px;
+}
+
+/* サムネイル画像本体 */
+.journalThumbImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+/* hover時：overlay + 拡大 */
+.journalThumbCard:hover .journalThumbImg {
+  transform: scale(1.03);
+  opacity: 0.85;
+}
+
+/* テキストエリア */
+.journalThumbBody {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* カテゴリー + 日付 */
+.journalThumbMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* タイトル */
+.journalThumbTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text1);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+}
+
+/* リード文（トップ：2行、バックナンバー：3行） */
+.journalThumbDesc {
+  font-size: 0.8125rem;
+  color: var(--text2);
+  line-height: 1.65;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  flex: 1;
+  margin-bottom: 14px;
+}
+
+.journalThumbDesc--2 {
+  -webkit-line-clamp: 2;
+}
+
+.journalThumbDesc--3 {
+  -webkit-line-clamp: 3;
+}
+
+/* 「読む →」リンク */
+.journalThumbArrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  margin-top: auto;
+}
+
+/* ── レスポンシブ：モバイルで1カラム ── */
+@media (max-width: 640px) {
+  .journalThumbGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .journalThumbImgWrap--top {
+    height: 180px;
+  }
+
+  .journalThumbImgWrap--list {
+    height: 180px;
+  }
+
+  .journalThumbBody {
+    padding: 14px 16px 16px;
+  }
+
+  .journalThumbTitle {
+    font-size: 0.9375rem;
+  }
 }
 
 /* ── 共通カードパーツ ── */
