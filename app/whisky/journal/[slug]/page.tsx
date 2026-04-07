@@ -47,9 +47,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 // ── Unsplash 写真 URL ────────────────────────────────────────
-// source.unsplash.com/{photoId}/{w}x{h} → CDN にリダイレクト
-const UNSPLASH = (id: string, w: number, h: number) =>
-  `https://source.unsplash.com/${id}/${w}x${h}`
+// images.unsplash.com 直接 CDN URL（source.unsplash.com は廃止済み）
+const UNSPLASH = (cdnId: string, w: number, h: number) =>
+  `https://images.unsplash.com/${cdnId}?w=${w}&h=${h}&fit=crop&q=80&auto=format`
+
+// CDN photo IDs（Unsplash 写真ページの srcset から取得）
+const PHOTOS = {
+  hero:       'photo-1487621167305-5d248087c724', // グレンリベット ウィスキーボトル
+  logistics:  'photo-1632688174100-7ada9b64f241', // コンテナ船
+  categories: 'photo-1716720882232-9fa4912f142d', // ウィスキーボトル棚
+  premium:    'photo-1737478580339-b6def2f84087', // ウィスキーボトル＆グラス
+}
 
 // ── 記事スラッグ別ビジュアル定義 ─────────────────────────────
 type VisualMap = Record<string, React.ReactNode>
@@ -65,7 +73,7 @@ const VISUALS_BY_SLUG: Record<string, VisualMap> = {
     'IMAGE:logistics': (
       <figure className="journalFigure">
         <img
-          src={UNSPLASH('3xy8ZT3sBoA', 800, 280)}
+          src={UNSPLASH(PHOTOS.logistics, 800, 280)}
           alt="コンテナ船"
           className="journalFigImg"
           loading="lazy"
@@ -78,7 +86,7 @@ const VISUALS_BY_SLUG: Record<string, VisualMap> = {
     'IMAGE:categories': (
       <figure className="journalFigure">
         <img
-          src={UNSPLASH('5h3a4N2jqhg', 800, 280)}
+          src={UNSPLASH(PHOTOS.categories, 800, 280)}
           alt="ウィスキーボトル"
           className="journalFigImg"
           loading="lazy"
@@ -91,7 +99,7 @@ const VISUALS_BY_SLUG: Record<string, VisualMap> = {
     'IMAGE:premium': (
       <figure className="journalFigure">
         <img
-          src={UNSPLASH('0c4vcpyhEWs', 800, 280)}
+          src={UNSPLASH(PHOTOS.premium, 800, 280)}
           alt="プレミアムウィスキー"
           className="journalFigImg"
           loading="lazy"
@@ -109,7 +117,7 @@ const HERO_BY_SLUG: Record<string, React.ReactNode> = {
   'iran-war-whisky-price': (
     <figure className="journalHeroFigure">
       <img
-        src={UNSPLASH('JL-rxOrFk5Q', 1200, 400)}
+        src={UNSPLASH(PHOTOS.hero, 1200, 400)}
         alt="スコッチウィスキー"
         className="journalHeroImg"
         loading="eager"
