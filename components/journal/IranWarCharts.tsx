@@ -159,7 +159,7 @@ export function OilPriceChart() {
         <canvas ref={ref} />
       </div>
       <p className="journalChartNote">
-        単位：ドル/バレル　出典：野村総合研究所・各種報道をもとに SO WHAT 編集部作成
+        2026年3月末時点の情報に基づく。出典：野村総合研究所・各種報道をもとに SO WHAT 編集部作成
       </p>
     </div>
   )
@@ -240,7 +240,7 @@ export function HormuzChart() {
         <canvas ref={ref} />
       </div>
       <p className="journalChartNote">
-        単位：隻　出典：IMF PortWatch をもとに SO WHAT 編集部作成
+        2026年3月9〜15日時点のデータに基づく。出典：IMF PortWatch をもとに SO WHAT 編集部作成
       </p>
     </div>
   )
@@ -325,7 +325,7 @@ export function CategoryRiskChart() {
         <canvas ref={ref} />
       </div>
       <p className="journalChartNote">
-        ※編集部による定性評価。物流・エネルギー・為替・包装の4因数を総合したリスク指数（満点5）。
+        ※2026年4月時点における編集部の定性評価。物流・エネルギー・為替・包装・関税の5因数を総合したリスク指数（満点5）。
       </p>
     </div>
   )

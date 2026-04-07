@@ -88,38 +88,6 @@ const VISUALS_BY_SLUG: Record<string, VisualMap> = {
     'CHART:categories': <CategoryRiskChart />,
     'CHART:timeline':   <PriceTimelineChart />,
 
-    /* ── ブロッククオート ── */
-    'BLOCKQUOTE:mckay-oil': (
-      <blockquote className="journalBlockquote">
-        <p className="journalBlockquoteText">
-          「スコットランドの蒸留所は、需要減少・生産コスト上昇・主要市場での関税増加という完璧な嵐に直面している。これまで何世代にもわたって存続してきた事業が、多くの場合自業自得ではなく困難に陥っている。」
-        </p>
-        <footer className="journalBlockquoteCaption">
-          — Thomas McKay（BTGスコットランド マネージングパートナー）
-        </footer>
-      </blockquote>
-    ),
-    'BLOCKQUOTE:mckay-scotch': (
-      <blockquote className="journalBlockquote">
-        <p className="journalBlockquoteText">
-          「スコットランドの蒸留所は業界の雇用者の半数以上にあたる1万人超を直接雇用している。迅速な対応が必要だ。」
-        </p>
-        <footer className="journalBlockquoteCaption">
-          — Thomas McKay（BTGスコットランド マネージングパートナー）
-        </footer>
-      </blockquote>
-    ),
-    'BLOCKQUOTE:bowman': (
-      <blockquote className="journalBlockquote">
-        <p className="journalBlockquoteText">
-          「最上位・希少カテゴリーの需要は底堅い。コレクターや個人客は短期的な市場心理よりも、品質・産地・長期的な価値を重視している。」
-        </p>
-        <footer className="journalBlockquoteCaption">
-          — Blair Bowman（ウィスキーコンサルタント・希少カスクブローカー）
-        </footer>
-      </blockquote>
-    ),
-
     /* ── 写真 ── */
     'IMAGE:logistics': (
       <figure className="journalFigure">
