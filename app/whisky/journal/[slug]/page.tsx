@@ -53,7 +53,7 @@ const UNSPLASH = (cdnId: string, w: number, h: number) =>
 
 // CDN photo IDs（Unsplash 写真ページの srcset から取得）
 const PHOTOS = {
-  hero:       'photo-1487621167305-5d248087c724', // グレンリベット ウィスキーボトル
+  hero:       'photo-1576373718969-1c6620e2ed49', // グレンリベット ウィスキーボトル
   logistics:  'photo-1632688174100-7ada9b64f241', // コンテナ船
   categories: 'photo-1716720882232-9fa4912f142d', // ウィスキーボトル棚
   premium:    'photo-1737478580339-b6def2f84087', // ウィスキーボトル＆グラス
