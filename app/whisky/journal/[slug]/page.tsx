@@ -15,6 +15,10 @@ import {
   CategoryRiskChart,
   PriceTimelineChart,
 } from '@/components/journal/IranWarCharts'
+import {
+  YamazakiPriceChart,
+  CategorySelectabilityChart,
+} from '@/components/journal/WeakYenCharts'
 import { getArticleBySlug, getAllArticles, formatJournalDate, JOURNAL_CATEGORY_LABELS } from '@/lib/journal'
 import { getRecommendedBottles } from '@/lib/recommended-bottles'
 import { buildAmazonUrl, buildRakutenUrl } from '@/lib/affiliate'
@@ -31,6 +35,8 @@ export function generateStaticParams() {
 const OG_IMAGES: Record<string, string> = {
   'iran-war-whisky-price':
     'https://images.unsplash.com/photo-1576373718969-1c6620e2ed49?w=1200&h=630&fit=crop&q=80&auto=format',
+  'weak-yen-whisky-buying-guide':
+    'https://images.unsplash.com/photo-1763819527304?w=1200&h=630&fit=crop&q=80&auto=format',
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -73,16 +79,68 @@ const UNSPLASH = (cdnId: string, w: number, h: number) =>
 
 // CDN photo IDs（Unsplash 写真ページの srcset から取得）
 const PHOTOS = {
+  // ── 第1記事: イラン戦争 ──
   hero:       'photo-1576373718969-1c6620e2ed49', // グレンリベット ウィスキーボトル
   logistics:  'photo-1632688174100-7ada9b64f241', // コンテナ船
   categories: 'photo-1716720882232-9fa4912f142d', // ウィスキーボトル棚
   premium:    'photo-1737478580339-b6def2f84087', // ウィスキーボトル＆グラス
+  // ── 第2記事: 円安購入ガイド ──
+  weakYenHero:       'photo-1763819527304',       // バーカウンターの酒瓶
+  weakYenYen:        'photo-1639572655008',       // 日本の紙幣
+  weakYenCategories: 'photo-1760464022264',       // マッカランテイスティング3杯
+  weakYenBuying:     'photo-1693913109537',       // 酒のボトルが並ぶ棚
 }
 
 // ── 記事スラッグ別ビジュアル定義 ─────────────────────────────
 type VisualMap = Record<string, React.ReactNode>
 
 const VISUALS_BY_SLUG: Record<string, VisualMap> = {
+  'weak-yen-whisky-buying-guide': {
+    /* ── チャート ── */
+    'CHART:yamazaki-price':        <YamazakiPriceChart />,
+    'CHART:category-selectability': <CategorySelectabilityChart />,
+
+    /* ── 写真 ── */
+    'IMAGE:yen': (
+      <figure className="journalFigure">
+        <img
+          src={UNSPLASH(PHOTOS.weakYenYen, 800, 280)}
+          alt="日本円の紙幣"
+          className="journalFigImg"
+          loading="lazy"
+        />
+        <figcaption className="journalFigCaption">
+          円安が進むほど、ポンド・ドル建てで取引される輸入ウィスキーの仕入れコストは上昇する。
+        </figcaption>
+      </figure>
+    ),
+    'IMAGE:categories': (
+      <figure className="journalFigure">
+        <img
+          src={UNSPLASH(PHOTOS.weakYenCategories, 800, 280)}
+          alt="ウィスキーのテイスティンググラス"
+          className="journalFigImg"
+          loading="lazy"
+        />
+        <figcaption className="journalFigCaption">
+          カテゴリーごとに円安の影響度と入手しやすさには明確な差がある。
+        </figcaption>
+      </figure>
+    ),
+    'IMAGE:buying': (
+      <figure className="journalFigure">
+        <img
+          src={UNSPLASH(PHOTOS.weakYenBuying, 800, 280)}
+          alt="酒屋の棚に並ぶウィスキーボトル"
+          className="journalFigImg"
+          loading="lazy"
+        />
+        <figcaption className="journalFigCaption">
+          円安時代の購入戦略は「定価で買える機会を逃さない」ことから始まる。
+        </figcaption>
+      </figure>
+    ),
+  },
   'iran-war-whisky-price': {
     /* ── チャート ── */
     'CHART:oil-price':  <OilPriceChart />,
@@ -135,6 +193,19 @@ const VISUALS_BY_SLUG: Record<string, VisualMap> = {
 
 // ── ヒーロー画像定義 ──────────────────────────────────────────
 const HERO_BY_SLUG: Record<string, React.ReactNode> = {
+  'weak-yen-whisky-buying-guide': (
+    <figure className="journalHeroFigure">
+      <img
+        src={UNSPLASH(PHOTOS.weakYenHero, 1200, 400)}
+        alt="バーカウンターに並ぶウィスキーボトル"
+        className="journalHeroImg"
+        loading="eager"
+      />
+      <figcaption className="journalFigCaption">
+        円安・値上げ・在庫逼迫が重なる今、ウィスキーの「買い方」を問い直すタイミングが来ている。
+      </figcaption>
+    </figure>
+  ),
   'iran-war-whisky-price': (
     <figure className="journalHeroFigure">
       <img
@@ -225,6 +296,13 @@ function renderBody(body: string, visuals: VisualMap = {}): React.ReactNode[] {
 type TocEntry = { id: string; label: string }
 
 const ARTICLE_TOC: Record<string, TocEntry[]> = {
+  'weak-yen-whisky-buying-guide': [
+    { id: 'h2-1', label: 'はじめに：「いつか買おう」が通用しなくなった' },
+    { id: 'h2-2', label: 'まず知っておくべき：円安がウィスキー価格に効く仕組み' },
+    { id: 'h2-3', label: 'カテゴリー別・今の買い方戦略' },
+    { id: 'h2-4', label: '「買い方」の4つの原則' },
+    { id: 'h2-5', label: '結論：価格が上がる前提で、楽しむ' },
+  ],
   'iran-war-whisky-price': [
     { id: 'h2-1', label: 'はじめに：問いを立てる' },
     { id: 'h2-2', label: '第一の因数：原油高' },
