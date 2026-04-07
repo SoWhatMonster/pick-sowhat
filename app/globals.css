@@ -2572,3 +2572,101 @@ a.subHeroCredit:hover {
     font-size: 1.375rem;
   }
 }
+
+/* ============================================================
+   Journal — ビジュアル挿入（写真・チャート）
+   ============================================================ */
+
+/* ── ヒーロー画像 ── */
+.journalHeroFigure {
+  width: 100%;
+  margin: 24px 0 28px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.journalHeroImg {
+  display: block;
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ── 本文内挿入画像 ── */
+.journalFigure {
+  width: 100%;
+  margin: 28px 0 32px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.journalFigImg {
+  display: block;
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ── figcaption（共通）── */
+.journalFigCaption {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: var(--text2);
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  padding: 0 2px;
+}
+
+/* ── Chart.js チャートブロック ── */
+.journalChart {
+  width: 100%;
+  margin: 28px 0 36px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px 20px 20px;
+}
+
+.journalChartTitle {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text1);
+  letter-spacing: 0.04em;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.journalChartWrap {
+  position: relative;
+  width: 100%;
+  height: 220px;
+}
+
+.journalChartNote {
+  margin-top: 14px;
+  font-size: 0.6875rem;
+  color: var(--text3);
+  line-height: 1.5;
+}
+
+/* ── レスポンシブ ── */
+@media (max-width: 640px) {
+  .journalHeroImg {
+    height: 240px;
+  }
+
+  .journalFigImg {
+    height: 200px;
+  }
+
+  .journalChartWrap {
+    height: 200px;
+  }
+
+  .journalChart {
+    padding: 18px 14px 16px;
+  }
+}

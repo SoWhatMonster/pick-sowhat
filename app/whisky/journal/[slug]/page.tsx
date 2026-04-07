@@ -3,11 +3,17 @@
 // app/whisky/journal/[slug]/page.tsx
 // ============================================================
 
+import React from 'react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import SubpageTopbar from '@/components/subpage/SubpageTopbar'
 import SubpageFooter from '@/components/subpage/SubpageFooter'
+import {
+  OilPriceChart,
+  HormuzChart,
+  CategoryRiskChart,
+} from '@/components/journal/IranWarCharts'
 import { getArticleBySlug, getAllArticles, formatJournalDate } from '@/lib/journal'
 
 type Props = {
@@ -40,7 +46,82 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-// ── 本文レンダラー ──
+// ── Unsplash 写真 URL ────────────────────────────────────────
+// source.unsplash.com/{photoId}/{w}x{h} → CDN にリダイレクト
+const UNSPLASH = (id: string, w: number, h: number) =>
+  `https://source.unsplash.com/${id}/${w}x${h}`
+
+// ── 記事スラッグ別ビジュアル定義 ─────────────────────────────
+type VisualMap = Record<string, React.ReactNode>
+
+const VISUALS_BY_SLUG: Record<string, VisualMap> = {
+  'iran-war-whisky-price': {
+    /* ── チャート ── */
+    'CHART:oil-price':  <OilPriceChart />,
+    'CHART:hormuz':     <HormuzChart />,
+    'CHART:categories': <CategoryRiskChart />,
+
+    /* ── 写真 ── */
+    'IMAGE:logistics': (
+      <figure className="journalFigure">
+        <img
+          src={UNSPLASH('3xy8ZT3sBoA', 800, 280)}
+          alt="コンテナ船"
+          className="journalFigImg"
+          loading="lazy"
+        />
+        <figcaption className="journalFigCaption">
+          喜望峰迂回により、スコットランドから日本への輸送日数は10〜14日以上延長されている。
+        </figcaption>
+      </figure>
+    ),
+    'IMAGE:categories': (
+      <figure className="journalFigure">
+        <img
+          src={UNSPLASH('5h3a4N2jqhg', 800, 280)}
+          alt="ウィスキーボトル"
+          className="journalFigImg"
+          loading="lazy"
+        />
+        <figcaption className="journalFigCaption">
+          スコッチ・バーボン・ジャパニーズ——カテゴリーによって価格上昇の速度と幅は異なる。
+        </figcaption>
+      </figure>
+    ),
+    'IMAGE:premium': (
+      <figure className="journalFigure">
+        <img
+          src={UNSPLASH('0c4vcpyhEWs', 800, 280)}
+          alt="プレミアムウィスキー"
+          className="journalFigImg"
+          loading="lazy"
+        />
+        <figcaption className="journalFigCaption">
+          希少・プレミアムウィスキーは、コスト高騰局面でも需要が底堅く、価格は逆方向に動く可能性がある。
+        </figcaption>
+      </figure>
+    ),
+  },
+}
+
+// ── ヒーロー画像定義 ──────────────────────────────────────────
+const HERO_BY_SLUG: Record<string, React.ReactNode> = {
+  'iran-war-whisky-price': (
+    <figure className="journalHeroFigure">
+      <img
+        src={UNSPLASH('JL-rxOrFk5Q', 1200, 400)}
+        alt="スコッチウィスキー"
+        className="journalHeroImg"
+        loading="eager"
+      />
+      <figcaption className="journalFigCaption">
+        スコットランドの蒸留所。イラン戦争が、ここから日本の棚までの道を変えつつある。
+      </figcaption>
+    </figure>
+  ),
+}
+
+// ── 本文レンダラー ────────────────────────────────────────────
 
 function renderBoldText(text: string): React.ReactNode {
   const parts = text.split(/(\*\*[^*]+\*\*)/)
@@ -56,7 +137,7 @@ function renderBoldText(text: string): React.ReactNode {
   )
 }
 
-function renderBody(body: string): React.ReactNode[] {
+function renderBody(body: string, visuals: VisualMap = {}): React.ReactNode[] {
   const nodes: React.ReactNode[] = []
   let key = 0
 
@@ -85,6 +166,14 @@ function renderBody(body: string): React.ReactNode[] {
       if (line.startsWith('## ')) {
         flushP()
         nodes.push(<h2 key={key++} className="journalBodyH2">{line.slice(3)}</h2>)
+      } else if (/^\[(?:IMAGE|CHART):[^\]]+\]$/.test(line)) {
+        // ビジュアルマーカー: [IMAGE:xxx] / [CHART:xxx]
+        flushP()
+        const markerKey = line.slice(1, -1) // "IMAGE:logistics" etc.
+        const visual = visuals[markerKey]
+        if (visual) {
+          nodes.push(<React.Fragment key={key++}>{visual}</React.Fragment>)
+        }
       } else if (line === '') {
         flushP()
       } else {
@@ -97,9 +186,14 @@ function renderBody(body: string): React.ReactNode[] {
   return nodes
 }
 
+// ── ページコンポーネント ──────────────────────────────────────
+
 export default function JournalArticlePage({ params }: Props) {
   const article = getArticleBySlug(params.slug)
   if (!article) notFound()
+
+  const visuals = VISUALS_BY_SLUG[article.slug] ?? {}
+  const heroImage = HERO_BY_SLUG[article.slug] ?? null
 
   const articleJsonLd = {
     '@context': 'https://schema.org',
@@ -140,12 +234,14 @@ export default function JournalArticlePage({ params }: Props) {
             </time>
           </div>
           <h1 className="journalArticleTitle">{article.title}</h1>
+          {/* ヒーロー画像：タイトル直下・リード文の上 */}
+          {heroImage}
           <p className="journalArticleLead">{article.description}</p>
         </header>
 
         {/* ── 本文 ── */}
         <article className="journalArticleBody">
-          {renderBody(article.body)}
+          {renderBody(article.body, visuals)}
         </article>
 
         {/* ── フッターナビ ── */}
